@@ -1,10 +1,7 @@
 package de.tudarmstadt.ukp.dkpro.c4corpus.deduplication.impl;
 
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * Modified version of {@link DocumentDeDuplication} that can be called from a Map/Reduce
@@ -23,7 +20,7 @@ public class ParallelDocumentDeDuplication
      * @return set of docs
      * @throws IOException IO exception
      */
-    public static Set<String> selectIDsToDelete(String[] inputLines)
+    public static Set<String> selectIDsToDelete(List<String> inputLines)
             throws IOException
     {
         Set<TreeSet<Document>> clusters = linesToClusters(inputLines);
@@ -124,7 +121,7 @@ public class ParallelDocumentDeDuplication
      *
      * @return set of document tuples
      */
-    protected static Set<TreeSet<Document>> linesToClusters(String[] lines)
+    protected static Set<TreeSet<Document>> linesToClusters(List<String> lines)
             throws IOException
     {
         Set<TreeSet<Document>> result = new HashSet<>();

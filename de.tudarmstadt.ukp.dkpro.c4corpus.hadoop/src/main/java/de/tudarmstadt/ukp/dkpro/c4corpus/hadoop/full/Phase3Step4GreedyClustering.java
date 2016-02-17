@@ -1,7 +1,10 @@
 package de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.full;
 
+import com.google.common.collect.Lists;
 import de.tudarmstadt.ukp.dkpro.c4corpus.deduplication.impl.ParallelDocumentDeDuplication;
-import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io.MultiLineInputFormat;
+import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io.NonSplittableTextInputFormat;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.LongWritable;
@@ -17,6 +20,8 @@ import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -30,7 +35,7 @@ public class Phase3Step4GreedyClustering
     /**
      * Number of lines of input file to be processed by one mapper
      */
-    private static final int CLUSTER_PARTITION_SIZE = 1000;
+    private static final int CLUSTER_PARTITION_SIZE = 5000;
 
     @Override
     public int run(String[] args)
@@ -42,23 +47,24 @@ public class Phase3Step4GreedyClustering
         job.setJobName(Phase3Step4GreedyClustering.class.getName());
 
         // paths
-        String inputPath = args[0]; //text files of ids to be delteted
+        String inputPath = args[0];
+        // text files of ids to be deleted
         String outputPath = args[1];
 
         // input: reading N lines for each mapper
-//        job.setInputFormatClass(NLineInputFormat.class);
-        job.setInputFormatClass(MultiLineInputFormat.class);
+        job.setInputFormatClass(NLineInputFormat.class);
+//        job.setInputFormatClass(MultiLineInputFormat.class);
         NLineInputFormat.addInputPath(job, new Path(inputPath));
         job.getConfiguration()
                 .setInt("mapreduce.input.lineinputformat.linespermap", CLUSTER_PARTITION_SIZE);
 
         // mapper
-        job.setMapperClass(GreedyDeduplicationMapper.class);
+        job.setMapperClass(FileSplittingMapper.class);
 
         LazyOutputFormat.setOutputFormatClass(job, TextOutputFormat.class);
 
         // reducer - no need for one
-//        job.setReducerClass(IDCollectorReducer.class);
+        //        job.setReducerClass(IDCollectorReducer.class);
 
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(NullWritable.class);
@@ -78,28 +84,38 @@ public class Phase3Step4GreedyClustering
      * "Local" greedy deduplication mapper which processes N lines from the input tuples
      * (duplicate candidates)
      */
-    public static class GreedyDeduplicationMapper
+    public static class FileSplittingMapper
             extends Mapper<LongWritable, Text, Text, NullWritable>
     {
+        private static final Log LOG = LogFactory.getLog(FileSplittingMapper.class);
 
         @Override
         public void map(LongWritable key, Text value, Context context)
                 throws IOException, InterruptedException
         {
             // split value into lines
-            String[] lines = value.toString().split("\n");
+            List<String> lines = Arrays.asList(value.toString().split("\n"));
 
-            Set<String> toDelete = ParallelDocumentDeDuplication.selectIDsToDelete(lines);
+            // now we split into chunks of max 1000 lines and process
+//            List<List<String>> partitions = Lists.partition(lines, CLUSTER_PARTITION_SIZE);
+//            LOG.info("Read " + lines.size() + " lines, splitting into " + partitions.size()
+//                    + " partitions.");
+//            for (int i = 0; i < partitions.size(); i++ ) {
+//                List<String> partition = partitions.get(i);
+//                LOG.info("Computing partition " + (i + 1) + "/" + partitions.size());
+//                Set<String> toDelete = ParallelDocumentDeDuplication.selectIDsToDelete(partition);
+                Set<String> toDelete = ParallelDocumentDeDuplication.selectIDsToDelete(lines);
 
-            for (String id : toDelete) {
-                context.write(new Text(id), NullWritable.get());
-            }
+                for (String id : toDelete) {
+                    context.write(new Text(id), NullWritable.get());
+                }
+//            }
         }
 
     }
 
     /*
-    public static class IDCollectorReducer
+    public static class GreedyDeDuplicationReducer
             extends Reducer<Text, NullWritable, Text, NullWritable>
     {
         @Override
