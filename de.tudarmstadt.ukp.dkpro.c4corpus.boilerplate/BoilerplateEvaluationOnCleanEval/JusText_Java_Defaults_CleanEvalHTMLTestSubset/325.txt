@@ -1,0 +1,73 @@
+
+Christmas Tree Fertility
+Optimum fertilization promotes quality growth and gives trees luxuriant foliage with a deep, rich color. Trees with balanced nutrients are more resistant to pest problems and environmental stresses. The amount of fertilizer or lime needed to achieve optimum nutrient levels in the tree will vary with different soils and sites or even different land use history. Too much of a nutrient is often as harmful to Christmas trees as too little. The only way to optimize tree growth is to follow through with site-specific fertilizer applications based on the results of timely soil and tissue analysis. Effective fertilizer management is an ongoing process that succeeds best when carefully planned and maintained throughout the crop rotation.
+Soil samples should be taken regularly throughout the course of growing Christmas trees. The first soil samples should be taken during initial site evaluation. If the pH or nutrients such as phosphorus or calcium are low, materials can be tilled into the soil before tree planting with greater success than later top dressing of fertilizers or lime. Subsequent soil samples should be collected at least every other year, and many growers choose to take annual samples. Time invested in careful collection of soil samples will increase effectiveness of any following fertilizer applications. In North Carolina, soil sample boxes can be obtained and samples sent from any North Carolina Cooperative Extension Service County Center. The North Carolina Department of Agriculture provides soil and plant tissue analysis as well as other diagnostic services to in-state residents.
+Once the trees in a field are well established, plant tissue samples should periodically be collected along with regular soil samples. Tissue analysis provides the status of 11 nutrients inside the plant (four more than reported in soil analysis). Tissue sampling also reflects what a plant is actually able to obtain from the soil, not just what is available. Under normal growing conditions, tissue samples should accompany the soil samples at about the middle of the rotation and then again the year before harvest. Usually about two shoots are collected from the same five to 10 trees from which soil is sampled. Tissue sampling is a necessary tool for evaluating and fine-tuning fertility management.
+When fertility problems occur in a field, additional sampling can be useful. Problem areas should be sampled (and managed) separately from normal areas of a field. The contrast between normal and problem samples can often pinpoint the cause of a fertility problem. Often multiple-depth soil sampling can provide greater insight than a single topsoil sample. When nutritional problems occur, matching tissue samples should accompany any special soil sampling. It may take several seasons to correct a fertility problem.
+Fertilizer materials should be targeted to the recommendations and deficiencies identified by soil and tissue analysis for each field, without applying a single blended material across the board. Annual applications of nitrogen per acre are recommended based on the requirements of the crop and the age and size of the trees. Different amounts of a nitrogen fertilizer will be needed depending on the percentage of actual nitrogen contained in it. Different nitrogen sources have varying effect on pH, soluble salt index, and leaching and should be selected accordingly. Different blends can also satisfy the need for certain amounts of phosphorous, potassium, or other nutrients and should be selected to fulfill the ratio of requirements for each nutrient. See Table 4 for a list of commonly used fertilizers and their characteristics.
+Table 4. Common fertilizer choices for Christmas trees
+Name
+Percent N-P-K
+Lb Lime Neutralized by 100Lb of N
+Additional Comments
+Ammonium Nitrate
+33-0-0
+180
+High soluble salt content, can leach
+Ammonium Sulfate
+21-0-0
+38
+Used to lower pH
+Calcium Nitrate
+16-0-0
+0
+Source of soluble calcium
+Urea
+46-0-0
+180
+Concentrated form of N, leaches slowly
+Diammonium Phosphate
+18-46-0
+180
+Most available source of P
+Potassium Nitrate
+13-0-44
+0
+ 
+Balanced Blends
+10-10-10 17-17-17 19-19-19
+variable
+Can be high insoluble salts and leach readily
+Concentrated Super Phosphate
+0-46-0
+0
+Best when incorporated
+Murate of Potash
+0-0-60
+0
+High soluble salts, best used in dormant season
+Potassium Sulfate
+0-0-50
+0
+Lower soluble salts, best used in growing season
+Potassium Magnesium Sulfate
+0-0-22
+0
+Good where Mg and K both needed
+Both the timing and method of fertilizer application are critical to successful nutrient management. Different nutrients have their own requirements for timing. Materials with a high soluble salt content containing nitrogen or potassium should not be applied during the heat of summer or during a drought. Large applications should be split between two timings. Phosphorus should be built up early in a crop rotation rather than adding an incremental amount each season. Early in a rotation, many growers band fertilizer outside the dripline of small trees to maximize availability, but after trees are about 2 years old, broadcast applications are most effective. Where growers mechanize their fertilization, they are often able to achieve a more uniform broadcast application. While ground-applied fertilization is the primary method of nutrient delivery, it occasionally must be supplemented with foliar-applied liquid sprays particularly where micronutrients are deficient or tied up in the soil.
+For a fertility program to succeed, a variety of tools and methods must be used, usually in different combinations from season to season.
+Whether the vegetation occurs between the rows or within rows is also important. Competition is greatest from vegetation in the area immediately around the tree or within a row. Vegetation growing between the rows is less of a competitive threat simply because it is further from the tree.
+Since perennial grasses are very competitive, growers should minimize them within rows. In addition, perennial grasses found between rows should be mechanically or chemically mowed (suppressed via low rates of post-emergence herbicides) to control competition.
+While woody vegetation is not particularly competitive, it does interfere with tree work, and is easiest to control prior to planting. Since most woody vegetation is perennial with well established deep root systems, it can be particularly difficult to control. Choice of control measures and timing is critical.
+Vegetation desirable for use as groundcover generally exhibits one of two useful characteristics: it is naturally less competitive, or it is reliably controlled either through mechanical or chemical mowing. Less competitive groundcovers include broadleaf annuals or perennials that seldom grow tall enough to interfere with tree growth. Such species include strawberries, violets, dandelions, plantains, groundsels, and common trailing cinquefoil. Groundcovers that can and must be suppressed because they are otherwise too competitive or interfere with shearing or harvest include clover, smartweed, wild carrot, yarrow, red sorrel, nimblewill grass, chickweed, annual grasses, and some perennial grasses.
+The two principal methods for maintaining groundcover at an acceptable height between the rows are mechanical mowing and chemical application, either separately or in combination.
+Mechanical Mowing
+Mowing is an effective way to keep competing plants under control between rows. Properly timed mowing reduces competition, rodent damage, and fire hazard. Rotary-type mowers are usually preferred for grass control, as sickle bars are particularly apt to damage or cut trees. However, mechanical mowing will favor grass species that are most competitive to trees.
+Mowing alone must be repeated several times during the growing season. It should be done often enough to prevent the grasses from forming seeds that could germinate within the row. Weather greatly determines timing of the first and subsequent mowing operations. A cool, dry spring can delay the first mowing. Subsequent mowing during the growing season depends largely on the frequency and amount of rainfall and fertility of the site.
+Chemical Application
+Herbicides are an effective substitute to mechanical mowing for controlling competition by weeds and grasses. Herbicides are generally classified as either pre-emergent or post-emergent, depending on the stage of the weeds the herbicide is designed to control.
+The effectiveness of a chemical can vary from no response to a complete kill, depending on application conditions and procedures. To be effective, herbicides should be carefully selected. Several different uses of chemicals are in new plantings in a cleanly cultivated field, new plantings in a sod, or on established plantations. Response to chemicals will depend on several factors, such as size, kind and growing condition of target plants, time of application, soil composition, rainfall, temperature, rate of deterioration before being incorporated into the soil, and persistence of the chemical. Most properly-formulated herbicides are short-lived in the environment, but still they must be carefully used to prevent long-lasting effects by changing the composition of the plant community.
+"Chemical mowing" is a term used to describe the practice of applying post-emergent herbicides at low rates to stunt or suppress weeds and grasses. This practice was developed to provide growers with a cost-effective, soil conserving alternative to broadcast application of pre-emergence herbicides or mechanical mowing. Chemical mowing can be used as a broadcast application or as a between-row treatment where trees were previously banded in the row with pre-emergence herbicides.
+Chemical mowing is generally more economical than traditional mechanical mowing. The application of low rates of herbicides two or three times during the growing season is usually less expensive than maintaining mowers and paying for the labor to mow several times a season. Chemical mowing typically provides control for 6 to 8 weeks, compared to 3 to 4 weeks for mechanical mowing.
+Chemical mowing also fits well with many of the strategies used in Integrated Pest Management (IPM). It is especially important to the management of white grubs. By leaving a ragged height of suppressed vegetation, May and June beetles (the adults of white grubs) are less likely to lay their eggs than they are in mechanically mowed vegetation.
+It should be noted that the need for pre-emergence herbicide applications cannot be totally eliminated by chemical mowing.

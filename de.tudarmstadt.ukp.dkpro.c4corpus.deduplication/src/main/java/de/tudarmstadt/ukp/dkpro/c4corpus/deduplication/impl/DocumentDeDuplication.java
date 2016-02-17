@@ -30,13 +30,14 @@ import java.util.*;
  * https://moz.com/devblog/near-duplicate-detection/
  *
  * @author Omnia Zayed
+ * @author Ivan Habernal
  */
 public class DocumentDeDuplication
         implements DeDuplication
 {
 
-   
-    public long getSimHash(String text) {
+    public long getSimHash(String text)
+    {
         Set<String> shingles = SimHashUtils.createCharGramsShingles(text);
         Set<Integer> hashPhrases = SimHashUtils.hash(shingles);
         return SimHashUtils.simHash(hashPhrases);
@@ -54,8 +55,9 @@ public class DocumentDeDuplication
      * @return
      * @throws IOException
      */
-    public Set<List<String>> preprocessFileOfCandidates(InputStream inputStream)
-            throws IOException {
+    public static Set<List<String>> preprocessFileOfCandidates(InputStream inputStream)
+            throws IOException
+    {
         //TODO: can change the list of string to a list of DocumentInfo Data structure 
         Set<List<String>> similarCandidatesLists = new HashSet<List<String>>();
 
@@ -77,7 +79,8 @@ public class DocumentDeDuplication
      * @param similarCandidatesLists
      * @return
      */
-    public Set<TreeSet<Document>> createClusters(Set<List<String>> similarCandidatesLists) {
+    public static Set<TreeSet<Document>> createClusters(Set<List<String>> similarCandidatesLists)
+    {
         Set<TreeSet<Document>> candidatesClusters = new HashSet<TreeSet<Document>>();
         for (List<String> similarCandidates : similarCandidatesLists) {
             Set<TreeSet<Document>> candidateCluster = createCandidateCluster(similarCandidates);
@@ -94,7 +97,8 @@ public class DocumentDeDuplication
      * @param similarCandidates
      * @return
      */
-    private Set<TreeSet<Document>> createCandidateCluster(List<String> similarCandidates) {
+    public static Set<TreeSet<Document>> createCandidateCluster(List<String> similarCandidates)
+    {
         Set<TreeSet<Document>> candidatesClusters = new HashSet<TreeSet<Document>>();
 
         for (int i = 0; i < similarCandidates.size() - 1; i++) {
@@ -129,8 +133,9 @@ public class DocumentDeDuplication
         return candidatesClusters;
     }
 
-    private boolean documentPairExistsInACluster(Document docR, Document docJ,
-            Set<TreeSet<Document>> clustersOfSimilarDocuments) {
+    public static boolean documentPairExistsInACluster(Document docR, Document docJ,
+            Set<TreeSet<Document>> clustersOfSimilarDocuments)
+    {
         boolean pairFound = false;
         for (TreeSet<Document> t : clustersOfSimilarDocuments) {
             if (t.contains(docR) && t.contains(docJ)) {
@@ -150,7 +155,9 @@ public class DocumentDeDuplication
      * @param clustersOfSimilarDocuments
      * @return
      */
-    public Set<Document> getDocumentsToBeDeleted(Set<TreeSet<Document>> clustersOfSimilarDocuments) {
+    public static Set<Document> getDocumentsToBeDeleted(
+            Set<TreeSet<Document>> clustersOfSimilarDocuments)
+    {
 
         //keep the longest document
         // a set to keep the final unique docs
@@ -161,7 +168,6 @@ public class DocumentDeDuplication
         for (TreeSet<Document> cluster : clustersOfSimilarDocuments) {
             // create descending iterator
             Iterator<Document> docInTheClusterItr = cluster.descendingIterator();
-            boolean noNeedToCheckCurrentCluster = false;
             //for each Dj in Ci
             while (docInTheClusterItr.hasNext()) {
                 //longest doc
@@ -177,9 +183,9 @@ public class DocumentDeDuplication
                                 docsToBeDeleted.add(docJ);
                                 break;
                             }
-                        } else {
+                        }
+                        else {
                             //if docJ is already in result (also no need to check the rest of documents in the cluster)
-                            noNeedToCheckCurrentCluster = true;
                             break;
                         }
                     }
@@ -192,9 +198,6 @@ public class DocumentDeDuplication
                     //break the cluter loop
                     break;
                 }
-                if (noNeedToCheckCurrentCluster) {
-                    break;
-                }
             }
         }
         return docsToBeDeleted;
@@ -205,8 +208,10 @@ public class DocumentDeDuplication
      *
      * @throws IOException
      */
-    public void storeIDsOfDeletedRecords(Set<Document> recordsToDelete, OutputStream outputStream)
-            throws IOException {
+    public static void storeIDsOfDeletedRecords(Set<Document> recordsToDelete,
+            OutputStream outputStream)
+            throws IOException
+    {
         PrintWriter pw = new PrintWriter(new OutputStreamWriter(outputStream, "utf-8"));
         for (Document d : recordsToDelete) {
             pw.println(d.getDocID());
@@ -214,8 +219,11 @@ public class DocumentDeDuplication
         IOUtils.closeQuietly(pw);
     }
 
-    public void runDeDuplication(InputStream candidatesFileName, OutputStream outputStream)
-            throws IOException {
+    // not used
+    @Deprecated
+    public static void runDeDuplication(InputStream candidatesFileName, OutputStream outputStream)
+            throws IOException
+    {
 
         //preprocess the candidantes file for redundancy
         System.out.println("Preprocess Candidates File");
@@ -244,9 +252,12 @@ public class DocumentDeDuplication
      * @param outputStream
      * @throws IOException
      */
+    // not used
+    @Deprecated
     public void runDeDuplicationWithPartitioning(InputStream candidatesFileName,
             OutputStream outputStream)
-            throws IOException {
+            throws IOException
+    {
 
         //preprocess the candidantes file for redundancy
         //optimized using pig script
@@ -267,7 +278,8 @@ public class DocumentDeDuplication
             //for each get doc to be deleted & store
             System.out.println("partitioning");
             toBeDeleted = splitClusters(clusters, SimHashUtils.CLUSTER_PARTITION_SIZE, toBeDeleted);
-        } else {
+        }
+        else {
             System.out.println("get docs to be deleted");
             toBeDeleted = getDocumentsToBeDeleted(clusters);
         }
@@ -287,9 +299,10 @@ public class DocumentDeDuplication
      * @return
      * @throws IOException
      */
-    public Set<Document> splitClusters(Set<TreeSet<Document>> clusters, int partionSize,
+    public static Set<Document> splitClusters(Set<TreeSet<Document>> clusters, int partionSize,
             Set<Document> toBeDeleted)
-            throws IOException {
+            throws IOException
+    {
 
         for (List<TreeSet<Document>> partitionAsList : Iterables.partition(clusters, partionSize)) {
             Set<TreeSet<Document>> partition = new HashSet<TreeSet<Document>>(partitionAsList);
@@ -304,7 +317,10 @@ public class DocumentDeDuplication
      *
      * @param clusters
      */
-    public void writeOutputToConsole(Set<TreeSet<Document>> clusters) {
+    // not used
+    @Deprecated
+    public static void writeOutputToConsole(Set<TreeSet<Document>> clusters)
+    {
         for (TreeSet<Document> cluster : clusters) {
             Iterator<Document> itr = cluster.iterator();
             System.out.print("[");
@@ -325,7 +341,9 @@ public class DocumentDeDuplication
      * @return
      * @throws java.io.IOException
      */
-    public Set<TreeSet<Document>> fileToClusters(InputStream inputStreamFile) throws IOException {
+    public static Set<TreeSet<Document>> fileToClusters(InputStream inputStreamFile)
+            throws IOException
+    {
         Set<TreeSet<Document>> clusters = new HashSet<TreeSet<Document>>();
         List<String> clustersAsStrings = IOUtils.readLines(inputStreamFile, "utf-8");
         for (String clusterString : clustersAsStrings) {
@@ -340,8 +358,9 @@ public class DocumentDeDuplication
         return clusters;
     }
 
-    public void selectIDsToDelete(InputStream candidatesFileName,
-            OutputStream outputStream) throws IOException {
+    public static void selectIDsToDelete(InputStream candidatesFileName, OutputStream outputStream)
+            throws IOException
+    {
         Set<TreeSet<Document>> clusters = fileToClusters(candidatesFileName);
         //get the documents to be deleted 
         Set<Document> toBeDeleted = new HashSet<Document>();
@@ -350,7 +369,8 @@ public class DocumentDeDuplication
             //for each get doc to be deleted & store
             System.out.println("partitioning");
             toBeDeleted = splitClusters(clusters, SimHashUtils.CLUSTER_PARTITION_SIZE, toBeDeleted);
-        } else {
+        }
+        else {
             System.out.println("get docs to be deleted");
             toBeDeleted = getDocumentsToBeDeleted(clusters);
         }
@@ -360,16 +380,14 @@ public class DocumentDeDuplication
     }
 
     public static void main(String args[])
-            throws IOException {
-        DocumentDeDuplication deDup = new DocumentDeDuplication();
-//        deDup.selectIDsToDelete(new FileInputStream(args[0]),
-//                new FileOutputStream(args[1]));
+            throws IOException
+    {
 
         File dir = new File(args[0]);
         String outputDir = args[1] + "/";
         File[] candidatesFiles = dir.listFiles();
         for (File f : candidatesFiles) {
-            deDup.selectIDsToDelete(new FileInputStream(f),
+            DocumentDeDuplication.selectIDsToDelete(new FileInputStream(f),
                     new FileOutputStream(outputDir + f.getName() + "ToDelete"));
         }
     }

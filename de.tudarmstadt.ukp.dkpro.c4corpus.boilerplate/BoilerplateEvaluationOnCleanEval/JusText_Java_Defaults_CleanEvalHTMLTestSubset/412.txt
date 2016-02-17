@@ -1,0 +1,38 @@
+
+Union
+How much is your time worth to you? A union is an organization of workers who push for the best possible working conditions - who else will? The boss ? The boss invented sweatshop s! Unions are easy to demonize , if you don't belong to one. They brought about the 40-hour work week, overtime pay, safety laws, and more, including previously-unknown prosperity for those who punched a clock . It enabled many to move to suburbia , buy homes, and raise kids who would grow up to demonize unions.
+In SQL , UNION keyword does nothing more than mash the output of two or more queries together into one big result set . UNION requres the queries to have the same number of columns . Second, the columns should have compatible data type and size, but some query engines are flexible on this strict ANSI requirement . Third, the columns must have the same constraints with regard to null values. Either both columns must allow nulls or forbid nulls. Again, some products are less strict than the standard . Last, UNIONs may not be subqueries , nor may they have aggregate functions. Check your product's documentation for details.
+There are no column headings on purpose in the output example above. Since the column names are often different in the SELECT statements comprising the UNION, the query engine cannot know what to call the columns so quite often there are no column names in the output. Remember, the columns must be of the same type and size, but there is no requirement that their data be in any way related. You really can mix apples and oranges with a UNION query.
+One important " gotcha " with UNION is that by default it eliminates duplicate rows in each SELECT statement (see DISTINCT ). To ensure each row gets returned, UNION ALL must be used.
+When A={a,b} is a pair (derived e.g. by the axiom of pairing ), we use the more common notation a∪b = ∪ A. This notation is also used when a=b.
+Note, however, that the existence of unions ∪ A when A is infinite does not follow from the existence of unions of such pairs. In particular : The cardinality of a finite union is bounded by the cardinalities of A and of each of the elements of A. But the cardinality of an infinite (even countable ) union has no such bound. Hence the need for an axiom .
+When A is an indexed set A = {a i : i∈I} for some index set I, notations based on ∪ i∈I a i = ∪ A are common. Thus, we may see
+Undefined Behaviour
+Once compiler - specific feature s are taken into account , unions naturally become more flexible: you can taken advantage of specific knowledge of what the "undefined behaviour" of reading from a "wrong" member will do. For instance, the standard assign s no meaning to this code:
+It invokes undefined behaviour. However, a particular implementation MAY specify that such code will work "correctly". This would involve ensuring that long s and void pointer s have appropriate size s, and that the "correct" conversion does indeed occur.
+For such purposes too, unions are a very practicable way for implementation-specific code to achieve certain behaviours.
+There isn't really one, except that the English language provides the same word for both. The C union { A a; B b; }; can store all values of the disjoint union A∪B. But it relies on label ed values (you can store in either of the fields .a and .b , and you must specify which one you mean). And if A and B refer to the same type, the distinction is even more pronounce d.
+Un"ion [F., from L. unio oneness, union, a single large pearl, a kind of onion, fr. unus one. See One , and cf. Onion , Unit .]
+1.
+The act of uniting or joining two or more things into one, or the state of being united or joined; junction; coalition; combination.
+Union differs from connection , as it implies that the bodies are in contact, without an interening body; whereas things may be connected by the invention of a third body, as by a cord or chain.
+2.
+Agreement and conjunction of mind, spirit, will, affections, or the like; harmony; concord.
+3.
+That which is united, or made one; something formed by a combination or coalition of parts or members; a confederation; a consolidated body; a league; as, the weavers have formed a union ; trades unions have become very numerous; the United States of America are often called the Union .
+A. Hamilton.
+4.
+A textile fabric composed of two or more materials, as cotton, silk, wool, etc., woven together.
+5.
+A large, fine pearl.
+[Obs.]
+If they [pearls] be white, great, round, smooth, and weighty . . . our dainties and delicates here at Rome . . . call them unions , as a man would say "singular," and by themselves alone. Holland.
+In the cup an union shall he throw, Richer than that which four successive kings In Denmark's crown have worn. Shak.
+6.
+A device emblematic of union, used on a national flag or ensign, sometimes, as in the military standard of Great Britain, covering the whole field; sometimes, as in the flag of the United States, and the English naval and marine flag, occupying the upper inner corner, the rest of the flag being called the fly . Also, a flag having such a device; especially, the flag of Great Britain.
+⇒ The union of the United States ensign is a cluster of white stars, denoting the union of the States, and, properly, equal in number to that of the States, displayed on a blue field; the fly being composed of alternate stripes of red and white. The union of the British ensign is the three crosses of St. George, St. Andrew, and St. Patrick in combination, denoting the union of England, Scotland and Ireland, displayed on a blue field in the national banner used on shore, on a red, white, or blue field in naval ensigns, and with a white border or fly in the merchant service.
+7. Mach.
+A joint or other connection uniting parts of machinery, or the like, as the elastic pipe of a tender connecting it with the feed pipe of a locomotive engine; especially, a pipe fitting for connecting pipes, or pipes and fittings, in such a way as to facilitate disconnection.
+Syn. -- Unity; junction; connection; concord; alliance; coalition; combination; confederacy. -- Union , Unity . Union is the act of bringing two or more things together so as to make but one, or the state of being united into one. Unity is a state of simple oneness , either of essence, as the unity of God, or of action, feeling, etc., as unity of design, of affection, etc. Thus, we may speak of effecting a union of interests which shall result in a unity of labor and interest in securing a given object.
+One kingdom, joy, and union without end. Milton.
+[Man] is to . . . beget Like of his like, his image multiplied. In unity defective; which requires Collateral love, and dearest amity. Milton.

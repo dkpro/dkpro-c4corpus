@@ -1,0 +1,55 @@
+<p> Date of assessment (used to show the year when the assessment was done). Any assessments older than ten years will have an .out-of-date. flag. This is indicated on the web site by the letters .OD. in the Caveat field. The Caveat field is only present when there are out-of-date assessments.
+<p> An indication if a petition about the status of the species has been lodged and is pending a decision from the Red List Standards and Petitions Subcommittee (see http://www.iucn.org/themes/ssc/redlists/petitions.html). This is indicated on the web site by the letter 'P' as a flag in the Annotation field on the initial search results page. The Annotation field is only present when there is a petition.
+<p> The Assessors field indicates the names of the people or organizations responsible for making the assessment and compiling the information.
+<p> The Evaluators field indicates the names of the people who have peer reviewed and accepted the assessment and the supporting documentation. There is always a minimum of two evaluators (these may overlap with the assessors) and the name of the Red List Authority or organization they work for is indicated.
+<p> A justification for the listing (including any numerical data used, or inferences made, that relate to the thresholds in the criteria). This may include a link to a PDF file containing extra information.
+<p> Red List History (a history of global listings for the taxon concerned on the IUCN Red Lists and BirdLife lists . this is a work in progress).
+<p> Distribution is recorded in terms of country names following the 5th edition (and subsequent web updates) of the
+ISO-3166-1 standard (ISO 1997). Unless geographically very remote from
+each other, islands and other territories are included with the parent country.
+In the case of species that inhabit islands significantly distant from the
+mainland, the island name is given in parentheses (e.g., Spain (Canary
+Islands)). The naming of such islands follows edition 2 of the
+World Geographical Scheme for Recording Plant Distributions (Brummitt et
+al. 2001) prepared for the International Working Group on Taxonomic
+Databases (TDWG). The TDWG geographic system also provides a standard set of
+Basic Recording Units (BRU) that are sub-country units based on provinces or
+states. The BRU's are used to subdivide very large countries like Australia,
+Brazil, China, South Africa, the Russian Federation and the United States of
+America, etc. into smaller more conveniently sized units for recording
+distributions. This system has been adopted for the IUCN Red List wherever
+possible. Most plant taxa on the Red List have had their distributions recorded
+down to BRU level where appropriate, but unfortunately sub-country information
+is still lacking for most of the animal species. Hence this feature is not
+currently searchable. Each country or territory has also been assigned to a
+single geographic region to enable users to search by larger geographic areas.
+(View the list of Countries by Regions).
+<p> Geopolitical events during recent years may have led to some inconsistency or errors in the distribution information provided. Within reasonable limits every effort has been made to determine which of the new nations that were part of the former Czechoslovakia, Yugoslavia and USSR support species previously attributed to the larger unit. There may be some species in the Red List that have still not been fully resolved. Adherence to the ISO system also creates some problems, as there is often a time lag between a political change and a new ISO code being allocated for the new country. The version of the ISO codes used for example, maintains Hong Kong and Macao as separate units.
+<p> For marine species, country records have been provided
+wherever possible. This information has been derived from a number of sources,
+e.g. FishBase and
+the many FAO
+publications. Any species without a country name in the Red List is
+not included in any of the analyses or tables presented. For some marine
+species, especially those that are most strictly marine, their distributions
+are also shown as generalized ranges in terms of the
+FAO Fishing Areas, indicated as follows (e.g., Atlantic-eastern
+central). For many inland water species, usually those restricted to a single
+water system, inland water ranges are also given with a clear indication from
+the name if it is a river or a lake. In a few instances, a second river name
+(e.g. Colorado River, Concho River) indicates a section of the drainage in
+which the species occurs. In most cases, the countries in which these
+freshwater species occur are also recorded, but there are a few instances
+(e.g., cichlid fish in Lake Victoria), where the precise country distribution
+is unknown, so the only distribution information is the Lake name.
+<p> Taxon has been accidentally or deliberately introduced into that country or sub-country unit (the area of introduction was not part of its known historic range).
+<p> [int?]
+<p> Taxon has possibly been accidentally or deliberately introduced into that country or sub-country unit (the area of introduction was not part of its known historic range).
+<p> [re-int]
+<p> Taxon has been deliberately re-introduced into an area that was formerly part of its known historic range in that country or sub-country unit or a deliberate introduction (termed a 'benign introduction') into an area outside of it historic range specifically for conservation purposes.
+<p> [re-int?]
+<p> Taxon has possibly been deliberately re-introduced into an area that was formerly part of its known historic range in that country or sub-country unit or a deliberate introduction (termed a 'benign introduction') into an area outside of it historic range specifically for conservation purposes.
+<p> [RE]
+<p> The taxon is 'Regionally Extinct' in the country or sub-country unit.
+<p> [RE?]
+<p> The taxon is possibly 'Regionally Extinct' in the country or sub-country unit.

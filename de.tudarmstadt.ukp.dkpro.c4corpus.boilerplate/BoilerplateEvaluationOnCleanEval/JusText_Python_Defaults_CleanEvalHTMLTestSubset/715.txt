@@ -1,0 +1,368 @@
+<h> - Chapter 3 -
+Expressions, Conditions, and Operators
+<h> Objectives
+<p> On Chapter 2, "Introduction to the Query: The SELECT Statement,"
+you used SELECT and FROM to manipulate data in interesting (and
+useful) ways. ToChapter you learn more about SELECT and FROM and expand
+the basic query with some new terms to go with query, table, and row, as well as
+a new clause and a group of handy items called operators. When the sun sets on Day
+3, you will
+<p> Know what an expression is and how to use it
+<p> Know what a condition is and how to use it
+<p> Be familiar with the basic uses of the WHERE clause
+<p> Be able to use arithmetic, comparison, character, logical, and set operators
+<p> Have a working knowledge of some miscellaneous operators
+<p> NOTE:We used Oracle's Personal Oracle7
+to generate today's examples. Other implementations of SQL may differ slightly in
+the way in which commands are entered or output is displayed, but the results are
+basically the same for all implementations that conform to the ANSI standard.
+<h> Expressions
+<p> The definition of an expression is simple: An expression returns a value.
+Expression types are very broad, covering different data types such as String, Numeric,
+and Boolean. In fact, pretty much anything following a clause (SELECT or
+FROM, for example) is an expression. In the following example amount
+is an expression that returns the value contained in the amount column.
+<p> SELECT amount FROM checks;
+<p> In the following statement NAME, ADDRESS, PHONE and ADDRESSguide
+are expressions:
+<p> SELECT NAME, ADDRESS, PHONE
+FROM ADDRESSguide;
+<p> Now, examine the following expression:
+<p> WHERE NAME = 'BROWN'
+<p> It contains a condition, NAME = 'BROWN', which is an example of a Boolean
+expression. NAME = 'BROWN' will be either TRUE or FALSE,
+depending on the condition =.
+<h> Conditions
+<p> If you ever want to find a particular item or group of items in your database,
+you need one or more conditions. Conditions are contained in the WHERE clause.
+In the preceding example, the condition is
+<p> NAME = 'BROWN'
+<p> To find everyone in your organization who worked more than 100 hours
+last month, your condition would be
+<p> NUMBEROFHOURS &gt; 100
+<p> Conditions enable you to make selective queries. In their most common form, conditions
+comprise a variable, a constant, and a comparison operator. In the first example
+the variable is NAME, the constant is 'BROWN', and the comparison
+operator is =. In the second example the variable is NUMBEROFHOURS,
+the constant is 100, and the comparison operator is &gt;. You need
+to know about two more elements before you can write conditional queries: the WHERE
+clause and operators.
+<h> The WHERE Clause
+<p> The syntax of the WHERE clause is
+<h> SYNTAX:
+<p> WHERE &lt;SEARCH CONDITION&gt;
+<p> SELECT, FROM, and WHERE are the three most frequently
+used clauses in SQL. WHERE simply causes your queries to be more selective.
+Without the WHERE clause, the most useful thing you could do with a query
+is display all records in the selected table(s). For example:
+<h> ANALYSIS:
+<p> This simple example shows how you can place a condition on the data that you want
+to retrieve.
+<h> Operators
+<p> Operators are the elements you use inside an expression to articulate how you
+want specified conditions to retrieve data. Operators fall into six groups: arithmetic,
+comparison, character, logical, set, and miscellaneous.
+<h> Arithmetic Operators
+<p> The arithmetic operators are plus (+), minus (-), divide (/),
+multiply (*), and modulo (%). The first four are self-explanatory.
+Modulo returns the integer remainder of a division. Here are two examples:
+<p> 5 % 2 = 1
+6 % 2 = 0
+<p> The modulo operator does not work with data types that have decimals, such as
+Real or Number.
+<p> If you place several of these arithmetic operators in an expression without any
+parentheses, the operators are resolved in this order: multiplication, division,
+modulo, addition, and subtraction. For example, the expression
+<p> 2*6+9/3
+<p> equals
+<p> 12 + 3 = 15
+<p> However, the expression
+<p> 2 * (6 + 9) / 3
+<p> equals
+<p> 2 * 15 / 3 = 10
+<p> Watch where you put those parentheses! Sometimes the expression does exactly what
+you tell it to do, rather than what you want it to do.
+<p> The following sections examine the arithmetic operators in some detail and give
+you a chance to write some queries.
+<h> Plus (+)
+<p> You can use the plus sign in several ways. Type the following statement to display
+the PRICE table:
+<h> ANALYSIS:
+<p> What is this last column with the unattractive column heading WHOLESALE+0.15?
+It's not in the original table. (Remember, you used * in the SELECT
+clause, which causes all the columns to be shown.) SQL allows you to create a virtual
+or derived column by combining or modifying existing columns.
+<p> Retype the original entry:
+<h> INPUT/OUTPUT:
+<h> ANALYSIS:
+<p> The output confirms that the original data has not been changed and that the column
+heading WHOLESALE+0.15 is not a permanent part of it. In fact, the column
+heading is so unattractive that you should do something about it.
+<h> ANALYSIS:
+<p> This is wonderful! Not only can you create new columns, but you can also rename
+them on the fly. You can rename any of the columns using the syntax column_name
+alias (note the space between column_name and alias).
+<p> You might be wondering what use aliasing is if you are not using command-line
+SQL. Fair enough. Have you ever wondered how report builders work? Someday, when
+you are asked to write a report generator, you'll remember this and not spend weeks
+reinventing what Dr. Codd and IBM have wrought.
+<p> So far, you have seen two uses of the plus sign. The first instance was the use
+of the plus sign in the SELECT clause to perform a calculation on the data
+and display the calculation. The second use of the plus sign is in the WHERE
+clause. Using operators in the WHERE clause gives you more flexibility when
+you specify conditions for retrieving data.
+<p> In some implementations of SQL, the plus sign does double duty as a character
+operator. You'll see that side of the plus a little later today.
+<h> Minus (-)
+<p> Minus also has two uses. First, it can change the sign of a number. You can use
+the table HILOW to demonstrate this function.
+<p> Notice the use of aliases to fix the data that was entered incorrectly. This remedy
+is merely a temporary patch, though, and not a permanent fix. You should see to it
+that the data is corrected and entered correctly in the future. On Chapter 21, "Common
+SQL Mistakes/Errors and Resolutions," you'll learn how to correct bad data.
+<p> This query not only fixed (at least visually) the incorrect data but also created
+a new column containing the difference between the highs and lows of each state.
+<p> If you accidentally use the minus sign on a character field, you get something
+like this:
+<p> Some implementations of SQL implement modulo as a function called MOD
+(see Chapter 4, "Functions: Molding the Data You Retrieve"). The following
+statement produces results that are identical to the results in the preceding statement:
+<p> Notice that the first and last columns are identical. If you added a fourth column
+N1+N2* (N3/N4), its values would also be identical to those of the current
+first and last columns.
+<h> Comparison Operators
+<p> True to their name, comparison operators compare expressions and return one of
+three values: TRUE, FALSE, or Unknown. Wait a minute!
+Unknown? TRUE and FALSE are self-explanatory, but what
+is Unknown?
+<p> To understand how you could get an Unknown, you need to know a little
+about the concept of NULL. In database terms NULL is the absence
+of data in a field. It does not mean a column has a zero or a blank in it. A zero
+or a blank is a value. NULL means nothing is in that field. If you make
+a comparison like Field = 9 and the only value for Field is NULL,
+the comparison will come back Unknown. Because Unknown is an uncomfortable
+condition, most flavors of SQL change Unknown to FALSE and provide
+a special operator, IS NULL, to test for a NULL condition.
+<p> Here's an example of NULL: Suppose an entry in the PRICE table
+does not contain a value for WHOLESALE. The results of a query might look
+like this:
+<h> INPUT:
+<p> SQL&gt; SELECT * FROM PRICE;
+<h> OUTPUT:
+<p> Notice that nothing is printed out in the WHOLESALE field position for
+oranges. The value for the field WHOLESALE for oranges is NULL.
+The NULL is noticeable in this case because it is in a numeric column. However,
+if the NULL appeared in the ITEM column, it would be impossible
+to tell the difference between NULL and a blank.
+<h> INPUT/OUTPUT:
+<h> ANALYSIS:
+<p> As you can see by the output, ORANGES is the only item whose value for
+WHOLESALE is NULL or does not contain a value. What if you use
+the equal sign (=) instead?
+<h> INPUT/OUTPUT:
+<p> SQL&gt; SELECT *
+FROM PRICE
+WHERE WHOLESALE = NULL;
+<p> no rows selected
+<h> ANALYSIS:
+<p> You didn't find anything because the comparison WHOLESALE = NULL returned
+a FALSE--the result was unknown. It would be more appropriate to use an
+IS NULL instead of =, changing the WHERE statement to
+WHERE WHOLESALE IS NULL. In this case you would get all the rows where a
+NULL existed.
+<p> This example also illustrates both the use of the most common comparison operator,
+the equal sign (=), and the playground of all comparison operators, the
+WHERE clause. You already know about the WHERE clause, so here's
+a brief look at the equal sign.
+<h> Equal (=)
+<p> Earlier toChapter you saw how some implementations of SQL use the equal sign in the
+SELECT clause to assign an alias. In the WHERE clause, the equal
+sign is the most commonly used comparison operator. Used alone, the equal sign is
+a very convenient way of selecting one value out of many. Try this:
+<p> NOTE:Here you see that = can
+pull in multiple records. Notice that ZIP is blank on the second record.
+ZIP is a character field (you learn how to create and populate tables on
+Chapter 8, "Manipulating Data"), and in this particular record the NULL
+demonstrates that a NULL in a character field is impossible to differentiate
+from a blank field.
+<p> Here's another very important lesson concerning case sensitivity:
+<h> INPUT/OUTPUT:
+<h> INPUT/OUTPUT:
+<p> SQL&gt; select * from friends
+where firstname = 'Bud';
+no rows selected.
+<h> ANALYSIS:
+<p> Even though SQL syntax is not case sensitive, data is. Most companies prefer to
+store data in uppercase to provide data consistency. You should always store data
+either in all uppercase or in all lowercase. Mixing case creates difficulties when
+you try to retrieve accurate data.
+<h> OUTPUT:
+<p> NOTE:How did STATE get changed
+to ST? Because the column has only two characters, the column name is shortened
+to two characters in the returned rows. If the column name had been COWS,
+it would come out CO. The widths of AREACODE and PHONE
+are wider than their column names, so they are not truncated.
+<h> ANALYSIS:
+<p> Wait a minute. Did you just use &lt; on a character field? Of course
+you did. You can use any of these operators on any data type. The result varies by
+data type. For example, use lowercase in the following state search:
+<h> Inequalities (&lt; &gt; or !=)
+<p> When you need to find everything except for certain data, use the inequality symbol,
+which can be either &lt; &gt; or !=, depending on your SQL implementation.
+For example, to find everyone who is not AL, type this:
+<h> Character Operators
+<p> You can use character operators to manipulate the way character strings are represented,
+both in the output of data and in the process of placing conditions on data to be
+retrieved. This section describes two character operators: the LIKE operator
+and the || operator, which conveys the concept of character concatenation.
+<h> I Want to Be Like LIKE
+<p> What if you wanted to select parts of a database that fit a pattern but weren't
+quite exact matches? You could use the equal sign and run through all the possible
+cases, but that process would be boring and time-consuming. Instead, you could use
+LIKE. Consider the following:
+<h> INPUT/OUTPUT:
+<h> ANALYSIS:
+<p> You can see the use of the percent sign (%) in the statement after LIKE.
+When used inside a LIKE expression, % is a wildcard. What you asked for
+was any occurrence of BACK in the column location. If you queried
+<h> ANALYSIS:
+<p> This statement inserted a comma between the last name and the first name.
+<p> NOTE:Notice the extra spaces between
+the first name and the last name in these examples. These spaces are actually part
+of the data. With certain data types, spaces are right-padded to values less than
+the total length allocated for a field. See your implementation. Data types will
+be discussed on Chapter 9, "Creating and Maintaining Tables."
+<p> So far you have performed the comparisons one at a time. That method is fine for
+some problems, but what if you need to find all the people at work with last names
+starting with P who have less than three days of vacation time?
+<h> Logical Operators
+<p> logical operatorsLogical operators separate two or more conditions in the WHERE
+clause of an SQL statement.
+<p> Vacation time is always a hot topic around the workplace. Say you designed a table
+called VACATION for the accounting department:
+<h> INPUT:
+<p> SQL&gt; SELECT * FROM VACATION;
+<h> OUTPUT:
+<p> Suppose your company gives each employee 12 days of leave each year. Using what
+you have learned and a logical operator, find all the employees whose names start
+with B and who have more than 50 days of leave coming.
+<h> ANALYSIS:
+<p> This query is the most complicated you have done so far. The SELECT clause
+(lines 1 and 2) uses arithmetic operators to determine how many days of leave each
+employee has remaining. The normal precedence computes YEARS * 12 - LEAVETAKEN.
+(A clearer approach would be to write (YEARS * 12) - LEAVETAKEN.)
+<p> LIKE is used in line 4 with the wildcard % to find all the B
+names. Line 6 uses the &gt; to find all occurrences greater than 50.
+<p> The new element is on line 5. You used the logical operator AND to ensure
+that you found records that met the criteria in lines 4 and 6.
+<h> AND
+<p> AND means that the expressions on both sides must be true to return TRUE.
+If either expression is false, AND returns FALSE. For example,
+to find out which employees have been with the company for 5 years or less
+and have taken more than 20 days leave, try this:
+<h> INPUT:
+<h> OUTPUT:
+<p> WORKAHOLICS
+---------------
+ABLE
+BAKER
+BLEDSOE
+BOLD
+COSTALES
+<h> ANALYSIS:
+<p> The original names are still in the list, but you have three new entries (who
+would probably resent being called workaholics). These three new names made the list
+because they satisfied one of the conditions. OR requires that only one
+of the conditions be true in order for data to be returned.
+<h> NOT
+<p> NOT means just that. If the condition it applies to evaluates to TRUE,
+NOT make it FALSE. If the condition after the NOT is FALSE,
+it becomes TRUE. For example, the following SELECT returns the
+only two names not beginning with B in the table:
+<h> ANALYSIS:
+<p> The combined list--courtesy of the UNION ALL statement--has 14 names.
+UNION ALL works just like UNION except it does not eliminate duplicates.
+Now show me a list of players who are on both teams. You can't do that with UNION--you
+need to learn INTERSECT.
+<h> INTERSECT
+<p> INTERSECT returns only the rows found by both queries. The next SELECT
+statement shows the list of players who play on both teams:
+<h> INPUT:
+<p> SQL&gt; SELECT * FROM FOOTBALL
+2 INTERSECT
+3 SELECT * FROM SOFTBALL;
+<h> OUTPUT:
+<p> NAME
+--------------------
+ABLE
+CHARLIE
+EXITOR
+GOOBER
+<h> ANALYSIS:
+<p> In this example INTERSECT finds the short list of players who are on
+both teams by combining the results of the two SELECT statements.
+<h> MINUS (Difference)
+<p> Minus returns the rows from the first query that were not present in
+the second. For example:
+<h> INPUT:
+<p> SQL&gt; SELECT * FROM FOOTBALL
+2 MINUS
+3 SELECT * FROM SOFTBALL;
+<h> OUTPUT:
+<p> NAME
+--------------------
+BRAVO
+DECON
+FUBAR
+<h> ANALYSIS:
+<p> The preceding query shows the three football players who are not on the softball
+team. If you reverse the order, you get the three softball players who aren't on
+the football team:
+<h> INPUT:
+<p> SQL&gt; SELECT * FROM SOFTBALL
+2 MINUS
+3 SELECT * FROM FOOTBALL;
+<h> OUTPUT:
+<p> NAME
+--------------------
+BAKER
+DEAN
+FALCONER
+<h> Miscellaneous Operators: IN and BETWEEN
+<p> The two operators IN and BETWEEN provide a shorthand for functions
+you already know how to do. If you wanted to find friends in Colorado, California,
+and Louisiana, you could type the following:
+<h> ANALYSIS:
+<p> The second example is shorter and more readable than the first. You never know
+when you might have to go back and work on something you wrote months ago. IN
+also works with numbers. Consider the following, where the column AREACODE
+is a number:
+<h> INPUT/OUTPUT:
+<p> Again, the second example is a cleaner, more readable solution than the first.
+<p> NOTE:If a WHOLESALE value of
+0.25 existed in the PRICE table, that record would have been retrieved
+also. Parameters used in the BETWEEN operator are inclusive parametersinclusive.
+<h> Summary
+<p> At the beginning of Chapter 3, you knew how to use the basic SELECT and FROM
+clauses. Now you know how to use a host of operators that enable you to fine-tune
+your requests to the database. You learned how to use arithmetic, comparison, character,
+logical, and set operators. This powerful set of tools provides the cornerstone of
+your SQL knowledge.
+<h> Q&amp;A
+<p> Q How does all of this information apply to me if I am not using SQL from
+the command line as depicted in the examples?
+<p> A Whether you use SQL in COBOL as Embedded SQL or in Microsoft's Open Database
+Connectivity (ODBC), you use the same basic constructions. You will use what you
+learned toChapter and yesterChapter repeatedly as you work with SQL.
+<p> QWhy are you constantly telling me to check my implementation? I thought
+there was a standard!
+<p> A There is an ANSI standard (the most recent version is 1992); however,
+most vendors modify it somewhat to suit their databases. The basics are similar if
+not identical, and each instance has extensions that other vendors copy and improve.
+We have chosen to use ANSI as a starting point but point out the differences as we
+go along.
+<h> Workshop
+<p> The Workshop provides quiz questions to help solidify your understanding of the
+material covered, as well as exercises to provide you with experience in using what
+you have learned. Try to answer the quiz and exercise questions before checking the
+answers in Appendix F, "Answers to Quizzes and Exercises."

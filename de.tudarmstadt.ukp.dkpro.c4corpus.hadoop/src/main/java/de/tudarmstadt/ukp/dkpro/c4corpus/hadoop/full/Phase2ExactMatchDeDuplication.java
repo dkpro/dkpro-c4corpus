@@ -104,7 +104,7 @@ public class Phase2ExactMatchDeDuplication
         protected void setup(Context context)
                 throws IOException, InterruptedException
         {
-            multipleOutputs = new MultipleOutputs<NullWritable, WARCWritable>(context);
+            multipleOutputs = new MultipleOutputs<>(context);
         }
 
         @Override

@@ -99,7 +99,7 @@ public class Phase3Step3NearDupTuplesCreation
         protected void setup(Context context)
                 throws IOException, InterruptedException
         {
-            multipleOutputs = new MultipleOutputs<NullWritable, TreeSet<DocumentInfo>>(context);
+            multipleOutputs = new MultipleOutputs<>(context);
         }
 
         @Override
@@ -114,7 +114,7 @@ public class Phase3Step3NearDupTuplesCreation
             //process text as docInfo enteries 
             String[] documents = value.toString().split(",");
 
-            List<String> similarCandidates = new ArrayList<String>(Arrays.asList(documents));
+            List<String> similarCandidates = new ArrayList<>(Arrays.asList(documents));
 
             for (int i = 0; i < similarCandidates.size() - 1; i++) {
 
@@ -135,7 +135,7 @@ public class Phase3Step3NearDupTuplesCreation
                         //save the doc in one cluster
                         //the Document datastructure must implement a compare method
                         //in order to be able to add the document iinto the TreeSet
-                        TreeSet<DocumentInfo> cluster = new TreeSet<DocumentInfo>();
+                        TreeSet<DocumentInfo> cluster = new TreeSet<>();
                         cluster.add(headDoc);
                         cluster.add(similarDoc);
                         if (cluster.size() > 1) {

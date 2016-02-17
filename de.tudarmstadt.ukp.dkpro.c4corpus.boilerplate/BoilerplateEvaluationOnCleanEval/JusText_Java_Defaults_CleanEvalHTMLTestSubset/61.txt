@@ -1,0 +1,4 @@
+
+It takes lots of hard work and money to keep one of the web's largest Flight Simulation sites running. Your donations are greatly appreciated, donations received will be put back into expanding, improving and paying for Fly Away.
+It runs very well, no problems at all. It will fly big jets into busy airports day or night with lots of AI and keep up well over 20 fps (2X Anti aliasing) which is more that adequate for smooth operation.
+I would really like a better video card though as this one is a bit weak when it comes to ground detail...

@@ -1,5 +1,7 @@
 # DKPro C4CorpusTools
 
+NOTE: work in progress until 1.0.0 release
+
 ## Requirements
 
 * Java 1.6 is required for compiling and running the project

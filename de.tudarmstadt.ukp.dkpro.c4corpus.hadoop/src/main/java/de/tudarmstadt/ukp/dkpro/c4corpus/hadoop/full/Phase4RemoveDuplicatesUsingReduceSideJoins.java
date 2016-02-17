@@ -1,5 +1,5 @@
 /*
- * Copyright 2016
+ * Copyright 2015
  * Ubiquitous Knowledge Processing (UKP) Lab
  * Technische Universität Darmstadt
  *
@@ -21,8 +21,6 @@ import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io.WARCInputFormat;
 import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io.WARCOutputFormat;
 import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io.WARCRecord;
 import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io.WARCWritable;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.*;
@@ -45,11 +43,10 @@ import java.util.List;
 
 /**
  * Delete warc records given a list of the files IDs to be deleted (Text File)
- * arg0 the txt file of IDs to be deleted arg1 is the original warc data set,
+ * arg0 the txt file of IDs to be deleted arg1 is the original warc dataset,
  * arg2 is the output
  *
  * @author Omnia Zayed
- * @author Ivan Habernal
  */
 public class Phase4RemoveDuplicatesUsingReduceSideJoins
         extends Configured
@@ -67,15 +64,15 @@ public class Phase4RemoveDuplicatesUsingReduceSideJoins
         job.setJobName(Phase4RemoveDuplicatesUsingReduceSideJoins.class.getName());
 
         // paths
-        String textFilePath = args[0]; //text files of ids to be deleted
+        String textFilePath = args[0]; //text files of ids to be delteted
         String commaSeparatedInputFiles = args[1]; //corpora
         String outputPath = args[2];
         //second input the look up text file
-        MultipleInputs.addInputPath(job, new Path(textFilePath),
-                TextInputFormat.class, JoinTextMapper.class);
-        //first input the data set (check comma separated availability)
-        MultipleInputs.addInputPath(job, new Path(commaSeparatedInputFiles),
-                WARCInputFormat.class, JoinWARCMapper.class);
+        MultipleInputs.addInputPath(job, new Path(textFilePath), TextInputFormat.class,
+                JoinTextMapper.class);
+        //first input the dataset (check comma separated availability)
+        MultipleInputs.addInputPath(job, new Path(commaSeparatedInputFiles), WARCInputFormat.class,
+                JoinWARCMapper.class);
 
         job.setPartitionerClass(SourceJoiningKeyPartitioner.class);
         job.setGroupingComparatorClass(SourceJoiningGroupingComparator.class);
@@ -88,7 +85,6 @@ public class Phase4RemoveDuplicatesUsingReduceSideJoins
         job.setOutputFormatClass(WARCOutputFormat.class);
         job.setOutputKeyClass(NullWritable.class);
         job.setOutputValueClass(WARCWritable.class);
-
         FileOutputFormat.setOutputPath(job, new Path(outputPath));
         FileOutputFormat.setCompressOutput(job, true);
         FileOutputFormat.setOutputCompressorClass(job, GzipCodec.class);
@@ -131,10 +127,6 @@ public class Phase4RemoveDuplicatesUsingReduceSideJoins
         }
     }
 
-    /**
-     * Reads the original collection with *warc.gz files, emits under the composite key
-     * with {@code sourceIndex} set to 0
-     */
     public static class JoinWARCMapper
             extends Mapper<LongWritable, WARCWritable, CompositeKey, WARCWritable>
     {
@@ -156,35 +148,6 @@ public class Phase4RemoveDuplicatesUsingReduceSideJoins
         }
     }
 
-    /**
-     * This class creates a new dummy WARC record with a constant content (but correct ID)
-     */
-    public static class DummyWARCRecord
-            extends WARCRecord
-    {
-        private static final String DUMMY_CONTENT_PREFIX =
-                "WARC/1.0\r\n" + "WARC-Type: warcinfo\r\n"
-                        + "WARC-Date: 2014-03-18T17:47:38Z\r\n"
-                        + "WARC-Record-ID: ";
-
-        private static final String DUMMY_CONTENT_POSTFIX =
-                "\r\n" + "Content-Length: 19\r\n" + "Content-Type: application/warc-fields\r\n"
-                        + "WARC-Filename: XXX\r\n" + "\r\n"
-                        + "robots: classic\r\n"
-                        + "\r\n" + "\r\n" + "\r\n";
-
-        public DummyWARCRecord(String warcId)
-                throws IOException
-        {
-            super(new DataInputStream(new ByteArrayInputStream(
-                    (DUMMY_CONTENT_PREFIX + warcId + DUMMY_CONTENT_POSTFIX).getBytes("UTF-8"))));
-        }
-    }
-
-    /**
-     * Reads the the ward IDs intended for deletion, emits the warc ID with a dummy entry
-     * under {@code sourceIndex} with value 1 (thus as a second entry)
-     */
     public static class JoinTextMapper
             extends Mapper<LongWritable, Text, CompositeKey, WARCWritable>
     {
@@ -193,69 +156,54 @@ public class Phase4RemoveDuplicatesUsingReduceSideJoins
         protected void map(LongWritable key, Text value, Context context)
                 throws IOException, InterruptedException
         {
+
             String warcId = value.toString();
 
             CompositeKey compositeWARCKey = new CompositeKey();
             compositeWARCKey.setJoinKey(new Text(warcId));
-
-            // to determine order of sorting
+            //to determine order of sorting
             compositeWARCKey.setSourceIndex(new IntWritable(1));
+            DataInputStream stream = new DataInputStream(new ByteArrayInputStream(
+                    ("WARC/1.0\r\n" + "WARC-Type: warcinfo\r\n"
+                            + "WARC-Date: 2014-03-18T17:47:38Z\r\n" + "WARC-Record-ID: " + warcId
+                            + "\r\n" + "Content-Length: 19\r\n"
+                            + "Content-Type: application/warc-fields\r\n"
+                            + "WARC-Filename: split.00_20150305143820.warc.gz\r\n" + "\r\n"
+                            + "robots: classic\r\n" + "\r\n" + "\r\n" + "\r\n").getBytes("UTF-8")));
+            WARCRecord record = new WARCRecord(stream);
 
-            WARCWritable emptyWARC = new WARCWritable(new DummyWARCRecord(warcId));
+            WARCWritable emptyWARC = new WARCWritable(record);
 
             context.write(compositeWARCKey, emptyWARC);
+            //            System.out.println(compositeWARCKey.getJoinKey().toString() + "\t" + emptyWARC.getRecord());
         }
     }
 
-    /**
-     * {@code values} have either two entries, or one entry. If there are two entries, the first
-     * one holds the original WARC record (from the {@link JoinWARCMapper}) and the second one
-     * the dummy warc file; this entry should be thus deleted (not written to the output). If there
-     * is only one entry, it is either the original WARC record (and should be written to
-     * the output) of the dummy record, which will be ignored.
-     */
     public static class JoinReducer
             extends Reducer<CompositeKey, WARCWritable, NullWritable, WARCWritable>
     {
-
-        private static final Log LOG = LogFactory.getLog(JoinReducer.class);
 
         @Override
         protected void reduce(CompositeKey key, Iterable<WARCWritable> values, Context context)
                 throws IOException, InterruptedException
         {
+
+            //            System.out.println("Reducer");
+
             List<WARCWritable> documents = new ArrayList<WARCWritable>();
 
             for (WARCWritable v : values) {
+                //                System.out.println(v.getRecord().getHeader().getRecordID() + "\t" + new String(v.getRecord().getContent()));
                 documents.add(new WARCWritable(v.getRecord()));
             }
-
-            // only max two documents are allowed here: the original one and the dummy one
-            // if (documents.size() > 2) {
-            //    throw new IllegalStateException("More than 2 documents (" + documents.size()
-            //            + " found under the same composite key " + key);
-            // }
-
-            // get the first document
-            WARCWritable warcWritable = documents.get(0);
-
+            //means that no deletion will occure
             if (documents.size() == 1) {
-                // now make sure we don't write out the dummy warc
-                // how that can happen? Probably, the warc ID is missing in the input collection
-                // but is present in the text files for deletion
-                if (warcWritable.getRecord() instanceof DummyWARCRecord) {
-                    LOG.info(warcWritable.getRecord().getHeader().getRecordID()
-                            + " marked for deletion, but not found in the input collection");
-                }
-                else {
-                    // writing to the output
-                    context.write(NullWritable.get(), warcWritable);
-                }
+                context.write(NullWritable.get(), documents.get(0));
+                //                System.out.println("I will keep this file: " + documents.get(0).getRecord().getHeader().getRecordID());
             }
-            else {
-                LOG.info("Deleting near-duplicate: " + warcWritable.getRecord().getHeader()
-                        .getRecordID());
-            }
+            //            else{
+            //                System.out.println("I will delete this file: " + documents.get(0).getRecord().getHeader().getRecordID());
+            //            }
         }
     }
 }

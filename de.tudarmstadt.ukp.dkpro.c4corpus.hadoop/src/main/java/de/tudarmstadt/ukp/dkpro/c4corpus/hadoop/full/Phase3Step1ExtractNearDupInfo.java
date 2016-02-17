@@ -17,7 +17,6 @@
  */
 package de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.full;
 
-import de.tudarmstadt.ukp.dkpro.c4corpus.deduplication.impl.DocumentDeDuplication;
 import de.tudarmstadt.ukp.dkpro.c4corpus.deduplication.impl.SimHashUtils;
 import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.deduplication.DeDuplicationTextOutputReducer;
 import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.deduplication.DocumentInfo;
@@ -98,8 +97,6 @@ public class Phase3Step1ExtractNearDupInfo
     public static class MapperClass
             extends Mapper<LongWritable, WARCWritable, Text, DocumentInfo>
     {
-
-        public final static DocumentDeDuplication docDeDup = new DocumentDeDuplication();
 
         @Override
         protected void map(LongWritable key, WARCWritable value, Context context)
