@@ -28,7 +28,7 @@
 	</parent>
 
 	<groupId>org.dkpro.c4corpus</groupId>
-	<artifactId>dkpro-c4corpus-parent</artifactId>
+	<artifactId>dkpro-c4corpus</artifactId>
 	<version>1.0.0</version>
 	<packaging>pom</packaging>
 
@@ -44,11 +44,11 @@
 	</properties>
 
 	<modules>
-		<module>de.tudarmstadt.ukp.dkpro.c4corpus.boilerplate</module>
-		<module>de.tudarmstadt.ukp.dkpro.c4corpus.license</module>
-		<module>de.tudarmstadt.ukp.dkpro.c4corpus.language</module>
-		<module>de.tudarmstadt.ukp.dkpro.c4corpus.deduplication</module>
-		<module>de.tudarmstadt.ukp.dkpro.c4corpus.hadoop</module>
+		<module>dkpro-c4corpus-boilerplate</module>
+		<module>dkpro-c4corpus-license</module>
+		<module>dkpro-c4corpus-language</module>
+		<module>dkpro-c4corpus-deduplication</module>
+		<module>dkpro-c4corpus-hadoop</module>
 	</modules>
 
 	<dependencies>

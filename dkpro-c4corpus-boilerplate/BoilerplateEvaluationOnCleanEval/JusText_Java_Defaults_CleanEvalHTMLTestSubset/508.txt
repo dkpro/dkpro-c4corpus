@@ -1,0 +1,7 @@
+
+Plurality and Majority
+In order to win a plurality, a candidate must receive a greater number of votes than anyone running against him. If he receives 50 votes, for example, and two other candidates receive 49 and 2, he will have a plurality of one vote over his closest opponent.
+However, a candidate does not have a majority unless he receives more than 50% of the total votes cast. In the example above, the candidate does not have a majority, because his 50 votes are 50% or less than the 101 votes cast.
+Presidents Elected Without a Majority
+Fifteen candidates (three of them twice) have become president of the United States with a popular vote less than 50% of the total cast. It should be noted, however, that in elections before 1872, presidential electors were not chosen by popular vote in all states. Adams's election in 1824 was by the House of Representatives, which chose him over Jackson, who had a plurality of both electoral and popular votes, but not a majority in the electoral college.
+Besides Jackson in 1824, only three other candidates receiving the largest popular vote have failed to gain a majority in the electoral college—Samuel J. Tilden (D) in 1876, Grover Cleveland (D) in 1888, and Al Gore (D) in 2000.
