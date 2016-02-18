@@ -1,0 +1,405 @@
+<h> Courses, Seminars and Workshops Listed by Program
+<p> This is an overview of QuickBooks Pro 2006 so that you can see its extensive capabilities. This is an ideal seminar for those who are trying to decide whether or not to use QuickBooks in their business. You must take this class if you have never used the QuickBooks program.
+<p> Class
+ID:
+<p> NTG S37 001
+<p> TTN: 4622
+<p> Instructor:
+<p> Jennifer Purkey
+<p> Scheduled:
+<p> Mon., Jan 221 - 4 p.m.
+(Begins 1/22/2007; ends 1/22/2007)
+<p> Location:
+<p> Rm. 111, Shah Center
+<p> Fee:
+<p> $95
+<p> NewQuickBooks 2006 Computerized Accounting for Your Business
+<p> This is an overview of QuickBooks Pro 2006 so that you can see its extensive capabilities. This is an ideal seminar for those who are trying to decide whether or not to use QuickBooks in their business. You must take this class if you have never used the QuickBooks program.
+<p> Class
+ID:
+<p> NTG S37 002
+<p> TTN: 4623
+<p> Instructor:
+<p> Jennifer Purkey
+<p> Scheduled:
+<p> Mon., Mar 261 - 4 p.m.
+(Begins 3/26/2007; ends 3/26/2007)
+<p> Location:
+<p> Rm. 111, Shah Center
+<p> Fee:
+<p> $95
+<p> NewQuickBooks 2006 for Invoicing and Check Writing
+<p> Learn to do daily operations such as invoicing, receiving payents, making cash sales, and bank deposits. Bill payment, check writing, sales tax and inventory management will also be covered.
+<p> This two-part seminar is designed to make your introduction to computers smoother and more effective. This class is for people with little or no computer experience. Topics to be covered include: basic terminology, how hardware and software work, basic computer operations like function keys and special keys. NOTE: This course does not provide keyboard skill training.
+<p> Class
+ID:
+<p> NTC S33 001
+<p> TTN: 4589
+<p> Instructor:
+<p> Dan Gaydosh
+<p> Scheduled:
+<p> Tues., Jan 23 and 309 a.m. - noon
+(Begins 1/23/2007; ends 1/30/2007)
+<p> Location:
+<p> Rm. 111, Shah Center
+<p> Fee:
+<p> $115
+<p> Computer Basics
+<p> This two-part seminar is designed to make your introduction to computers smoother and more effective. This class is for people with little or no computer experience. Topics to be covered include: basic terminology, how hardware and software work, basic computer operations like function keys and special keys. NOTE: This course does not provide keyboard skill training.
+<p> Class
+ID:
+<p> NTC S33 002
+<p> TTN: 4591
+<p> Instructor:
+<p> TBA
+<p> Scheduled:
+<p> Wed., Feb 14 and 216 - 9 p.m.
+(Begins 2/14/2007; ends 2/21/2007)
+<p> Location:
+<p> Rm. 111, Shah Center
+<p> Fee:
+<p> $115
+<p> Computer Basics
+<p> This two-part seminar is designed to make your introduction to computers smoother and more effective. This class is for people with little or no computer experience. Topics to be covered include: basic terminology, how hardware and software work, basic computer operations like function keys and special keys. NOTE: This course does not provide keyboard skill training.
+<p> Class
+ID:
+<p> NTC S33 003
+<p> TTN: 4592
+<p> Instructor:
+<p> Dan Gaydosh
+<p> Scheduled:
+<p> Mon., Feb 26 and Mar 51 - 4 p.m.
+(Begins 2/26/2007; ends 3/5/2007)
+<p> Location:
+<p> Rm. 111, Shah Center
+<p> Fee:
+<p> $115
+<p> NewWindows XP
+<p> Get started with Windows XP and learn what makes XP so much more than just an operating system upgrade. Explore the basics of Windows XP in this 6 hour class.
+<p> Class
+ID:
+<p> NTE S89 001
+<p> TTN: 4593
+<p> Instructor:
+<p> Dan Gaydosh
+<p> Scheduled:
+<p> Tues., Feb 6 and 139 a.m. - noon
+(Begins 2/6/2007; ends 2/13/2007)
+<p> Location:
+<p> Rm. 111, MCC
+<p> Fee:
+<p> $139
+<p> NewWindows XP
+<p> Get started with Windows XP and learn what makes XP so much more than just an operating system upgrade. Explore the basics of Windows XP in this 6 hour class.
+<p> Class
+ID:
+<p> NTE S89 002
+<p> TTN: 4594
+<p> Instructor:
+<p> TBA
+<p> Scheduled:
+<p> Mon., Mar 12 and 191 - 4 p.m.
+(Begins 3/12/2007; ends 3/19/2007)
+<p> Location:
+<p> Rm. 111, Shah Center
+<p> Fee:
+<p> $139
+<p> NewWindows XP
+<p> Get started with Windows XP and learn what makes XP so much more than just an operating system upgrade. Explore the basics of Windows XP in this 6 hour class.
+<p> Class
+ID:
+<p> NTE S89 003
+<p> TTN: 4595
+<p> Instructor:
+<p> Dan Gaydosh
+<p> Scheduled:
+<p> Wed., Mar 21 and 286 - 9 p.m.
+(Begins 3/21/2007; ends 3/28/2007)
+<p> Location:
+<p> Rm. 111, Shah Center
+<p> Fee:
+<p> $139
+<p> COMPUTER CLASSES FOR MEMBERS OF RAP AND SENIOR CITIZENS 60 AND OVER
+<p> Computer Basics for Seniors and RAP Members
+<p> In this two-part class, you will gain an understanding of the basics of personal computing before working in Windows 95 and learning other software applications. Topics to be covered will include: basic terminology, how hardware and software work, basic computer operations like function keys and special keys. This course does not provide keyboard skill training.
+<p> Class
+ID:
+<p> NTE S81 001
+<p> TTN: 4585
+<p> Instructor:
+<p> Kerrie Dietzel
+<p> Scheduled:
+<p> Wed., Jan 31 and Feb 79 a.m. - noon
+(Begins 1/31/2007; ends 2/7/2007)
+<p> Location:
+<p> Rm. 111, Shah Center
+<p> Fee:
+<p> $69
+<p> Internet for Seniors and RAP Members
+<p> Learn the basics of how to use the Internet and how to sign on and "surf" the Web. You must have had computer basics or its equivalent in order to take this seminar.
+<p> Class
+ID:
+<p> NTC S35 001
+<p> TTN: 4587
+<p> Instructor:
+<p> Kerrie Dietzel
+<p> Scheduled:
+<p> Wed., Feb 28 and Mar 79 a.m. - noon
+(Begins 2/28/2007; ends 3/7/2007)
+<p> Location:
+<p> Rm. 111, Shah Center
+<p> Fee:
+<p> $69
+<p> Windows XP for Seniors and RAP Members
+<p> This two-part introductory Windows XP workshop is designed to teach you the basics of Windows XP. It is assumed that the learner already knows PC basics and mouse skills. You will be exposed to the Start and Program menus, Paint, WordPad, how to run multiple programs and other Windows accessory programs. You must have had Computer Basics or its equivalent in order to take this class.
+<p> Class
+ID:
+<p> NTE S82 001
+<p> TTN: 4586
+<p> Instructor:
+<p> Kerrie Deitzel
+<p> Scheduled:
+<p> Wed., Feb 14 and 219 a.m. - noon
+(Begins 2/14/2007; ends 2/21/2007)
+<p> Location:
+<p> Rm. 111, Shah Center
+<p> Fee:
+<p> $69
+<p> Word for Seniors and RAP Members
+<p> This three-part introductory workshop is designed to teach you the basics of Word. You must know PC basics and mouse skills to take this class. You will learn to create, edit, format, save and print documents.
+<p> Learn the basics of using Outlook as a communication tool. Use a calendar to schedule appointments, coordinate business meetings with multiple participants, and how to keep track of personal and business contacts. You will also create task lists and notes to remind you of things that need to be done.
+<p> How do your customers see you: Competitive loyalty is maintained through satisfied customers. Learn the skill of realizing a customer's expectations, how to create a partnership with your customers and how to devise a plan to meet the customers' needs without over compromising. This kind of customer interaction leads to both improved quality of your products and improved customer service.
+<p> Class
+ID:
+<p> NTC S66 001
+<p> TTN: 4661
+<p> Instructor:
+<p> Rick Reece
+<p> Scheduled:
+<p> Thurs., Mar 299 a.m. - noon
+(Begins 3/29/2007; ends 3/29/2007)
+<p> Location:
+<p> Rm. 113, Shah Center
+<p> Fee:
+<p> $89
+<p> DATABASES
+<p> Advanced Access 2002
+<p> Learn to use advanced form features including properties, design tools, display information that has sub-forms, make forms more functional and concise.
+<p> Use Publisher to create distinctive newsletters, brochures, flyers and documents that have a professional edge. Learn to work with frames, text and graphics, formatting, multi-page publications and many other techniques.
+<p> Class
+ID:
+<p> NTC S51 004
+<p> TTN: 4644
+<p> Instructor:
+<p> Pam Palmer
+<p> Scheduled:
+<p> Mon., Mar 5, 12 and 196 - 9 p.m.
+(Begins 3/5/2007; ends 3/19/2007)
+<p> Location:
+<p> Rm. 111, Shah Center
+<p> Fee:
+<p> $155
+<p> Introduction to Visio
+<p> Learn how to get the most out of Microsoft Visio, a powerful business graphics application. Learn how to create graphic files, use the drawing shapes tool, create diagrams, format objects and pages, as well as explore some of the special types of graphics you can use.
+<p> Is your organization operating at its highest level? The best organizations, both small and large, have systems in place that enable it to achieve maximum results. Leaders of these organizations set high expectations, value employees and stakeholders, and align all aspects of the business with clear organizational goals. Learn the process for assessing your organizaton against the Malcolm Baldrige Quality Criteria and the principles of the European Foundation for Quality Management. Topics include:
+- how to develop plans for organization effectiveness using the planning process format
+- the 7 assessment categories of the Malcolm Baldrige Quality Criteria
+- the 5 assessment categories of the European Foundation for Quality Management
+- how to assess customer expectations for maximum
+<p> Class
+ID:
+<p> NTG S13 001
+<p> TTN: 4657
+<p> Instructor:
+<p> Dennis Ulrey
+<p> Scheduled:
+<p> Thurs., Mar 158 a.m. - 4 p.m.
+(Begins 3/15/2007; ends 3/15/2007)
+<p> Location:
+<p> Rm. 113, Shah Center
+<p> Fee:
+<p> $159
+<p> Communicating - Openly and Directly
+<p> To meet today's business challenges, one of the things that we must do is improve the effectiveness of our communications. Possessing good communication skills is essential for personal and professional success, yet poor communication is probably the largest single contributor to the problems that many of our organizations and we ourselves experience. Through a combination of lecture, video, activities and group discussion, practical tips and techniques will be presented that will improve your personal and professional communication skills, thereby increasing your effectiveness when communicating with others.
+<p> Class
+ID:
+<p> NTE S49 001
+<p> TTN: 4655
+<p> Instructor:
+<p> Wayne Pratt
+<p> Scheduled:
+<p> Thurs., Mar 88:30 a.m. - 4 p.m.
+(Begins 3/8/2007; ends 3/8/2007)
+<p> Location:
+<p> Rm. 113, Shah Center
+<p> Fee:
+<p> $139
+<p> NewConstant Change, You and Your Organization
+<p> Change management can be a frightening subject,yet today, change is constant and something good organizations address pro-actively. There are two ways to look at change. First, change will happen without you; and second, change will happen with you. Organizations get to decide if they'll let change happen and then try to catch up or make change management part of their organization's process. In this workshop, you will learn why change is difficult for both employees and the organization and how to make change something that people no longer fear, but welcome. Topics will include:
+- the history behind the fear of change and why people avoid it
+- where change occurs in organizations
+- the importance of change agents and change management
+- steps to developing a pro-active approa
+<p> Class
+ID:
+<p> NTG S10 001
+<p> TTN: 4647
+<p> Instructor:
+<p> Dennis Ulrey
+<p> Scheduled:
+<p> Thurs., Jan 258 a.m. - noon
+(Begins 1/25/2007; ends 1/25/2007)
+<p> Location:
+<p> Rm. 113, Shah Center
+<p> Fee:
+<p> $89
+<p> NewCovey's 7 Habits of Highly Effective People - An Overview
+<p> Experience an overview of Stephen Covey's The 7 Habits of Highly Effective People. These powerful principles will help you understand how to attain a better work-life balance both personally and professionally. Covey's Foundational Principles will be discussed along with an explanation of all 7 Habits. This course is not intended to replace the full step by step content, but will give you an overview to help you understand the strength and benefits of the material.
+<p> Class
+ID:
+<p> NTG S12 001
+<p> TTN: 4653
+<p> Instructor:
+<p> Michael Maretich
+<p> Scheduled:
+<p> Tues., Feb 206 - 9 p.m.
+(Begins 2/20/2007; ends 2/20/2007)
+<p> Location:
+<p> Rm. 113, Shah Center
+<p> Fee:
+<p> $79
+<p> NewDDI - Middle Management Leadership Development
+<p> This series establishes and promotes an atmosphere that stresses the importance of continuous learning and development. Leaders discuss how to create an environment to support leadership development. They acquaint themselves with the three elements of the supporting leadership development process; engaging participation, developing skills and competence, and realizing results. Series modules include:
+- Supporting leadership development
+- Building an environment of trust
+- Developing others
+- Influential leadership
+- Rapid decision making
+<p> Just one employee with chronic performance or work-habit problems can drag down the performance and morale of an entire work group. Also, it can dominate a leader's time and lead to frustration and stress. This series builds leader's skills in handling chronic performance or work-habit problems or serious misconduct. You will learn how to document a problem and explain what the employee must do to address it. When leaders are able to effectively review progress toward achieving agreed-upon expectations, they strengthen the performance of the individual, the work group and the organization. Series modules are:
+- Setting Performance Expectations
+- Reviewing Performance Programs
+- Managing Performance Problems
+<p> The role of the manager is challenging and it is important to identify the behaviors you will demonstrate that reinforce the role of a manager or a supervisor. Plan to attend this five-part series to learn the techniques, tools, and skills necessary to be an effective leader. Target audience - informal and formal leaders at all levels. Topics are:
+- the new manager
+- essential leadership skills
+- delegating for productivity and growth
+- preparing others to succeed
+- guiding conflict resolution
+<p> Learn how to turn mediocre meetings into meetings that produce results. You will learn tools that you can use to enhance the meeting process, facilitation and communication skills, and strategies for dealing with difficult meeting participants.
+<p> Class
+ID:
+<p> NTG S62 001
+<p> TTN: 4654
+<p> Instructor:
+<p> Rick Reece
+<p> Scheduled:
+<p> Thurs., Feb 229 a.m. - noon
+(Begins 2/22/2007; ends 2/22/2007)
+<p> Location:
+<p> Rm. 113, Shah Corp. Center
+<p> Fee:
+<p> $79
+<p> Mastering the Art of Time Management
+<p> We all need more time and most of us never seem to find it. This workshop will show you, step by step, how to make valuable time and raise productivity through time management skills. Topics to be discussed will include:
+- The importance of organization and how to obtain it
+- How to reclaim control of your time
+- How to improve your time management skills
+- Strategies for focusing on what's most important
+<p> Class
+ID:
+<p> NTC S09 001
+<p> TTN: 4649
+<p> Instructor:
+<p> Wayne Pratt
+<p> Scheduled:
+<p> Fri., Feb 28:30 a.m. - 4 p.m.
+(Begins 2/2/2007; ends 2/2/2007)
+<p> Location:
+<p> Rm. 113, Shah Center
+<p> Fee:
+<p> $149
+<p> NewProject Management
+<p> Understanding the skills to successfully manage projects is critical with tight budgets and tight deadline constraints. Learn the skills necessary for meeting the demands for higher quality, greater value, and accountability in project management. Start with the tasks and requirements of project management; initial planning, goal setting, plan development, implementation and follow-up.
+<p> Class
+ID:
+<p> NTC S67 001
+<p> TTN: 4652
+<p> Instructor:
+<p> Aaron Sellers
+<p> Scheduled:
+<p> Fri., Feb 168 a.m. - noon
+(Begins 2/16/2007; ends 2/16/2007)
+<p> Location:
+<p> Rm. 113, Shah Center
+<p> Fee:
+<p> $109
+<p> NewTeamwork Vs. Teams
+<p> Teamwork and teams have been buzzwords for about a decade. Many organizations want to hook onto the "team" train. Teams are great - in the right circumstances. Teamwork is expected. However, there is a difference. Teams are a noun or the "what". Teamwork is an adjective or the "how" or the process. Establishing teams and teamwork first comes with understanding of what they are and in what situations they can be effective. Join this workshop to find out whether teams and teamwork are right for you and your company. Topics include:
+- understanding the difference between teams and teamwork
+- applying teamwork principles
+- when and when not to establish teams
+- effective team characteristics
+- why teams succeed and why they fail
+<p> Class
+ID:
+<p> NTG S11 001
+<p> TTN: 4651
+<p> Instructor:
+<p> Dennis Ulrey
+<p> Scheduled:
+<p> Thurs., Feb 158 a.m. - noon
+(Begins 2/15/2007; ends 2/15/2007)
+<p> Location:
+<p> Rm. 113, Shah Center
+<p> Fee:
+<p> $89
+<p> OSHA
+<p> OSHA - Machinery and Machine Safeguarding
+<p> Machine guarding and related machinery violations rank among the top 10 of OSHA citations issued. Workers who operate and maintain machinery suffer approximately 18,000 amputations, lacerations, crushing injuries, abrasions and over 800 deaths a year. OSHA compliance experts will help participants identify and control the hazards caused by mechanical components and motion in or near these components and activities performed by workers during machinery operations. Learn the OSHA standards that apply to your operations.
+<p> Class
+ID:
+<p> NTG S59 001
+<p> TTN: 4662
+<p> Instructor:
+<p> Nancy Quick
+<p> Scheduled:
+<p> Tues., Feb 68 a.m. - noon
+(Begins 2/6/2007; ends 2/6/2007)
+<p> Location:
+<p> Rm. 113, Shah Center
+<p> Fee:
+<p> $25
+<p> PRESENTATION SOFTWARE
+<p> Intermediate PowerPoint 2002
+<p> Emphasis will be on customizing presentations by incorporating multimedia elements into presentations.
+<p> Class
+ID:
+<p> NTC S78 003
+<p> TTN: 4638
+<p> Instructor:
+<p> Pam Palmer
+<p> Scheduled:
+<p> Mon., Mar 26, Apr 2 and 96 - 9 p.m.
+(Begins 3/26/2007; ends 4/9/2007)
+<p> Location:
+<p> Rm. 111, Shah Center
+<p> Fee:
+<p> $155
+<p> Intermediate PowerPoint 2002
+<p> Emphasis will be on customizing presentations by incorporating multimedia elements into presentations.
+<p> It can be intimidating to face an audience. Learn techniques to help you enhance your presentations, how to prepare and organize your presentation, how to deliver your message, and how to develop your stage presence. The success of your presentation does not depend so much on what you say, as much as on your appearance and delivery. Polish those presentation skills so that your message is successfully delivered to clients, associates, and the community.
+<p> Class
+ID:
+<p> NTG S16 001
+<p> TTN: 4666
+<p> Instructor:
+<p> Michael Maretich
+<p> Scheduled:
+<p> Wed., Mar 146 - 9 p.m.
+(Begins 3/14/2007; ends 3/14/2007)
+<p> Location:
+<p> Rm. 113, Shah Center
+<p> Fee:
+<p> $79
+<p> NewPrevention of Sexual Harassment in the Workplace
+<p> The employer's responsibilities in the area of sexual harassment are serious and complex. Managers must understand that the employer is liable for the actions of its employees. Learn the skills necessary to prevent, recognize, and report harassment in the workplace. Participants will learn to distinguish between the two kinds of sexual harassment "quid pro quo" and "hostile environment". Stopping sexual harassment before it begins minimizes risks to the company and to its employees.
