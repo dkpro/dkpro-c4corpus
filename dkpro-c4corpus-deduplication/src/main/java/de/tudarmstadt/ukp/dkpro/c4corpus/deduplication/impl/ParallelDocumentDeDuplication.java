@@ -142,4 +142,17 @@ public class ParallelDocumentDeDuplication
         }
         return result;
     }
+
+    /**
+     * Returns simHash of the given document
+     *
+     * @param text plain text
+     * @return sim hash
+     */
+    public static long getSimHash(String text)
+    {
+        Set<String> shingles = SimHashUtils.createCharGramsShingles(text);
+        Set<Integer> hashPhrases = SimHashUtils.hash(shingles);
+        return SimHashUtils.simHash(hashPhrases);
+    }
 }

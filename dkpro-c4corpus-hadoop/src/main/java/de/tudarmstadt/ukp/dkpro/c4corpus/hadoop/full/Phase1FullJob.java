@@ -19,7 +19,7 @@ package de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.full;
 
 import de.tudarmstadt.ukp.dkpro.c4corpus.boilerplate.BoilerPlateRemoval;
 import de.tudarmstadt.ukp.dkpro.c4corpus.boilerplate.impl.JusTextBoilerplateRemoval;
-import de.tudarmstadt.ukp.dkpro.c4corpus.deduplication.impl.DocumentDeDuplication;
+import de.tudarmstadt.ukp.dkpro.c4corpus.deduplication.impl.ParallelDocumentDeDuplication;
 import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.CharsetDetector;
 import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.ConfigurationHelper;
 import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.LanguageIdentifier;
@@ -42,7 +42,10 @@ import org.apache.hadoop.util.ToolRunner;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Set;
 
 /**
  * Single Map-Reduce task for performing license identification, boilerplate
@@ -97,7 +100,6 @@ public class Phase1FullJob
         private final static LicenseDetector licD = new FastRegexLicenceDetector();
         private final static BoilerPlateRemoval boilPlRem = new JusTextBoilerplateRemoval();
         private final static LanguageIdentifier langD = new CybozuLanguageIdentifier();
-        private final static DocumentDeDuplication docDedup = new DocumentDeDuplication();
 
         private int recordCounter = 0;
 
@@ -182,12 +184,13 @@ public class Phase1FullJob
                 String language = langD.identifyLanguage(plainText);
 
                 // compute simhash
-                long docSimHash = docDedup.getSimHash(plainText);
+                long docSimHash = ParallelDocumentDeDuplication.getSimHash(plainText);
 
                 WARCRecord.Header header = value.getRecord().getHeader();
 
                 //original warc split location
-                header.setField(WARCRecord.WARCRecordFieldConstants.ORIGINAL_LOCATION, mapInputFileName);
+                header.setField(WARCRecord.WARCRecordFieldConstants.ORIGINAL_LOCATION,
+                        mapInputFileName);
                 // set the license to the metadata
                 header.setField(WARCRecord.WARCRecordFieldConstants.LICENSE, license);
 
@@ -219,7 +222,8 @@ public class Phase1FullJob
 
                 // create prefix as a key
                 context.write(new Text(WARCWriterReducerClass
-                        .createOutputFilePrefix(license, language, noBoilerplate, binNumber)), value);
+                                .createOutputFilePrefix(license, language, noBoilerplate, binNumber)),
+                        value);
 
                 // collect some stats to logs
                 recordCounter++;
