@@ -1,8 +1,6 @@
 package de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.full;
 
-import com.google.common.collect.Lists;
 import de.tudarmstadt.ukp.dkpro.c4corpus.deduplication.impl.ParallelDocumentDeDuplication;
-import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io.NonSplittableTextInputFormat;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.conf.Configured;
@@ -12,6 +10,7 @@ import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
+import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.NLineInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.LazyOutputFormat;
@@ -25,9 +24,13 @@ import java.util.List;
 import java.util.Set;
 
 /**
+ * De-duplication MR job for identifying IDs of documents to be removed from the collection.
+ * The job splits the input documents into smaller chunks on which the local greedy algorithm
+ * is performed. See {@link ParallelDocumentDeDuplication}
+ *
  * (c) 2016 Ivan Habernal
  */
-public class Phase3Step4GreedyClustering
+public class Phase3Step4LocalDeDuplication
         extends Configured
         implements Tool
 {
@@ -35,7 +38,7 @@ public class Phase3Step4GreedyClustering
     /**
      * Number of lines of input file to be processed by one mapper
      */
-    private static final int CLUSTER_PARTITION_SIZE = 5000;
+    private static final int LINES = 5000;
 
     @Override
     public int run(String[] args)
@@ -43,28 +46,26 @@ public class Phase3Step4GreedyClustering
     {
         Job job = Job.getInstance(getConf());
 
-        job.setJarByClass(Phase3Step4GreedyClustering.class);
-        job.setJobName(Phase3Step4GreedyClustering.class.getName());
+        job.setJarByClass(Phase3Step4LocalDeDuplication.class);
+        job.setJobName(Phase3Step4LocalDeDuplication.class.getName());
 
         // paths
         String inputPath = args[0];
         // text files of ids to be deleted
         String outputPath = args[1];
 
-        // input: reading N lines for each mapper
+        // input: reading max N lines for each mapper
         job.setInputFormatClass(NLineInputFormat.class);
-//        job.setInputFormatClass(MultiLineInputFormat.class);
         NLineInputFormat.addInputPath(job, new Path(inputPath));
-        job.getConfiguration()
-                .setInt("mapreduce.input.lineinputformat.linespermap", CLUSTER_PARTITION_SIZE);
+        job.getConfiguration().setInt("mapreduce.input.lineinputformat.linespermap", LINES);
 
         // mapper
-        job.setMapperClass(FileSplittingMapper.class);
+        job.setMapperClass(LocalGreedyDeDuplicationMapper.class);
 
         LazyOutputFormat.setOutputFormatClass(job, TextOutputFormat.class);
 
-        // reducer - no need for one
-        //        job.setReducerClass(IDCollectorReducer.class);
+        // reducer
+        job.setReducerClass(IDCollectorReducer.class);
 
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(NullWritable.class);
@@ -77,17 +78,17 @@ public class Phase3Step4GreedyClustering
     public static void main(String[] args)
             throws Exception
     {
-        ToolRunner.run(new Phase3Step4GreedyClustering(), args);
+        ToolRunner.run(new Phase3Step4LocalDeDuplication(), args);
     }
 
     /**
-     * "Local" greedy deduplication mapper which processes N lines from the input tuples
+     * "Local" greedy de-duplication mapper which processes N lines from the input tuples
      * (duplicate candidates)
      */
-    public static class FileSplittingMapper
+    public static class LocalGreedyDeDuplicationMapper
             extends Mapper<LongWritable, Text, Text, NullWritable>
     {
-        private static final Log LOG = LogFactory.getLog(FileSplittingMapper.class);
+        private static final Log LOG = LogFactory.getLog(LocalGreedyDeDuplicationMapper.class);
 
         @Override
         public void map(LongWritable key, Text value, Context context)
@@ -96,34 +97,28 @@ public class Phase3Step4GreedyClustering
             // split value into lines
             List<String> lines = Arrays.asList(value.toString().split("\n"));
 
-            // now we split into chunks of max 1000 lines and process
-//            List<List<String>> partitions = Lists.partition(lines, CLUSTER_PARTITION_SIZE);
-//            LOG.info("Read " + lines.size() + " lines, splitting into " + partitions.size()
-//                    + " partitions.");
-//            for (int i = 0; i < partitions.size(); i++ ) {
-//                List<String> partition = partitions.get(i);
-//                LOG.info("Computing partition " + (i + 1) + "/" + partitions.size());
-//                Set<String> toDelete = ParallelDocumentDeDuplication.selectIDsToDelete(partition);
-                Set<String> toDelete = ParallelDocumentDeDuplication.selectIDsToDelete(lines);
+            Set<String> toDelete = ParallelDocumentDeDuplication.selectIDsToDelete(lines);
 
-                for (String id : toDelete) {
-                    context.write(new Text(id), NullWritable.get());
-                }
-//            }
+            LOG.info("Found " + toDelete.size() + " near-duplicate entries for deletion");
+
+            for (String id : toDelete) {
+                context.write(new Text(id), NullWritable.get());
+            }
         }
 
     }
 
-    /*
-    public static class GreedyDeDuplicationReducer
+    /**
+     * Only write the key to the output (the id to be deleted)
+     */
+    public static class IDCollectorReducer
             extends Reducer<Text, NullWritable, Text, NullWritable>
     {
-        @Override
-        protected void reduce(Text key, Iterable<NullWritable> values, Context context)
+        @Override protected void reduce(Text key, Iterable<NullWritable> values,
+                Context context)
                 throws IOException, InterruptedException
         {
             context.write(key, NullWritable.get());
         }
     }
-    */
 }
