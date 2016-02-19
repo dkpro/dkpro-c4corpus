@@ -4,10 +4,12 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * Modified version of {@link DocumentDeDuplication} that can be called from a Map/Reduce
- * program
- * <p/>
- * (c) 2016 Ivan Habernal
+ * Duplicates and Near duplicates removal using SimHash and Hamming distance.
+ * Part of this implementation is following the steps & theory described here:
+ * https://moz.com/devblog/near-duplicate-detection/
+ *
+ * @author Omnia Zayed
+ * @author Ivan Habernal
  */
 public class ParallelDocumentDeDuplication
 {

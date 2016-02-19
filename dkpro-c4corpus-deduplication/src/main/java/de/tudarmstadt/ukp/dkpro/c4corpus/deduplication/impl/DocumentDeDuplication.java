@@ -32,6 +32,7 @@ import java.util.*;
  * @author Omnia Zayed
  * @author Ivan Habernal
  */
+@Deprecated // remove later, core functionality moved to ParallelDocumentDeDuplication
 public class DocumentDeDuplication
         implements DeDuplication
 {
