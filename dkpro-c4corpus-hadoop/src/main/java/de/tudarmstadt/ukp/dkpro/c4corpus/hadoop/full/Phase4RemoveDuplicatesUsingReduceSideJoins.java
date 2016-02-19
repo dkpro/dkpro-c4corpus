@@ -21,6 +21,8 @@ import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io.WARCInputFormat;
 import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io.WARCOutputFormat;
 import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io.WARCRecord;
 import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io.WARCWritable;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.*;
@@ -182,28 +184,30 @@ public class Phase4RemoveDuplicatesUsingReduceSideJoins
     public static class JoinReducer
             extends Reducer<CompositeKey, WARCWritable, NullWritable, WARCWritable>
     {
+        private static final Log LOG = LogFactory.getLog(JoinReducer.class);
 
         @Override
         protected void reduce(CompositeKey key, Iterable<WARCWritable> values, Context context)
                 throws IOException, InterruptedException
         {
-
-            //            System.out.println("Reducer");
-
             List<WARCWritable> documents = new ArrayList<WARCWritable>();
 
             for (WARCWritable v : values) {
-                //                System.out.println(v.getRecord().getHeader().getRecordID() + "\t" + new String(v.getRecord().getContent()));
                 documents.add(new WARCWritable(v.getRecord()));
             }
-            //means that no deletion will occure
+
+            WARCWritable warcWritable = documents.get(0);
+
+            // means that no deletion will occur
             if (documents.size() == 1) {
-                context.write(NullWritable.get(), documents.get(0));
-                //                System.out.println("I will keep this file: " + documents.get(0).getRecord().getHeader().getRecordID());
+                context.write(NullWritable.get(), warcWritable);
+                LOG.info("Keeping document " + warcWritable.getRecord().getHeader().getRecordID()
+                        + " in collection");
             }
-            //            else{
-            //                System.out.println("I will delete this file: " + documents.get(0).getRecord().getHeader().getRecordID());
-            //            }
+            else {
+                LOG.info("Removing document " + warcWritable.getRecord().getHeader().getRecordID()
+                        + " in collection");
+            }
         }
     }
 }
