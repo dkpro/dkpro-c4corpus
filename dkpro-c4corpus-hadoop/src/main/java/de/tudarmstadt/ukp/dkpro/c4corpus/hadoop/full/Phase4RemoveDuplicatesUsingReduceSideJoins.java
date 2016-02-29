@@ -21,8 +21,6 @@ import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io.WARCInputFormat;
 import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io.WARCOutputFormat;
 import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io.WARCRecord;
 import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io.WARCWritable;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.*;
@@ -45,10 +43,14 @@ import java.util.List;
 
 /**
  * Delete warc records given a list of the files IDs to be deleted (Text File)
- * arg0 the txt file of IDs to be deleted arg1 is the original warc dataset,
+ * arg0 the txt file of IDs to be deleted arg1 is the original warc data set,
  * arg2 is the output
+ * <p/>
+ * Based on Reduce-Side Joins, see p. 270 in Tom White (2015) Hadoop: The Definitive
+ * Guide 4th Edition,
  *
  * @author Omnia Zayed
+ * @author Ivan Habernal
  */
 public class Phase4RemoveDuplicatesUsingReduceSideJoins
         extends Configured
@@ -59,16 +61,19 @@ public class Phase4RemoveDuplicatesUsingReduceSideJoins
     public int run(String[] args)
             throws Exception
     {
-
         Job job = Job.getInstance(getConf());
 
         job.setJarByClass(Phase4RemoveDuplicatesUsingReduceSideJoins.class);
         job.setJobName(Phase4RemoveDuplicatesUsingReduceSideJoins.class.getName());
 
         // paths
-        String textFilePath = args[0]; //text files of ids to be delteted
-        String commaSeparatedInputFiles = args[1]; //corpora
+        // text files of ids to be deleted
+        String textFilePath = args[0];
+        // corpus with *.warc.gz
+        String commaSeparatedInputFiles = args[1];
+        // output
         String outputPath = args[2];
+
         //second input the look up text file
         MultipleInputs.addInputPath(job, new Path(textFilePath), TextInputFormat.class,
                 JoinTextMapper.class);
@@ -163,8 +168,12 @@ public class Phase4RemoveDuplicatesUsingReduceSideJoins
 
             CompositeKey compositeWARCKey = new CompositeKey();
             compositeWARCKey.setJoinKey(new Text(warcId));
-            //to determine order of sorting
+
+            // to determine order of sorting
             compositeWARCKey.setSourceIndex(new IntWritable(1));
+
+            // create a new dummy warc record to be merged in the reducer
+            // will indicate that this document should be removed as near duplicate
             DataInputStream stream = new DataInputStream(new ByteArrayInputStream(
                     ("WARC/1.0\r\n" + "WARC-Type: warcinfo\r\n"
                             + "WARC-Date: 2014-03-18T17:47:38Z\r\n" + "WARC-Record-ID: " + warcId
@@ -174,18 +183,15 @@ public class Phase4RemoveDuplicatesUsingReduceSideJoins
                             + "robots: classic\r\n" + "\r\n" + "\r\n" + "\r\n").getBytes("UTF-8")));
             WARCRecord record = new WARCRecord(stream);
 
-            WARCWritable emptyWARC = new WARCWritable(record);
+            WARCWritable dummyWARC = new WARCWritable(record);
 
-            context.write(compositeWARCKey, emptyWARC);
-            //            System.out.println(compositeWARCKey.getJoinKey().toString() + "\t" + emptyWARC.getRecord());
+            context.write(compositeWARCKey, dummyWARC);
         }
     }
 
     public static class JoinReducer
             extends Reducer<CompositeKey, WARCWritable, NullWritable, WARCWritable>
     {
-        private static final Log LOG = LogFactory.getLog(JoinReducer.class);
-
         @Override
         protected void reduce(CompositeKey key, Iterable<WARCWritable> values, Context context)
                 throws IOException, InterruptedException
@@ -196,17 +202,15 @@ public class Phase4RemoveDuplicatesUsingReduceSideJoins
                 documents.add(new WARCWritable(v.getRecord()));
             }
 
+            // get the first document, this is the "true" document (while the rest are the
+            // dummy ones created for this side join)
             WARCWritable warcWritable = documents.get(0);
 
-            // means that no deletion will occur
-            if (documents.size() == 1) {
+            // means that no deletion will occur = documents will be written to the output
+            // only for "real" documents
+            if (documents.size() == 1 && warcWritable.getRecord().getHeader().getField(
+                    WARCRecord.WARCRecordFieldConstants.LANGUAGE) != null) {
                 context.write(NullWritable.get(), warcWritable);
-                LOG.info("Keeping document " + warcWritable.getRecord().getHeader().getRecordID()
-                        + " in collection");
-            }
-            else {
-                LOG.info("Removing document " + warcWritable.getRecord().getHeader().getRecordID()
-                        + " in collection");
             }
         }
     }
