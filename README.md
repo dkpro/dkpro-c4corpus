@@ -2,13 +2,13 @@
 
 NOTE: work in progress until 1.0.0 release
 
-## Requirements
+## C4CorpusTools Developer's Guide
 
 * Java 1.6 is required for compiling and running the project
 * For running the Hadoop pipeline, Hadoop 2.6 is recommended
     * Running the pipeline on CommonCrawl located at S3 requires and active Amazon Web Services (AWS) account 
 
-## Project structure
+### Project structure
 
 * ``dkpro-c4corpus-boilerplate`` contains a Java implementation of a state-of-the-art boilerplate removal (JusText, Pomikalek, 2011) 
 * ``dkpro-c4corpus-deduplication`` implements near-duplicate content detection based on SimHash
@@ -18,14 +18,14 @@ NOTE: work in progress until 1.0.0 release
 
 Except ``dkpro-c4corpus-hadoop`` the modules are independent of each other and can run locally without Hadoop.
 
-## Packaging
+### Packaging
 
 ``$mvn package``
 
 Will produce a _fat_ jar ``dkpro-c4corpus-hadoop-1.0.0.jar`` in ``de.tudarmstadt.ukp.dkpro.c4corpus.hadoop/target/``
 
 
-## Run the whole pipeline on CommonCrawl corpus 
+### Run the whole pipeline on CommonCrawl corpus 
 (dont copy paste the commands directly to the console, remove the line breaks & indentation first)
 
 ### Phase 1: all components 
@@ -78,6 +78,158 @@ The class to be used is: de.tudarmstadt.aiphes.c4corpus.c4corpustools.deduplicat
 the method to be used is: selectIDsToDelete
 Arguments: args[0]: input directory name (from step 5), args[1]: output directory name
 
+## C4Corpus User's Guide
+
+If you don't plan to run the processing by yourself but only want to access the final C4Corpus.
+Permission to access the C4Corpus is limited only to Amazon Web Services (AWS) accounts.
+If you don't have an AWS account, you can create one using Free Tier (free for a year),
+see http://aws.amazon.com/ .
+This should be sufficient for accessing the C4Corpus as well as for simple processing.
+AWS Free Tier does not apply for AWS Elastic Map Reduce (Hadoop).
+You will find all details for the steps below in the official AWS Documentation (docs.aws.amazon.com/).
+
+
+### How to access C4Corpus at S3
+
+The following steps were tested on a clean AWS account with Free Tier.
+
+#### 1. Launch your instance at Amazon EC2
+
+* Pick _"US East (N. Virginia)"_ region (``us-east-1```), CommonCrawl and C4Corpus are located here
+* You can run FreeTier server, the following was tested with Ubuntu 14.04 LTS as FreeTier (```t2.micro```)
+    * Read Amazon EC2 Documentation for details about instance launching, access, etc.
+    * Remember that you just launched a publicly accessible server, so make sure it's up-to-date and secure; again, refer to AWS Docs
+* Connect to your machine using SSH (you have to use your private ```*.pem``` key which you can only download when launching the instance)
+
+#### 2. Install required software for command-line access to AWS (including S3)
+
+    ubuntu@ip-172-31-50-43:~$ sudo apt-get install awscli
+
+#### 3. Configure AWS access
+
+* You need two keys: _AWS Access Key ID_ and _AWS Secret Access Key_:
+    * You'll find it under Security Credential settings for your AWS Account at https://console.aws.amazon.com/iam/home?region=us-east-1#security_credential
+    under _"Access Keys (Access Key ID and Secret Access Key)"_
+* Create a new access key and **keep it safe**, because you cannot retrieve the Secret Key later again
+
+```
+ubuntu@ip-172-31-50-43:~$ aws configure
+AWS Access Key ID [None]: AKIAIHV............
+AWS Secret Access Key [None]: 84uPPc...................................
+Default region name [None]: us-east-1
+Default output format [None]:
+```
+
+#### 4. Test accessing the CommonCrawl
+
+```
+ubuntu@ip-172-31-50-43:~$ aws s3 ls s3://aws-publicdatasets/common-crawl/crawl-data/CC-MAIN-2015-18/
+                           PRE segments/
+2015-05-27 01:37:59       1366 segment.paths.gz
+2015-05-27 01:37:59     121379 warc.paths.gz
+2015-05-27 01:38:00     120377 wat.paths.gz
+2015-05-27 01:38:00     120377 wet.paths.gz
+```
+
+#### 5. Test accessing C4Corpus
+
+This is the complete folder with all steps performed by preprocessing
+
+```
+ubuntu@ip-172-31-50-43:~$ aws s3 ls s3://ukp-research-data/c4corpus/
+                           PRE cc-phase1out-2015-11/
+                           PRE cc-phase2out-2015-11/
+                           PRE cc-phase3step1out-2015-11/
+                           PRE cc-phase3step2out-2015-11/
+                           PRE cc-phase3step3out-2015-11/
+                           PRE cc-phase3step4out-2015-11/
+                           PRE cc-phase4out-2015-11/
+```
+
+
+Part of the final C4Corpus
+
+FIXME update to the final location
+
+```
+ubuntu@ip-172-31-50-43:~$ aws s3 ls s3://ukp-research-data/c4corpus/cc-phase1out-2015-11/ | head
+2016-02-02 13:09:48          0 
+2016-02-02 13:10:39      47852 Lic_by-nc-nd_Lang_af_NoBoilerplate_true-r-00585.seg-00000.warc.gz
+2016-02-02 13:10:39    5345561 Lic_by-nc-nd_Lang_ar_NoBoilerplate_true-r-00179.seg-00000.warc.gz
+2016-02-02 13:10:39    4707924 Lic_by-nc-nd_Lang_bg_NoBoilerplate_true-r-00143.seg-00000.warc.gz
+2016-02-02 13:10:39     420970 Lic_by-nc-nd_Lang_bn_NoBoilerplate_true-r-00387.seg-00000.warc.gz
+2016-02-02 13:10:39    6008314 Lic_by-nc-nd_Lang_cs_NoBoilerplate_true-r-00130.seg-00000.warc.gz
+2016-02-02 13:10:39    1471382 Lic_by-nc-nd_Lang_da_NoBoilerplate_true-r-00171.seg-00000.warc.gz
+2016-02-02 13:10:39  110294744 Lic_by-nc-nd_Lang_de_NoBoilerplate_true-r-00356.seg-00000.warc.gz
+2016-02-02 13:11:05    4446993 Lic_by-nc-nd_Lang_el_NoBoilerplate_true-r-00352.seg-00000.warc.gz
+2016-02-02 13:10:41 1000039131 Lic_by-nc-nd_Lang_en_NoBoilerplate_true-r-00284.seg-00000.warc.gz
+```
+
+
+#### 6. Download sample data
+
+FIXME update to the final location
+
+```
+ubuntu@ip-172-31-50-43:~$ aws s3 cp s3://ukp-research-data/c4corpus/cc-phase1out-2015-11/Lic_by-nc-nd_Lang_cs_NoBoilerplate_true-r-00130.seg-00000.warc.gz .
+download: s3://ukp-research-data/c4corpus/cc-phase1out-2015-11/Lic_by-nc-nd_Lang_cs_NoBoilerplate_true-r-00130.seg-00000.warc.gz to ./Lic_by-nc-nd_Lang_cs_NoBoilerplate_true-r-00130.seg-00000.warc.gz
+ubuntu@ip-172-31-50-43:~$ ls -htr | tail -1
+Lic_by-nc-nd_Lang_cs_NoBoilerplate_true-r-00130.seg-00000.warc.gz
+```
+
+* and that's it! :)
+
+#### 7. Accessing the final output of the C4Corpus Tools preprocessing
+
+The final C4Corpus is located at ```s3://ukp-research-data/c4corpus/cc-final-2015-11/``` with the following file naming
+
+```
+Lic_LICENSE_Lang_LANGUAGE_NoBoilerplate_BOOLEAN-r-00284.seg-00000.warc.gz
+```
+
+For example
+
+```
+Lic_by-nc-nd_Lang_en_NoBoilerplate_true-r-00284.seg-00000.warc.gz
+```
+
+* ```aws s3``` command doesn't support wild characters, so the following command returns an empty output
+
+```
+ubuntu@ip-172-31-50-43:~$ aws s3 ls s3://ukp-research-data/c4corpus/cc-phase1out-2015-11/Lic_by-nc_*.warc.gz
+ubuntu@ip-172-31-50-43:~$ 
+```
+
+* You have to grep the output from ```aws s3 ls`` to get a list of files with a certain language or license, for example
+
+```
+ubuntu@ip-172-31-50-43:~$ aws s3 ls s3://ukp-research-data/c4corpus/cc-phase1out-2015-11/ \
+| grep "Lic_by-nc-nd_Lang_en"
+2016-02-02 13:10:41 1000039131 Lic_by-nc-nd_Lang_en_NoBoilerplate_true-r-00284.seg-00000.warc.gz
+2016-02-02 13:10:52 1000026370 Lic_by-nc-nd_Lang_en_NoBoilerplate_true-r-00284.seg-00001.warc.gz
+2016-02-02 13:11:11 1000035397 Lic_by-nc-nd_Lang_en_NoBoilerplate_true-r-00284.seg-00002.warc.gz
+2016-02-02 13:11:32 1000040643 Lic_by-nc-nd_Lang_en_NoBoilerplate_true-r-00284.seg-00003.warc.gz
+2016-02-02 13:11:53 1000019635 Lic_by-nc-nd_Lang_en_NoBoilerplate_true-r-00284.seg-00004.warc.gz
+2016-02-02 13:12:12  435304263 Lic_by-nc-nd_Lang_en_NoBoilerplate_true-r-00284.seg-00005.warc.gz
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Clean this
 
 ## Collecting word distribution statistics
 
