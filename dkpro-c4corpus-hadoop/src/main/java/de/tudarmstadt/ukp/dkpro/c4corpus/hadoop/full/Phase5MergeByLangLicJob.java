@@ -49,7 +49,7 @@ public class Phase5MergeByLangLicJob
     {
         Job job = Job.getInstance(getConf());
         //set from the command line
-        ConfigurationHelper.configureJob(job, Phase1FullJob.class, SimpleMapper.class,
+        ConfigurationHelper.configureJob(job, Phase5MergeByLangLicJob.class, SimpleMapper.class,
                 WARCWriterReducerClass.class, args[0], args[1]);
 
         return job.waitForCompletion(true) ? 0 : 1;
