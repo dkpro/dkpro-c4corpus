@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package de.tudarmstadt.aiphes.c4corpus.hadoop;
+package de.tudarmstadt.ukp.dkpro.c4corpus.hadoop;
 
 import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io.WARCRecord;
 import org.junit.Ignore;
