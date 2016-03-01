@@ -110,7 +110,7 @@ The following steps were tested on a clean AWS account with Free Tier.
 * You need two keys: _AWS Access Key ID_ and _AWS Secret Access Key_:
     * You'll find it under Security Credential settings for your AWS Account at https://console.aws.amazon.com/iam/home?region=us-east-1#security_credential
     under _"Access Keys (Access Key ID and Secret Access Key)"_. Details are provided in the
-    [documentation][http://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSGettingStartedGuide/AWSCredentials.html]
+    [documentation](http://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSGettingStartedGuide/AWSCredentials.html)
 * Create a new access key and **keep it safe**, because you cannot retrieve the Secret Key later again
 
 ```
