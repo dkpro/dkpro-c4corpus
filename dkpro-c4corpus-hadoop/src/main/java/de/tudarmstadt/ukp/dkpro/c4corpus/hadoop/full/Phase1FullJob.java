@@ -63,25 +63,10 @@ public class Phase1FullJob
     public int run(String[] args)
             throws Exception
     {
-        //        Configuration conf = new Configuration();
-        //        //allocte memory (no need to allocate more memory)
-        //        conf.setInt("mapreduce.map.memory.mb", 5120);
-        //        conf.set("mapreduce.map.java.opts", "-Xmx4280m");
-        //        conf.setInt("mapreduce.reduce.memory.mb", 5120);
-        //        conf.set("mapreduce.reduce.java.opts", "-Xmx4096m");
-        //        //disable timeout for testing perposes
-        //        //no need to disable the timeout any more
-        //        //I did it as > 50% of maps were failing due to boilerplate long running time
-        //        //the map neither reads an input, writes an output, nor updates its status string
-        //        conf.setInt("mapreduce.task.timeout", 0); //12600,000 millisecond = 3.5 hrs
-        //        //check mapreduce.job.heap.memory-mb.ratio=0.8
         Job job = Job.getInstance(getConf());
         //set from the command line
-        //        job.getConfiguration().set("mapreduce.job.queuename", "longrunning");
-        ConfigurationHelper
-                .configureJob(job, Phase1FullJob.class, MapperClass.class,
-                        WARCWriterReducerClass.class,
-                        args[0], args[1]);
+        ConfigurationHelper.configureJob(job, Phase1FullJob.class, MapperClass.class,
+                WARCWriterReducerClass.class, args[0], args[1]);
 
         return job.waitForCompletion(true) ? 0 : 1;
     }
@@ -174,14 +159,14 @@ public class Phase1FullJob
 
             if (!plainText.isEmpty()) {
 
-                //keeping the location and ID of the original file in HDFS
+                // keeping the location and ID of the original file in HDFS
                 FileSplit inputSplit = (FileSplit) context.getInputSplit();
-                //add the while HDFS/AWS path to the register key, 
-                //if u want only the .gz name add .getName()
-                String mapInputFileName = inputSplit.getPath().toString();
+                // add the while HDFS/AWS path to the register key,
+                // if u want only the .gz name add .getName()
+                final String mapInputFileName = inputSplit.getPath().toString();
 
                 //Language Detection
-                String language = langD.identifyLanguage(plainText);
+                final String language = langD.identifyLanguage(plainText);
 
                 // compute simhash
                 long docSimHash = ParallelDocumentDeDuplication.getSimHash(plainText);
@@ -221,9 +206,8 @@ public class Phase1FullJob
                 }
 
                 // create prefix as a key
-                context.write(new Text(WARCWriterReducerClass
-                                .createOutputFilePrefix(license, language, noBoilerplate, binNumber)),
-                        value);
+                context.write(new Text(WARCWriterReducerClass.createOutputFilePrefix(license,
+                        language, noBoilerplate, binNumber)), value);
 
                 // collect some stats to logs
                 recordCounter++;

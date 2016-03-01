@@ -20,6 +20,8 @@ package de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.standalone;
 
 import de.tudarmstadt.ukp.dkpro.c4corpus.boilerplate.BoilerPlateRemoval;
 import de.tudarmstadt.ukp.dkpro.c4corpus.boilerplate.impl.JusTextBoilerplateRemoval;
+import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.CharsetDetector;
+import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.impl.ICUCharsetDetectorWrapper;
 import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io.WARCFileWriter;
 import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io.WARCRecord;
 import org.apache.hadoop.conf.Configuration;
@@ -27,6 +29,7 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.compress.CompressionCodec;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.util.Locale;
 
 /**
@@ -72,34 +75,32 @@ public class WarcBoilerplateRemoval
         WARCFileWriter warcFileWriter = new WARCFileWriter(conf, codec,
                 outputPath);
 
+        // detecting the correct charset
+        final CharsetDetector charsetDetector = new ICUCharsetDetectorWrapper();
+
         while (true) {
             try {
                 //Reads the next record from the file.
                 WARCRecord wc = new WARCRecord(dataStream);
 
-                WARCRecord.Header header = wc.getHeader();
-                byte[] content = wc.getContent();
+                // detect charset
+                byte[] bytes = wc.getContent();
+                Charset charset = charsetDetector.detectCharset(bytes);
 
-                //                System.out.println(header.getContentType());
-                //                System.out.println(header.getRecordID());
+                String html = new String(bytes, charset);
 
-                String html = new String(content, "utf-8");
+                // strip HTTP header
+                html = html.substring(html.indexOf("\r\n\r\n") + 4);
 
-                //Boilerplate removal
-                //                System.out.println("Start Boilerplate");
                 String plainText = boilerPlateRemoval.getPlainText(html, null);
 
                 counter++;
-                //                System.out.println("Time taken to process this document in millis: "
-                //                        + String.valueOf(System.currentTimeMillis() - documentStartTime));
                 if (counter % 100 == 0) {
                     System.out.printf(Locale.ENGLISH, "~%.1f entries per second%n",
                             counter * 1000f / (double) (System.currentTimeMillis() - startTime));
                     System.out.printf(Locale.ENGLISH, "%d records processed%n", recordsRead);
                 }
 
-                // full licence detection = 2 entries per second
-                // without licence detection = 1324.718956 entries per second
                 recordsRead++;
 
                 // create copy of WarcRecord
@@ -128,7 +129,9 @@ public class WarcBoilerplateRemoval
         // delete .crc file
         File crcFile = new File(actualOutputFile.getParentFile(),
                 "." + actualOutputFile.getName() + ".crc");
-        crcFile.delete();
+        if (!crcFile.delete()) {
+            throw new IOException(crcFile + " was not deleted");
+        }
 
         System.out.printf(Locale.ENGLISH, "%d records written to %s, total time %f%n",
                 recordsRead, outFile.getName(),
