@@ -35,7 +35,6 @@ import java.io.PrintWriter;
  */
 public class HTMLBoilerplateRemoval
 {
-
     private static final BoilerPlateRemoval boilerPlateRemoval = new JusTextBoilerplateRemoval();
 
     public static void main(String[] args)
@@ -51,22 +50,22 @@ public class HTMLBoilerplateRemoval
     public static void processHtmlFile(File input, File outFile, boolean keepMinimalHtml)
             throws IOException
     {
-        //read the html file
+        // read the html file
         String html = FileUtils.readFileToString(input, "utf-8");
-        //boilerplate removal
-        String cleanText = "";
+
+        // boilerplate removal
+        String cleanText;
         if (keepMinimalHtml) {
             cleanText = boilerPlateRemoval.getMinimalHtml(html, null);
         }
         else {
             cleanText = boilerPlateRemoval.getPlainText(html, null);
         }
-        //write to the output file
+
+        // write to the output file
         PrintWriter writer = new PrintWriter(outFile, "utf-8");
         writer.write(cleanText);
 
         writer.close();
-
     }
-
 }

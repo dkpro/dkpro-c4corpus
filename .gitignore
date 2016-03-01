@@ -1,6 +1,4 @@
-**/*.class
 # Package Files #
-*.jar
 *.war
 *.ear
 target
@@ -18,4 +16,5 @@ hs_err_pid*
 *.iws
 **/*.iml
 /dkpro-c4corpus-hadoop/dependency-reduced-pom.xml
+/dkpro-c4corpus-boilerplate/dependency-reduced-pom.xml
 

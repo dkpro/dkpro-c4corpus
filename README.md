@@ -214,6 +214,64 @@ ubuntu@ip-172-31-50-43:~$ aws s3 ls s3://ukp-research-data/c4corpus/cc-phase1out
 2016-02-02 13:12:12  435304263 Lic_by-nc-nd_Lang_en_NoBoilerplate_true-r-00284.seg-00005.warc.gz
 ```
 
+### Running boilerplate removal outside Hadoop
+
+You can remove boilerplate from HTML pages locally.
+
+* Package the module ```dkpro-c4corpus-boilerplate```
+
+    ```
+    $ cd dkpro-c4corpus-boilerplate/
+    $ mvn package
+    ```
+* Test some example page from BBC
+    ```
+    $ wget http://www.bbc.com/news/election-us-2016-35694116 -O /tmp/input.html -o /dev/null
+    $ head /tmp/input.html 
+    <!DOCTYPE html>
+    <html lang="en" id="responsive-news" prefix="og: http://ogp.me/ns#">
+    <head >
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>US election 2016: Super Tuesday to test candidates - BBC News</title>
+        <meta name="description" content="Candidates bidding for their party's ticket in the November US presidential election face their biggest test yet in the so-called Super Tuesday primaries.">
+    
+        <link rel="dns-prefetch" href="https://ssl.bbc.co.uk/">
+        <link rel="dns-prefetch" href="http://sa.bbc.co.uk/">
+    ```
+* There are two options for boilerplate removal
+    * Keep only plain text  
+    
+    ```
+    $ java -jar target/dkpro-c4corpus-boilerplate-1.0.0.jar /tmp/input.html /tmp/output-plain.html false
+    $ head /tmp/output-plain.html 
+    Senator Ted Cruz cannot afford to lose to Mr Trump in Texas, Mr Cruz's home state, while a reverse for Mr Trump in Massachusetts, with its moderate voters, could break the property tycoon's nationwide momentum.
+    Mrs Clinton is hoping to build on her weekend victory in South Carolina, where she polled heavily among African-Americans, to restore her political fortunes after a bruising defeat in New Hampshire to Bernie Sanders, her self-styled democratic socialist rival.
+    On 8 November, America is due to elect a successor to Barack Obama, a Democratic president standing down after two terms in office which have seen the Republicans take control of both houses of Congress.
+    Opinion polls give Mr Trump a lead in almost all of the 11 states holding Republican contests on Tuesday: Alabama, Arkansas, Georgia, Massachusetts, Oklahoma, Tennessee, Texas, Vermont, Virginia, Alaska and Minnesota.
+    The colourful campaign of the billionaire, who won three of the four early voting states, has divided Republicans.
+    He said he was "frustrated and saddened" and would look for a third option if Mr Trump won the Republican nomination.
+    Marco Rubio, the third-placed Republican contender after Mr Trump and Mr Cruz, is hoping to stay competitive, gambling on a win in his home state of Florida on 15 March.
+    Image copyright Reuters
+    Image caption Donald Trump autographs the back of a supporter's hand in Valdosta, Georgia, on Monday
+    Image copyright AP
+    ```
+    * Keep also a minimal HTML tags for paragraphs, spans, headers, etc.
+    
+    ```
+    $ java -jar target/dkpro-c4corpus-boilerplate-1.0.0.jar /tmp/input.html /tmp/output-minimal.html true
+    $ head /tmp/output-minimal.html 
+    <p>Senator Ted Cruz cannot afford to lose to Mr Trump in Texas, Mr Cruz's home state, while a reverse for Mr Trump in Massachusetts, with its moderate voters, could break the property tycoon's nationwide momentum.</p>
+    <p>Mrs Clinton is hoping to build on her weekend victory in South Carolina, where she polled heavily among African-Americans, to restore her political fortunes after a bruising defeat in New Hampshire to Bernie Sanders, her self-styled democratic socialist rival.</p>
+    <p>On 8 November, America is due to elect a successor to Barack Obama, a Democratic president standing down after two terms in office which have seen the Republicans take control of both houses of Congress.</p>
+    <p>Opinion polls give Mr Trump a lead in almost all of the 11 states holding Republican contests on Tuesday: Alabama, Arkansas, Georgia, Massachusetts, Oklahoma, Tennessee, Texas, Vermont, Virginia, Alaska and Minnesota.</p>
+    <p>The colourful campaign of the billionaire, who won three of the four early voting states, has divided Republicans.</p>
+    <p>He said he was "frustrated and saddened" and would look for a third option if Mr Trump won the Republican nomination.</p>
+    <p>Marco Rubio, the third-placed Republican contender after Mr Trump and Mr Cruz, is hoping to stay competitive, gambling on a win in his home state of Florida on 15 March.</p>
+    <p>Image copyright Reuters</p>
+    <span>Image caption Donald Trump autographs the back of a supporter's hand in Valdosta, Georgia, on Monday</span>
+    <p>Image copyright AP</p>
+    ```
 
 
 
@@ -226,11 +284,7 @@ ubuntu@ip-172-31-50-43:~$ aws s3 ls s3://ukp-research-data/c4corpus/cc-phase1out
 
 
 
-
-
-
-
-## Clean this
+## OBSOLETE, CLEAN
 
 ## Collecting word distribution statistics
 
