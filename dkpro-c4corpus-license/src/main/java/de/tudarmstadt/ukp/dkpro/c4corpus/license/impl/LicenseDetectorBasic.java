@@ -77,8 +77,5 @@ public class LicenseDetectorBasic
 
         // if multiple different links found, we return a general CC-UNSPECIFIED
         return CC_UNSPECIFIED;
-
-        // TODO we can also return the most frequent one
-
     }
 }

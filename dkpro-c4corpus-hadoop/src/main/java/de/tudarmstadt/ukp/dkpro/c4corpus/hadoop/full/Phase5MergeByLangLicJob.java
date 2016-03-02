@@ -21,7 +21,6 @@ package de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.full;
 import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.ConfigurationHelper;
 import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io.WARCRecord;
 import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io.WARCWritable;
-import de.tudarmstadt.ukp.dkpro.c4corpus.license.LicenseDetector;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
@@ -48,7 +47,7 @@ public class Phase5MergeByLangLicJob
             throws Exception
     {
         Job job = Job.getInstance(getConf());
-        //set from the command line
+        // set from the command line
         ConfigurationHelper.configureJob(job, Phase5MergeByLangLicJob.class, SimpleMapper.class,
                 WARCWriterReducerClass.class, args[0], args[1]);
 
@@ -86,18 +85,24 @@ public class Phase5MergeByLangLicJob
             }
 
             String docSimHash = header.getField(WARCRecord.WARCRecordFieldConstants.SIMHASH);
-
-            // bottleneck of single reducer for all "Lic_none_Lang_en" pages (majority of Web)
-            int binNumber = 0;
-            if ("en".equals(language) && LicenseDetector.NO_LICENCE.equals(license)) {
-                // get the last two digits from the simhash
-                binNumber = WARCWriterReducerClass
-                        .getBinNumberFromSimHash(Long.valueOf(docSimHash));
+            if (docSimHash == null) {
+                throw new NullPointerException(
+                        "Field " + WARCRecord.WARCRecordFieldConstants.SIMHASH
+                                + " is null. Header: " + header);
             }
 
-            context.write(new Text(WARCWriterReducerClass.createOutputFilePrefix(license, language,
-                    header.getField(WARCRecord.WARCRecordFieldConstants.NO_BOILERPLATE),
-                    binNumber)), value);
+            // fixing previously wrong association in Phase 1 of original location and register
+            String originalLocation = header
+                    .getField(WARCRecord.WARCRecordFieldConstants.ORIGINAL_LOCATION);
+            String register = header.getField(WARCRecord.WARCRecordFieldConstants.REGISTER);
+            if (originalLocation == null && register != null) {
+                // swap
+                header.setField(WARCRecord.WARCRecordFieldConstants.ORIGINAL_LOCATION, register);
+                header.setField(WARCRecord.WARCRecordFieldConstants.REGISTER, null);
+            }
+
+            // submit to reducers by language
+            context.write(new Text(language), value);
         }
     }
 }

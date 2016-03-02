@@ -29,9 +29,10 @@ import java.util.Locale;
 import java.util.Set;
 
 /**
- * Some helper functions
+ * Some helper functions for cleaning web text
  *
  * @author Omnia Zayed
+ * @author Ivan Habernal
  */
 public class Utils
 {
@@ -41,35 +42,17 @@ public class Utils
      * at least one new line character chunk is replaced by single LF (Unix new
      * line) character.
      *
-     * @param text
-     * @return
+     * @param text text
+     * @return normalized text
      */
     public static String normalizeBreaks(String text)
     {
-
-//        text = text.replaceAll("(\r\n|\r)", "\n");
-//        //remove multiple white spaces but keep new lines
-//        text = text.replaceAll("(?:(?![\n])\\s+)", " "); // or [\\s+&&[^\n])]
-        //replace extra <br> (sometimes the paragraph contains <br><br>, 
+        //replace extra <br> (sometimes the paragraph contains <br><br>,
         //the first one will be use as new paragraph marker but the second 
         //one must be removed)
         text = text.replaceAll("<br>", ""); // or [\\s+&&[^\n])]
 
         return text;
-    }
-
-    /**
-     * Returns `True` if string contains only white-space characters or is
-     * empty. Otherwise `False` is returned.
-     *
-     * @param text
-     * @return
-     */
-    // TODO remove
-    public static boolean is_blank(String text)
-    {
-
-        return (text.isEmpty() || text.matches("\\s+"));
     }
 
     /**

@@ -42,15 +42,15 @@ import java.io.IOException;
 public class ConfigurationHelper
 {
     /**
-     * Job configurator TODO javadoc
+     * Job configurator
      *
-     * @param job
-     * @param jarByClass
-     * @param mapperClass
-     * @param reducerClass
-     * @param commaSeparatedInputFiles
-     * @param outputPath
-     * @throws IOException
+     * @param job                      job instance
+     * @param jarByClass               class of the jar
+     * @param mapperClass              mapper
+     * @param reducerClass             reducer
+     * @param commaSeparatedInputFiles input paths
+     * @param outputPath               output
+     * @throws IOException I/O exception
      */
     public static void configureJob(Job job, Class<?> jarByClass,
             Class<? extends Mapper> mapperClass, Class<? extends Reducer> reducerClass,

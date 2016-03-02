@@ -27,7 +27,8 @@ import java.util.Set;
  *
  * @author Omnia Zayed
  */
-public class SimHashUtils {
+public class SimHashUtils
+{
 
     static int HASH_LENGTH = 64;
     static int CHAR_GRAM_LENGTH = 7; //char n-gram shingle size
@@ -41,7 +42,8 @@ public class SimHashUtils {
      * @param text
      * @return
      */
-    public static Set<String> createCharGramsShingles(String text) {
+    public static Set<String> createCharGramsShingles(String text)
+    {
 
         Set<String> shingles = new HashSet<String>();
 
@@ -57,13 +59,12 @@ public class SimHashUtils {
     /**
      * hash each shingle in the given set using String.hashCode(). A different
      * hashing function could be used.
-     * <p>
-     * TODO: better to use SHA1 hashing to avoid collisions
      *
-     * @param shingles
-     * @return
+     * @param shingles list of shingles
+     * @return hash phrases
      */
-    public static Set<Integer> hash(Set<String> shingles) {
+    public static Set<Integer> hash(Set<String> shingles)
+    {
 
         Set<Integer> hashedShingles = new LinkedHashSet<Integer>();
 
@@ -83,7 +84,8 @@ public class SimHashUtils {
      * @param simHash2
      * @return
      */
-    public static int diffOfBits(long simHash1, long simHash2) {
+    public static int diffOfBits(long simHash1, long simHash2)
+    {
         long bits = simHash1 ^ simHash2;
         int count = 0;
         while (bits != 0) {
@@ -101,7 +103,8 @@ public class SimHashUtils {
      * @param docHash
      * @return
      */
-    public static Set<String> computeHashIndex(long docHash) {
+    public static Set<String> computeHashIndex(long docHash)
+    {
 
         //band index
         int bandIndex = 0;
@@ -133,7 +136,8 @@ public class SimHashUtils {
      * @param hashValues
      * @return
      */
-    public static long simHash(Set<Integer> hashValues) {
+    public static long simHash(Set<Integer> hashValues)
+    {
         int[] v = new int[HASH_LENGTH];
         long simhash = 0;
         //For each hash, for each bit i in this hash:
@@ -144,7 +148,8 @@ public class SimHashUtils {
                 boolean bitSet = ((hash >> i) & 1L) == 1L;
                 if (bitSet) {
                     v[i] += 1;
-                } else {
+                }
+                else {
                     v[i] -= 1;
                 }
             }

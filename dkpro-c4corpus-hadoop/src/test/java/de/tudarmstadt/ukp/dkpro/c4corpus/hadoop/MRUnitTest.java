@@ -34,6 +34,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Simple testing of M/R jobs locally. Remove later if not usefull.
+ *
  * @author Ivan Habernal
  */
 public class MRUnitTest

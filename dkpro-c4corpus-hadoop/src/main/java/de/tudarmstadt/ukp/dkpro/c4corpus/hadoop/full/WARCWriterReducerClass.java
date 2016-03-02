@@ -42,6 +42,11 @@ public class WARCWriterReducerClass
     /**
      * Returns prefix of the output warc file given the parameters; this method is also as a key
      * for distributing entries to reducers.
+     * <p/>
+     * The result has this format:
+     * {@code Lic_LICENSE_Lang_LANGUAGE_NoBoilerplate_BOOLEAN_Bin_BINNUMBER}
+     * or
+     * {@code Lic_LICENSE_Lang_LANGUAGE_NoBoilerplate_BOOLEAN} if binNumber is zero
      *
      * @param license       license
      * @param language      lang
@@ -67,8 +72,16 @@ public class WARCWriterReducerClass
                     "noBoilerplate is null/empty (val: '" + noBoilerplate + "')");
         }
 
-        return String.format(Locale.ENGLISH, "Lic_%s_Lang_%s_NoBoilerplate_%s_Bin_%02d",
+        String result = String.format(Locale.ENGLISH, "Lic_%s_Lang_%s_NoBoilerplate_%s_Bin_%02d",
                 license, language, noBoilerplate, binNumber);
+
+        // we ignore the bin numbering if binNumber == 0
+        if (binNumber == 0) {
+            result = String.format(Locale.ENGLISH, "Lic_%s_Lang_%s_NoBoilerplate_%s",
+                    license, language, noBoilerplate);
+        }
+
+        return result;
     }
 
     /**

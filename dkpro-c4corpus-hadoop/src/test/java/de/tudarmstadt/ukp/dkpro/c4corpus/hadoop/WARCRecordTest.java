@@ -19,7 +19,6 @@
 package de.tudarmstadt.ukp.dkpro.c4corpus.hadoop;
 
 import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io.WARCRecord;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
@@ -30,18 +29,16 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 /**
- * @author zayed
+ * @author Omnia Zayed
  */
-public class MartinklWARCRecordTest
+public class WARCRecordTest
 {
-    // FIXME ??
-    @Ignore
     @Test
     public void testParseWARCInfo()
             throws IOException
     {
         DataInputStream stream = new DataInputStream(
-                new ByteArrayInputStream(("WARC/1.0\n" + "WARC-Type: warcinfo\r\n"
+                new ByteArrayInputStream(("WARC/1.0\r\n" + "WARC-Type: warcinfo\r\n"
                         + "WARC-Date: 2014-03-18T17:47:38Z\r\n"
                         + "WARC-Record-ID: <urn:uuid:d9bbb325-c09f-473c-8600-1c9dbd4ec443>\r\n"
                         + "Content-Length: 371\r\n" + "Content-Type: application/warc-fields\r\n"
@@ -86,14 +83,13 @@ public class MartinklWARCRecordTest
 
         assertEquals("application/xhtml+xml", WARCRecord.extractHTTPHeaderContentType(httpHeaders));
 
-
         httpHeaders = "HTTP/1.1 200 OK\n"
                 + "Date: Sun, 05 Jul 2015 17:30:02 GMT\n"
                 + "Content-Type: application/wordperfect5.1;\n"
                 + "Server: Apache/2.2.29 (Unix) FrontPage/5.0.2.2635\n";
 
-        assertEquals("application/wordperfect5.1", WARCRecord.extractHTTPHeaderContentType(httpHeaders));
-
+        assertEquals("application/wordperfect5.1",
+                WARCRecord.extractHTTPHeaderContentType(httpHeaders));
 
     }
 

@@ -32,7 +32,7 @@ import java.util.List;
 
 /**
  * An output writer to write the DocumentInfo data structure to a machine readable file
- * TODO add description of the output format (example)
+ * The format is [docID;docLength;simHash;lang] for each document
  *
  * @author Omnia Zayed
  */
@@ -83,7 +83,7 @@ public class DocumentInfoOutputFormat
                 }
                 outStream.writeBytes(String.valueOf(value.getDocID()) + ";");
                 outStream.writeBytes(String.valueOf(value.getDocLength()) + ";");
-                outStream.writeBytes(String.valueOf(value.getDocSimHash())+ ";");
+                outStream.writeBytes(String.valueOf(value.getDocSimHash()) + ";");
                 outStream.writeBytes(String.valueOf(value.getDocLang()));
             }
             outStream.writeBytes("]\n");
