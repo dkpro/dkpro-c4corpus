@@ -518,13 +518,13 @@ public class WARCRecord
          * Sets the value of the field; only single-line values are allowed
          *
          * @param field field name
-         * @param value value
-         * @throws IOException if the field value contains new lines
+         * @param value value (can be null)
+         * @throws IOException if the field value is not null and contains new lines
          */
         public void setField(String field, String value)
                 throws IOException
         {
-            if (value.contains("\n") || value.contains("\r")) {
+            if (value != null && (value.contains("\n") || value.contains("\r"))) {
                 throw new IOException("Field value contains new lines");
             }
 
