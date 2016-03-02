@@ -150,11 +150,6 @@ public class Paragraph
         return this.getRawText().split("\\s+").length;
     }
 
-    // TODO unused
-    //    public boolean containsText() {
-    //        return !this.textNodes.isEmpty();
-    //    }
-
     public int stopwordsCount(Set<String> stopwords)
     {
         int count = 0;

@@ -30,8 +30,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Re-implementing the jusText python boilerplate removal algorithm (Pomikalek,
@@ -66,7 +64,7 @@ public class JusTextBoilerplateRemoval
     //To optimize getting next neighbours (when doing re-classification of short & near-good)
     static final int LOOP_THRESHOLD_OF_NEIGHBOURS = 10;
     // for storing stopwords (key = lang, value = stopword set); new languages are added on-demand
-    Map<Locale, Set<String>> lazyStopwordMap = new HashMap<Locale, Set<String>>();
+    Map<Locale, Set<String>> lazyStopwordMap = new HashMap<>();
 
     /**
      * covert html to a jsoup document
@@ -119,27 +117,6 @@ public class JusTextBoilerplateRemoval
     }
 
     /**
-     * remove HTTP header from the warc record in some corpora (e.g.
-     * CommonCrawl)
-     *
-     * @param htmlText
-     * @return
-     */
-    @Deprecated // handled in the job
-    public String removeHTTPHeaderFromWarc(String htmlText)
-    {
-        //multiline checking for an empty new line separator after the header
-        //if we would like to get http content-type use
-        //(?ms)HTTP\/1.*?(Content-Type: \w+\/\w+;).*?(^$\n)
-        Pattern httpHeaderPattern = Pattern.compile("(?ms)HTTP\\/1(.*?)(^$\n)");
-        Matcher httpHeaderMatcher = httpHeaderPattern.matcher(htmlText);
-        if (httpHeaderMatcher.find()) {
-            htmlText = httpHeaderMatcher.replaceFirst("");
-        }
-        return htmlText;
-    }
-
-    /**
      * Initialize the Paragraph explorer class in order to convert a document to
      * a list of blocks (paragraphs)
      *
@@ -166,14 +143,13 @@ public class JusTextBoilerplateRemoval
      * @param stopwordsLow
      * @param stopwordsHigh
      * @param maxLinkDensity
-     * @param noHeadings
      */
     public void classifyContextFree(List<Paragraph> paragraphs, Set<String> stoplist,
             double lengthLow, double lengthHigh, double stopwordsLow,
-            double stopwordsHigh, double maxLinkDensity, boolean noHeadings)
+            double stopwordsHigh, double maxLinkDensity)
     {
 
-        Set<String> stopListLower = new HashSet<String>();
+        Set<String> stopListLower = new HashSet<>();
         for (String word : stoplist) {
             stopListLower.add(word.toLowerCase().trim());
         }
@@ -317,6 +293,7 @@ public class JusTextBoilerplateRemoval
      * @param ignoreNeargood
      * @return
      */
+    @Deprecated // never used
     public String getPrevNeighbour(int i, List<Paragraph> paragraphs, boolean ignoreNeargood)
     {
 
@@ -348,6 +325,7 @@ public class JusTextBoilerplateRemoval
      * @param ignoreNeargood
      * @return
      */
+    @Deprecated // never used
     public String getNextNeighbour(int i, List<Paragraph> paragraphs, boolean ignoreNeargood)
     {
 
@@ -510,15 +488,12 @@ public class JusTextBoilerplateRemoval
             stopwordsLow = 0;
         }
 
-        //preprocessing
-        //        htmlText = removeHTTPHeaderFromWarc(htmlText);
-
         Document jSoupDoc = convertHtmlToDoc(htmlText);
         Document cleanJSoupDoc = cleanDom(jSoupDoc);
         LinkedList<Paragraph> paragraphs = makeParagraphs(cleanJSoupDoc);
         //context-free classification
         classifyContextFree(paragraphs, stopwordsSet, lengthLow, lengthHigh,
-                stopwordsLow, stopwordsHigh, maxLinkDensity, noHeadings);
+                stopwordsLow, stopwordsHigh, maxLinkDensity);
         //context-sensitive classification.
         reclassifyContextSensitive(paragraphs, maxHeadingDistance);
 
@@ -543,7 +518,7 @@ public class JusTextBoilerplateRemoval
             lazyStopwordMap.put(locale, Utils.loadStopWords(locale));
         }
         if (locale == null) {
-            stopwordsSet = new HashSet<String>();
+            stopwordsSet = new HashSet<>();
         }
         else {
             //            stopwordsSet = Utils.loadStopWords(language);
@@ -581,15 +556,6 @@ public class JusTextBoilerplateRemoval
         return sb.toString().trim();
     }
 
-    /**
-     * TODO: decide whether to escape Html elements such as (&nbsp; &gt;) and
-     * convert them to ( & >) or not
-     *
-     * @param html
-     * @param locale
-     * @return
-     * @throws IOException
-     */
     @Override
     public String getMinimalHtml(String html, Locale locale)
             throws IOException
