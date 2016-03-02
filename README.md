@@ -1,109 +1,82 @@
 # DKPro C4CorpusTools
 
-NOTE: work in progress until 1.0.0 release
+**NOTE: work in progress until 1.0.0 release**
 
-## C4CorpusTools Developer's Guide
+DKPro C4CorpusTools is a collection of tools for processing CommonCrawl corpus, including Creative
+Commons license detection, boilerplate removal, language detection, and near-duplicate removal. 
 
-* Java 1.6 is required for compiling and running the project
-* For running the Hadoop pipeline, Hadoop 2.6 is recommended
-    * Running the pipeline on CommonCrawl located at S3 requires and active Amazon Web Services (AWS) account 
+* **DKPro C4CorpusTools** (or C4CorpusTools) refers to the project source codes
+* **C4Corpus** refers the preprocessed CommonCrawl data set (**C4** =
+ **C**reative **C**ommons from **C**ommon **C**rawl)
 
-### Project structure
-
-* ``dkpro-c4corpus-boilerplate`` contains a Java implementation of a state-of-the-art boilerplate removal (JusText, Pomikalek, 2011) 
-* ``dkpro-c4corpus-deduplication`` implements near-duplicate content detection based on SimHash
-* ``dkpro-c4corpus-hadoop`` contains several Hadoop Map/Reduce jobs for running the pipeline agains the CommonCrawl corpus
-* ``dkpro-c4corpus-language`` provides language and encoding detection functionality
-* ``dkpro-c4corpus-license`` implements Creative Commons license detection in html pages
-
-Except ``dkpro-c4corpus-hadoop`` the modules are independent of each other and can run locally without Hadoop.
-
-### Packaging
-
-``$mvn package``
-
-Will produce a _fat_ jar ``dkpro-c4corpus-hadoop-1.0.0.jar`` in ``de.tudarmstadt.ukp.dkpro.c4corpus.hadoop/target/``
-
-
-### Run the whole pipeline on CommonCrawl corpus 
-(dont copy paste the commands directly to the console, remove the line breaks & indentation first)
-
-### Phase 1: all components 
-
-This phase includes license detection, language detection, and boilerplate removal.
+Please use the following citation if you use C4Corpus or C4CorpusTools
 
 ```
-hadoop jar c4corpus-tools-1.0-SNAPSHOT.jar de.tudarmstadt.aiphes.c4corpus.hadoop.full.Phase1FullJob \
--Dmapreduce.job.queuename=longrunning \
-/user/habernal/commoncrawl/*.warc.gz /user/username/commoncrawl-subset-phase1
+@InProceedings{Habernal.et.al.2016.LREC,
+  author    = {Habernal, Ivan and Zayed, Omnia, and Gurevych, Iryna},
+  title     = {{C4Corpus: Multilingual Web-size corpus with free license}},
+  booktitle = {Proceedings of the 10th International Conference on Language Resources
+               and Evaluation (LREC 2016)},
+  month     = {May},
+  year      = {2016},
+  address   = {Portoroz, Slovenia},
+  publisher = {European Language Resources Association (ELRA)},
+  pages     = {(to appear)},
+  url       = {TBA}
+}
 ```
 
-TODO command line approach to launch complete cluster?
---maybe: http://docs.aws.amazon.com/cli/latest/reference/emr/create-cluster.html
+> **Abstract:** TODO add from paper 
 
-2- Phase 2: ExactMatch De-duplication
-    hadoop jar c4corpus-tools-1.0-SNAPSHOT.jar 
-    de.tudarmstadt.aiphes.c4corpus.hadoop.full.Phase2ExactMatchDeduplication 
-    -Dmapreduce.job.queuename=longrunning
-    /user/username/commoncrawl-subset-phase1/*.warc.gz /user/username/commoncrawl-subset-phase2
 
-3- Phase 3 Step 1: Extract Near Duplicates Info
-    hadoop jar c4corpus-tools-1.0-SNAPSHOT.jar de.tudarmstadt.aiphes.c4corpus.hadoop.full.Phase3Step1ExtractNearDupInfo 
-    -Dmapreduce.job.queuename=longrunning 
-    /user/username/commoncrawl-subset-phase2/*.warc.gz /user/username/commoncrawl-subset-phase3-step1
+**Contact person:** Ivan Habernal, habernal@ukp.informatik.tu-darmstadt.de
 
-4- Phase 3 Step 2: Distinct data
-    hadoop jar c4corpus-tools-1.0-SNAPSHOT.jar de.tudarmstadt.aiphes.c4corpus.hadoop.full.Phase3Step2DistinctDataJob 
-    -Dmapreduce.reduce.memory.mb=5120 
-    -Dmapreduce.reduce.java.opts=-Xmx4096m 
-    -Dmapreduce.job.queuename=longrunning 
-    /user/username/commoncrawl-subset-phase3-step1/*.txt /user/username/commoncrawl-subset-phase3-step2
+UKP Lab: http://www.ukp.tu-darmstadt.de/ &mdash; TU Darmstadt: http://www.tu-darmstadt.de/
 
-5- Phase 3 Step 3: Tuples creation
-*it is better to delete the _SUCCESS file from the input file before performing this step
-*the timeout must be disabled as while calculating the Hamming Distance 
-*the map neither reads an input, writes an output, nor updates its status string 
-*so it will fail after 3 hours
-    hadoop jar c4corpus-tools-1.0-SNAPSHOT.jar de.tudarmstadt.aiphes.c4corpus.hadoop.full.Phase3Step3NearDupTuplesCreation 
-    -Dmapreduce.map.memory.mb=5120 
-    -Dmapreduce.map.java.opts=-Xmx4096m 
-    -Dmapreduce.reduce.memory.mb=5120 
-    -Dmapreduce.reduce.java.opts=-Xmx4096m
-    -Dmapreduce.task.timeout=0 
-    -Dmapreduce.job.queuename=longrunning 
-    /user/username/commoncrawl-subset-phase3-step2/* /user/username/commoncrawl-subset-phase3-step3
 
-6- Phase 3 Step 4: local greedy algorithm
-The class to be used is: de.tudarmstadt.aiphes.c4corpus.c4corpustools.deduplication.impl.DocumentDeduplication 
-the method to be used is: selectIDsToDelete
-Arguments: args[0]: input directory name (from step 5), args[1]: output directory name
+
+* For bug reporting please use the GitHub bug tracker
+* Don't hesitate to send me an e-mail if you have general questions about C4Corpus and C4CorpusTools
+* For questions regarding CommonCrawl or Amazon Web Services, use the appropriate channels
+    * [CommonCrawl forum](https://groups.google.com/forum/#!forum/common-crawl)
+    * [AWS Documentation](http://docs.aws.amazon.com)
+
+
+The rest of this README contains
+* C4Corpus Users's Guide
+    * How to access C4Corpus at S3
+    * Running boilerplate removal outside Hadoop
+* C4Corpus Developers's Guide
+* Corpus statistics reported in the LREC article
+
 
 ## C4Corpus User's Guide
 
-If you don't plan to run the processing by yourself but only want to access the final C4Corpus.
+Follow these instructions if you don't plan to run the whole processing by yourself but only want to access the final C4Corpus.
 Permission to access the C4Corpus is limited only to Amazon Web Services (AWS) accounts.
 If you don't have an AWS account, you can create one using Free Tier (free for a year),
 see http://aws.amazon.com/ .
 This should be sufficient for accessing the C4Corpus as well as for simple processing.
-AWS Free Tier does not apply for AWS Elastic Map Reduce (Hadoop).
-You will find all details for the steps below in the official AWS Documentation (docs.aws.amazon.com/).
+AWS Free Tier does not apply for AWS Elastic Map Reduce.
+We strongly recommend to first consult the [official AWS Documentation](http://docs.aws.amazon.com/) if any of the steps below are not clear.
 
 
 ### How to access C4Corpus at S3
 
-The following steps were tested on a clean AWS account with Free Tier.
+The following steps were tested on a clean AWS Free Tier account.
 
 #### 1. Launch your instance at Amazon EC2
 
-* Pick _"US East (N. Virginia)"_ region (``us-east-1```), CommonCrawl and C4Corpus are located here
-* You can run FreeTier server, the following was tested with Ubuntu 14.04 LTS as FreeTier (```t2.micro```)
+* Pick _"US East (N. Virginia)"_ region (``us-east-1``), CommonCrawl and C4Corpus are located here
+* You can run Free Tier server, the following was tested with Ubuntu 14.04 LTS as FreeTier (``t2.micro``)
     * Read Amazon EC2 Documentation for details about instance launching, access, etc.
-    * Remember that you just launched a publicly accessible server, so make sure it's up-to-date and secure; again, refer to AWS Docs
+    * Remember that you just launched a publicly accessible server, so make sure it's up-to-date and secure;
+    again, refer to AWS documentation
 * Connect to your machine using SSH (you have to use your private ```*.pem``` key which you can only download when launching the instance)
 
 #### 2. Install required software for command-line access to AWS (including S3)
 
-    ubuntu@ip-172-31-50-43:~$ sudo apt-get install awscli
+    ubuntu@ip-172-31-50-XX:~$ sudo apt-get install awscli
 
 #### 3. Configure AWS access
 
@@ -114,7 +87,7 @@ The following steps were tested on a clean AWS account with Free Tier.
 * Create a new access key and **keep it safe**, because you cannot retrieve the Secret Key later again
 
 ```
-ubuntu@ip-172-31-50-43:~$ aws configure
+ubuntu@ip-172-31-50-XX:~$ aws configure
 AWS Access Key ID [None]: AKIAIHV............
 AWS Secret Access Key [None]: 84uPPc...................................
 Default region name [None]: us-east-1
@@ -124,7 +97,7 @@ Default output format [None]:
 #### 4. Test accessing the CommonCrawl
 
 ```
-ubuntu@ip-172-31-50-43:~$ aws s3 ls s3://aws-publicdatasets/common-crawl/crawl-data/CC-MAIN-2015-18/
+ubuntu@ip-172-31-50-XX:~$ aws s3 ls s3://aws-publicdatasets/common-crawl/crawl-data/CC-MAIN-2015-18/
                            PRE segments/
 2015-05-27 01:37:59       1366 segment.paths.gz
 2015-05-27 01:37:59     121379 warc.paths.gz
@@ -137,7 +110,7 @@ ubuntu@ip-172-31-50-43:~$ aws s3 ls s3://aws-publicdatasets/common-crawl/crawl-d
 This is the complete folder with all steps performed by preprocessing
 
 ```
-ubuntu@ip-172-31-50-43:~$ aws s3 ls s3://ukp-research-data/c4corpus/
+ubuntu@ip-172-31-50-XX:~$ aws s3 ls s3://ukp-research-data/c4corpus/
                            PRE cc-phase1out-2015-11/
                            PRE cc-phase2out-2015-11/
                            PRE cc-phase3step1out-2015-11/
@@ -153,7 +126,7 @@ Part of the final C4Corpus
 FIXME update to the final location
 
 ```
-ubuntu@ip-172-31-50-43:~$ aws s3 ls s3://ukp-research-data/c4corpus/cc-phase1out-2015-11/ | head
+ubuntu@ip-172-31-50-XX:~$ aws s3 ls s3://ukp-research-data/c4corpus/cc-phase1out-2015-11/ | head
 2016-02-02 13:09:48          0 
 2016-02-02 13:10:39      47852 Lic_by-nc-nd_Lang_af_NoBoilerplate_true-r-00585.seg-00000.warc.gz
 2016-02-02 13:10:39    5345561 Lic_by-nc-nd_Lang_ar_NoBoilerplate_true-r-00179.seg-00000.warc.gz
@@ -172,9 +145,9 @@ ubuntu@ip-172-31-50-43:~$ aws s3 ls s3://ukp-research-data/c4corpus/cc-phase1out
 FIXME update to the final location
 
 ```
-ubuntu@ip-172-31-50-43:~$ aws s3 cp s3://ukp-research-data/c4corpus/cc-phase1out-2015-11/Lic_by-nc-nd_Lang_cs_NoBoilerplate_true-r-00130.seg-00000.warc.gz .
+ubuntu@ip-172-31-50-XX:~$ aws s3 cp s3://ukp-research-data/c4corpus/cc-phase1out-2015-11/Lic_by-nc-nd_Lang_cs_NoBoilerplate_true-r-00130.seg-00000.warc.gz .
 download: s3://ukp-research-data/c4corpus/cc-phase1out-2015-11/Lic_by-nc-nd_Lang_cs_NoBoilerplate_true-r-00130.seg-00000.warc.gz to ./Lic_by-nc-nd_Lang_cs_NoBoilerplate_true-r-00130.seg-00000.warc.gz
-ubuntu@ip-172-31-50-43:~$ ls -htr | tail -1
+ubuntu@ip-172-31-50-XX:~$ ls -htr | tail -1
 Lic_by-nc-nd_Lang_cs_NoBoilerplate_true-r-00130.seg-00000.warc.gz
 ```
 
@@ -197,14 +170,14 @@ Lic_by-nc-nd_Lang_en_NoBoilerplate_true-r-00284.seg-00000.warc.gz
 * ```aws s3``` command doesn't support wild characters, so the following command returns an empty output
 
 ```
-ubuntu@ip-172-31-50-43:~$ aws s3 ls s3://ukp-research-data/c4corpus/cc-phase1out-2015-11/Lic_by-nc_*.warc.gz
-ubuntu@ip-172-31-50-43:~$ 
+ubuntu@ip-172-31-50-XX:~$ aws s3 ls s3://ukp-research-data/c4corpus/cc-phase1out-2015-11/Lic_by-nc_*.warc.gz
+ubuntu@ip-172-31-50-XX:~$ 
 ```
 
 * You have to grep the output from ```aws s3 ls`` to get a list of files with a certain language or license, for example
 
 ```
-ubuntu@ip-172-31-50-43:~$ aws s3 ls s3://ukp-research-data/c4corpus/cc-phase1out-2015-11/ \
+ubuntu@ip-172-31-50-XX:~$ aws s3 ls s3://ukp-research-data/c4corpus/cc-phase1out-2015-11/ \
 | grep "Lic_by-nc-nd_Lang_en"
 2016-02-02 13:10:41 1000039131 Lic_by-nc-nd_Lang_en_NoBoilerplate_true-r-00284.seg-00000.warc.gz
 2016-02-02 13:10:52 1000026370 Lic_by-nc-nd_Lang_en_NoBoilerplate_true-r-00284.seg-00001.warc.gz
@@ -274,19 +247,207 @@ You can remove boilerplate from HTML pages locally.
     ```
 
 
+## C4CorpusTools Developer's Guide
+
+* Java 1.6 is required for compiling and running the project
+* For running the Hadoop pipeline, Hadoop 2.6 is recommended
+    * Running the pipeline on CommonCrawl located at S3 requires and active Amazon Web Services (AWS) account 
+
+### Project structure
+
+* ``dkpro-c4corpus-boilerplate`` contains a Java implementation of a state-of-the-art boilerplate removal (JusText, Pomikalek, 2011) 
+* ``dkpro-c4corpus-deduplication`` implements near-duplicate content detection based on SimHash
+* ``dkpro-c4corpus-hadoop`` contains several Hadoop Map/Reduce jobs for running the pipeline agains the CommonCrawl corpus
+* ``dkpro-c4corpus-language`` provides language and encoding detection functionality
+* ``dkpro-c4corpus-license`` implements Creative Commons license detection in html pages
+
+Except ``dkpro-c4corpus-hadoop`` the modules are independent of each other and can run locally without Hadoop.
 
 
 
+### Run the whole pipeline on CommonCrawl corpus 
+
+```
+$ mvn package
+```
+
+It will produce a fat jar ``dkpro-c4corpus-hadoop-1.0.0.jar`` in ``dkpro-c4corpus-hadoop/target/``.
+
+Upload the ``dkpro-c4corpus-hadoop-1.0.0.jar`` file into your S3 bucket.
+
+#### Phase 1: License detection, language detection, and boilerplate removal
+
+If you are confident with AWS Elastic Map Reduce command line, you can use the following script
+(slightly modified version of what we used)
+
+```
+aws emr create-cluster \
+    --applications Name=Hadoop \
+    --ec2-attributes \
+        '{"KeyName":"your-keypair-name", \                                         <---- change this
+        "InstanceProfile":"EMR_EC2_DefaultRole", \
+        "SubnetId":"subnet-xxxxx", \                                               <---- change this
+        "EmrManagedSlaveSecurityGroup":"sg-xxxxxx", \                              <---- change this
+        "EmrManagedMasterSecurityGroup":"sg-xxxxxx"}' \                            <---- change this
+    --service-role EMR_DefaultRole \
+    --enable-debugging \
+    --release-label emr-4.2.0 \
+    --log-uri 's3n://your-logs/elasticmapreduce/' \                                <---- change this
+    --steps '[\
+        {"Args":["de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.full.Phase1FullJob", \
+        "-D","mapreduce.task.timeout=36000000", \
+        "-D","mapreduce.map.failures.maxpercent=5", \
+        "-D","mapreduce.map.maxattempts=2", \
+        "s3://aws-publicdatasets/common-crawl/crawl-data/CC-MAIN-2015-27/segments/*/warc/*.warc.gz",\
+        "s3://ukp-research-data/c4corpus/cc-phase1out-2015-11"], \                 <---- change this
+        "Type":"CUSTOM_JAR", \
+        "ActionOnFailure":"CANCEL_AND_WAIT", \
+        "Jar":"s3://path-to-your/dkpro-c4corpus-hadoop-1.0.0.jar", \               <---- change this
+        "Properties":"", \
+        "Name":"Custom JAR"}]' \
+    --name 'Full cluster phase 1' \
+    --instance-groups '[\
+        {"InstanceCount":32, \                                        <---- change this (optionally)
+            "bid-price":"your-bid-value", \                                        <---- change this
+            "InstanceGroupType":"TASK",\
+            "InstanceType":"c3.8xlarge", \
+            "Name":"c3.8xlarge = 32 CPU"}, \
+        {"InstanceCount":2, \
+            "InstanceGroupType":"CORE",\
+            "InstanceType":"m3.xlarge", \
+            "Name":"Core instance group - 2"}, \
+        {"InstanceCount":1, \
+            "InstanceGroupType":"MASTER", \
+            "InstanceType":"m3.xlarge", \
+            "Name":"Master instance group - 1"}]' \
+    --auto-terminate \
+    --region us-east-1
+```
+
+* Enter your correct ``EmrManagedSlaveSecurityGroup`` and ``SubnetId``
+* Path to logs and packed ``dkpro-c4corpus-hadoop-1.0.0.jar``, output path
+* ``bid-price`` if you want to use Spot instances (highly recommended, but might get unstable)
+    * If Spot instances died (were over-bidden), the entire job went unstable and failed,
+    I recommend to put your bid higher then usual to make sure you won't loose instances
+
+* Using 32 c3.8xlarge spot instances (each 32 CPUs, thus 1024 CPUs in total), the job finished
+in 22 hours (47,656 Normalized instance hours)
+
+You can also configure the EMR cluster in the Web Console; then you only need to provide manually the
+job parameters, namely path to your  ``dkpro-c4corpus-hadoop-1.0.0.jar`` with the following parameters
+
+```
+de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.full.Phase1FullJob \
+-D mapreduce.task.timeout=36000000 -D mapreduce.map.failures.maxpercent=5 \
+-D mapreduce.map.maxattempts=2 \
+s3://aws-publicdatasets/common-crawl/crawl-data/CC-MAIN-2015-27/segments/*/warc/*.warc.gz \
+s3://your-bucket/output-path/cc-phase1out-2015-11
+```
+
+Consult [AWS EMR Documentation](http://docs.aws.amazon.com/cli/latest/reference/emr/create-cluster.html) for details.
+
+#### Phase 2: Exact match de-duplication
+
+Similarly as in the previous step, but with different parameters
+
+```
+de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.full.Phase2ExactMatchDeDuplication \
+-D mapreduce.task.timeout=36000000 \
+s3://your-bucket/output-path/cc-phase1out-2015-11/*.warc.gz \
+s3://your-bucket/output-path/cc-phase2out-2015-11/
+```
+
+Took 22 minutes with 4 + 16 c3.8xlarge instances. 
+                     
+#### Phase 3: Detecting near duplicates
+
+##### Step 1: Extract near duplicates info
+```
+de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.full.Phase3Step1ExtractNearDupInfo \
+s3://your-bucket/output-path/cc-phase2out-2015-11/*.warc.gz \
+s3://your-bucket/output-path/cc-phase3step1out-2015-11/
+```
+
+56 minutes, 1152 normalized instance hours
 
 
+##### Step 2: Distinct data
+
+```
+de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.full.Phase3Step2DistinctDataJob \
+s3://your-bucket/output-path/cc-phase3step1out-2015-11/*.txt \
+s3://your-bucket/output-path/cc-phase3step2out-2015-11/
+```
+
+45 minutes, 384 normalized instance hours
+
+##### Step 3: Tuples creation
+
+```
+de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.full.Phase3Step3NearDupTuplesCreation \
+-D mapreduce.task.timeout=0 \
+s3://your-bucket/output-path/cc-phase3step2out-2015-11/* \
+s3://your-bucket/output-path/cc-phase3step3out-2015-11/
+```
+
+* The timeout should be disabled as while calculating the Hamming distance,
+the mapper neither reads an input, writes an output, nor updates its status string 
+so it will fail after the default 3 hours.
 
 
+1 day, 12 hours, 7104 normalized instance hours
+
+##### Step 4: Greedy clustering
 
 
+```
+de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.full.Phase3Step4GreedyClustering \
+-D mapreduce.task.timeout=0 \
+s3://your-bucket/output-path/cc-phase3step3out-2015-11/* \
+s3://your-bucket/output-path/cc-phase3step4out-2015-11/
+```
 
-## OBSOLETE, CLEAN
+#### Phase 4: Removing near duplicates
 
-## Collecting word distribution statistics
+```
+de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.full.Phase4RemoveDuplicatesUsingReduceSideJoins \
+s3://your-bucket/output-path/cc-phase3step4out-2015-11/ \
+s3://your-bucket/output-path/cc-phase2out-2015-11/*.warc.gz \
+s3://your-bucket/output-path/cc-phase4out-2015-11/
+```
+
+#### Phase 5: Sorting final corpus by language and license
+
+```
+de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.full.Phase5MergeByLangLicJob \
+s3://your-bucket/output-path/cc-phase4out-2015-11/*.warc.gz \
+s3://your-bucket/output-path/cc-final-2015-11/
+```
+
+### Including C4CorpusTools in your Java projects
+
+C4CorpusTools is hosted on Maven Central, you can add the following dependencies into your ``pom.xml``
+(see descriptions above)
+
+```
+<dependency>
+  <groupId>org.dkpro.c4corpus</groupId>
+  <artifactId>dkpro-c4corpus-boilerplate</artifactId>
+  <version>1.0.0</version>
+</dependency>
+```
+
+and analogically
+
+* ``<artifactId>dkpro-c4corpus-license</artifactId>``
+* ``<artifactId>dkpro-c4corpus-deduplication</artifactId>``
+* ``<artifactId>dkpro-c4corpus-language</artifactId>``
+* ``<artifactId>dkpro-c4corpus-hadoop</artifactId>``
+
+
+## Corpus statistics reported in the LREC article TODO update
+
+### Collecting word distribution statistics
 
 1. Collect word statistics
 
@@ -353,19 +514,3 @@ habernal@node-00b:~/wikipedia/extracted-merged$ for file in * ; do echo $file ; 
  filename=$(basename "$file") ; echo $filename; head -1 $file; \
   cat $file | hadoop fs -put - "/user/habernal/enwiki/$prefix_$filename.txt" ; done; done
 ```
-
-
-## NOT RELATED TO THE PROJECT ANYMORE:
-##Remove duplicates in candidates for deletion
-```PigLatin
-//to increase memory
-grunt> SET mapreduce.map.memory.mb 5120
-grunt> SET mapreduce.reduce.memory.mb 5120
-grunt> SET mapreduce.map.java.opts -Xmx4280m;
-grunt> SET mapreduce.reduce.java.opts -Xmx4096m;
-
-grunt> data = load '/user/habernal/lrec2015-ccweb-phase2/*' as (s:chararray);
-grunt> d = distinct data;
-grunt> store d into '/user/habernal/lrec2015-ccweb-phase2-uniq' using PigStorage();
-```
-fails on heap space [fixed]
