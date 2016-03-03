@@ -297,9 +297,10 @@ aws emr create-cluster \
     --log-uri 's3n://your-logs/elasticmapreduce/' \                                <---- change this
     --steps '[\
         {"Args":["de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.full.Phase1FullJob", \
-        "-D","mapreduce.task.timeout=36000000", \
-        "-D","mapreduce.map.failures.maxpercent=5", \
-        "-D","mapreduce.map.maxattempts=2", \
+        "-D","mapreduce.task.timeout=7200000", \
+        "-D", "mapreduce.map.failures.maxpercent=5", \
+        "-D", "mapreduce.map.maxattempts=2", \
+        "-D", "c4corpus.keepminimalhtml=true", \                      <---- change this (optionally)
         "s3://aws-publicdatasets/common-crawl/crawl-data/CC-MAIN-2015-27/segments/*/warc/*.warc.gz",\
         "s3://ukp-research-data/c4corpus/cc-phase1out-2015-11"], \                 <---- change this
         "Type":"CUSTOM_JAR", \
@@ -331,6 +332,8 @@ aws emr create-cluster \
 * ``bid-price`` if you want to use Spot instances (highly recommended, but might get unstable)
     * If Spot instances died (were over-bidden), the entire job went unstable and failed,
     I recommend to put your bid higher then usual to make sure you won't loose instances
+* Parameter ``c4corpus.keepminimalhtml`` is optional. If set to ``true``, the minimal HTML tags
+for each paragraph will be kept (see the example for boilerplate removal above)
 
 * Using 32 c3.8xlarge spot instances (each 32 CPUs, thus 1024 CPUs in total), the job finished
 in 22 hours (47,656 Normalized instance hours)
