@@ -72,16 +72,8 @@ public class WARCWriterReducerClass
                     "noBoilerplate is null/empty (val: '" + noBoilerplate + "')");
         }
 
-        String result = String.format(Locale.ENGLISH, "Lic_%s_Lang_%s_NoBoilerplate_%s_Bin_%02d",
+        return String.format(Locale.ENGLISH, "Lic_%s_Lang_%s_NoBoilerplate_%s_Bin_%02d",
                 license, language, noBoilerplate, binNumber);
-
-        // we ignore the bin numbering if binNumber == 0
-        if (binNumber == 0) {
-            result = String.format(Locale.ENGLISH, "Lic_%s_Lang_%s_NoBoilerplate_%s",
-                    license, language, noBoilerplate);
-        }
-
-        return result;
     }
 
     /**
@@ -99,7 +91,7 @@ public class WARCWriterReducerClass
     protected void setup(Context context)
             throws IOException, InterruptedException
     {
-        multipleOutputs = new MultipleOutputs<NullWritable, WARCWritable>(context);
+        multipleOutputs = new MultipleOutputs<>(context);
     }
 
     @Override

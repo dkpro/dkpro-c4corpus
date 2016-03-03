@@ -19,7 +19,7 @@ Please use the following citation if you use C4Corpus or C4CorpusTools
                and Evaluation (LREC 2016)},
   month     = {May},
   year      = {2016},
-  address   = {Portoroz, Slovenia},
+  address   = {Portoro\v{z}, Slovenia},
   publisher = {European Language Resources Association (ELRA)},
   pages     = {(to appear)},
   url       = {TBA}
@@ -76,7 +76,9 @@ The following steps were tested on a clean AWS Free Tier account.
 
 #### 2. Install required software for command-line access to AWS (including S3)
 
-    ubuntu@ip-172-31-50-XX:~$ sudo apt-get install awscli
+```
+ubuntu@ip-172-31-50-XX:~$ sudo apt-get install awscli
+```
 
 #### 3. Configure AWS access
 

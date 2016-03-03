@@ -23,13 +23,17 @@ import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io.WARCRecord;
 import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io.WARCWritable;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
+import org.apache.hadoop.mapreduce.Reducer;
+import org.apache.hadoop.mapreduce.lib.output.MultipleOutputs;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
 import java.io.IOException;
+import java.util.Locale;
 
 /**
  * Reads all input warc.gz files and writes them into separated files based on language and
@@ -49,7 +53,7 @@ public class Phase5MergeByLangLicJob
         Job job = Job.getInstance(getConf());
         // set from the command line
         ConfigurationHelper.configureJob(job, Phase5MergeByLangLicJob.class, SimpleMapper.class,
-                WARCWriterReducerClass.class, args[0], args[1]);
+                WARCWriterReducerPhase5.class, args[0], args[1]);
 
         return job.waitForCompletion(true) ? 0 : 1;
     }
@@ -103,6 +107,79 @@ public class Phase5MergeByLangLicJob
 
             // submit to reducers by language
             context.write(new Text(language), value);
+        }
+    }
+
+    public static class WARCWriterReducerPhase5
+            extends Reducer<Text, WARCWritable, NullWritable, WARCWritable>
+    {
+        private MultipleOutputs<NullWritable, WARCWritable> multipleOutputs;
+
+        /**
+         * Returns prefix of the output warc file given the parameters; this method is also as a key
+         * for distributing entries to reducers.
+         * <p/>
+         * The result has this format:
+         * {@code Lic_LICENSE_Lang_LANGUAGE_NoBoilerplate_BOOLEAN} is zero
+         *
+         * @param license       license
+         * @param language      lang
+         * @param noBoilerplate boolean value
+         * @return string prefix
+         * @throws IllegalArgumentException if any of the parameter is {@code null} or empty
+         */
+        public static String createOutputFilePrefix(String license, String language,
+                String noBoilerplate)
+        {
+            return String.format(Locale.ENGLISH, "Lic_%s_Lang_%s_NoBoilerplate_%s",
+                    license, language, noBoilerplate);
+        }
+
+        @Override
+        protected void setup(Context context)
+                throws IOException, InterruptedException
+        {
+            multipleOutputs = new MultipleOutputs<>(context);
+        }
+
+        @Override
+        protected void reduce(Text key, Iterable<WARCWritable> values, Context context)
+                throws IOException, InterruptedException
+        {
+            for (WARCWritable warcWritable : values) {
+                writeSingleWARCWritableToOutput(warcWritable, multipleOutputs);
+            }
+        }
+
+        /**
+         * Writes single WARCWritable to the output with specific output file prefix
+         *
+         * @param warcWritable    warc record
+         * @param multipleOutputs output
+         * @throws IOException          exception
+         * @throws InterruptedException exception
+         */
+        public static void writeSingleWARCWritableToOutput(WARCWritable warcWritable,
+                MultipleOutputs<NullWritable, WARCWritable> multipleOutputs)
+                throws IOException, InterruptedException
+        {
+            WARCRecord.Header header = warcWritable.getRecord().getHeader();
+            String license = header.getField(WARCRecord.WARCRecordFieldConstants.LICENSE);
+            String language = header.getField(WARCRecord.WARCRecordFieldConstants.LANGUAGE);
+            String noBoilerplate = header
+                    .getField(WARCRecord.WARCRecordFieldConstants.NO_BOILERPLATE);
+
+            // set the file name prefix
+            String fileName = createOutputFilePrefix(license, language, noBoilerplate);
+
+            multipleOutputs.write(NullWritable.get(), warcWritable, fileName);
+        }
+
+        @Override
+        protected void cleanup(Context context)
+                throws IOException, InterruptedException
+        {
+            multipleOutputs.close();
         }
     }
 }
