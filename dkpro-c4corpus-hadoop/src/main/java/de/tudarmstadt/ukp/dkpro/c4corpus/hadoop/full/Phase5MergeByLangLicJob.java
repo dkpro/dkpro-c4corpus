@@ -33,7 +33,6 @@ import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
 import java.io.IOException;
-import java.util.Locale;
 
 /**
  * Reads all input warc.gz files and writes them into separated files based on language and
@@ -115,26 +114,6 @@ public class Phase5MergeByLangLicJob
     {
         private MultipleOutputs<NullWritable, WARCWritable> multipleOutputs;
 
-        /**
-         * Returns prefix of the output warc file given the parameters; this method is also as a key
-         * for distributing entries to reducers.
-         * <p/>
-         * The result has this format:
-         * {@code Lic_LICENSE_Lang_LANGUAGE_NoBoilerplate_BOOLEAN} is zero
-         *
-         * @param license       license
-         * @param language      lang
-         * @param noBoilerplate boolean value
-         * @return string prefix
-         * @throws IllegalArgumentException if any of the parameter is {@code null} or empty
-         */
-        public static String createOutputFilePrefix(String license, String language,
-                String noBoilerplate)
-        {
-            return String.format(Locale.ENGLISH, "Lic_%s_Lang_%s_NoBoilerplate_%s",
-                    license, language, noBoilerplate);
-        }
-
         @Override
         protected void setup(Context context)
                 throws IOException, InterruptedException
@@ -147,32 +126,9 @@ public class Phase5MergeByLangLicJob
                 throws IOException, InterruptedException
         {
             for (WARCWritable warcWritable : values) {
-                writeSingleWARCWritableToOutput(warcWritable, multipleOutputs);
+                WARCWriterReducerClass
+                        .writeSingleWARCWritableToOutput(warcWritable, multipleOutputs);
             }
-        }
-
-        /**
-         * Writes single WARCWritable to the output with specific output file prefix
-         *
-         * @param warcWritable    warc record
-         * @param multipleOutputs output
-         * @throws IOException          exception
-         * @throws InterruptedException exception
-         */
-        public static void writeSingleWARCWritableToOutput(WARCWritable warcWritable,
-                MultipleOutputs<NullWritable, WARCWritable> multipleOutputs)
-                throws IOException, InterruptedException
-        {
-            WARCRecord.Header header = warcWritable.getRecord().getHeader();
-            String license = header.getField(WARCRecord.WARCRecordFieldConstants.LICENSE);
-            String language = header.getField(WARCRecord.WARCRecordFieldConstants.LANGUAGE);
-            String noBoilerplate = header
-                    .getField(WARCRecord.WARCRecordFieldConstants.NO_BOILERPLATE);
-
-            // set the file name prefix
-            String fileName = createOutputFilePrefix(license, language, noBoilerplate);
-
-            multipleOutputs.write(NullWritable.get(), warcWritable, fileName);
         }
 
         @Override

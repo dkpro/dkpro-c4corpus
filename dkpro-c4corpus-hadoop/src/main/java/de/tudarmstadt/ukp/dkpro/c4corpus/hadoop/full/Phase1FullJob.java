@@ -44,15 +44,18 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Locale;
 import java.util.Set;
 
 /**
  * Single Map-Reduce task for performing license identification, boilerplate
  * removal, language identification and sim hashing. Only non-empty texts after
  * boilerplate removal are kept.
+ * <p/>
+ * Configuration parameters
+ * {@code c4corpus.keepminimalhtml} - boolean (keep minimal html in boilerplate removal?)
  *
  * @author Omnia Zayed
+ * @author Ivan Habernal
  */
 public class Phase1FullJob
         extends Configured
@@ -64,7 +67,7 @@ public class Phase1FullJob
             throws Exception
     {
         Job job = Job.getInstance(getConf());
-        //set from the command line
+        // set from the command line
         ConfigurationHelper.configureJob(job, Phase1FullJob.class, MapperClass.class,
                 WARCWriterReducerClass.class, args[0], args[1]);
 
@@ -81,12 +84,12 @@ public class Phase1FullJob
             extends Mapper<LongWritable, WARCWritable, Text, WARCWritable>
     {
 
-        private final static CharsetDetector charsetDetector = new ICUCharsetDetectorWrapper();
-        private final static LicenseDetector licD = new FastRegexLicenceDetector();
-        private final static BoilerPlateRemoval boilPlRem = new JusTextBoilerplateRemoval();
-        private final static LanguageIdentifier langD = new CybozuLanguageIdentifier();
+        private final static CharsetDetector CHARSET_DETECTOR = new ICUCharsetDetectorWrapper();
+        private final static LicenseDetector LICENSE_DETECTOR = new FastRegexLicenceDetector();
+        private final static BoilerPlateRemoval BOILER_PLATE_REMOVAL = new JusTextBoilerplateRemoval();
+        private final static LanguageIdentifier LANGUAGE_IDENTIFIER = new CybozuLanguageIdentifier();
 
-        private int recordCounter = 0;
+        private long recordCounter = 0;
 
         private long sizeCounter = 0;
 
@@ -96,22 +99,43 @@ public class Phase1FullJob
         // utf-8 charset
         private static final Charset UTF8_CHARSET = Charset.forName("utf-8");
 
+        // only meaningful html pages
         private static final Set<String> ALLOWED_CONTENT_TYPES = new HashSet<String>(
                 Arrays.asList("text/html", "application/xhtml+xml"));
 
+        // mapper parameter
+        private boolean keepMinimalHTML;
+
         @Override
-        protected void map(LongWritable key, WARCWritable value, Context context)
+        protected void setup(Context context)
                 throws IOException, InterruptedException
+        {
+            super.setup(context);
+
+            // parametrize the mapper
+            this.keepMinimalHTML = context.getConfiguration()
+                    .getBoolean("c4corpus.keepminimalhtml", false);
+        }
+
+        /**
+         * Checks whether the given WARC record should be ignored; this applies for documents
+         * longer than 10 MB and documents that are not text/html
+         *
+         * @param value WARC record
+         * @return true if ignored, false otherwise
+         */
+        protected static boolean ignoreWARCRecord(WARCWritable value)
+                throws IOException
         {
             // avoid documents bigger than 10 MB as in ClueWeb12
             int contentLength = value.getRecord().getHeader().getContentLength();
             if (contentLength >= 10000000) {
-                return;
+                return true;
             }
 
             // we're only interested in processing the responses, not requests or metadata
             if (!value.getRecord().isContentApplicationHttpResponse()) {
-                return;
+                return true;
             }
 
             // HTTP header in CommonCrawl is delimited by newline
@@ -119,103 +143,113 @@ public class Phase1FullJob
 
             // we're only interested in text/html
             if (httpHeaderText == null) {
-                return;
+                return true;
             }
 
             String contentType = WARCRecord.extractHTTPHeaderContentType(httpHeaderText);
             if (!ALLOWED_CONTENT_TYPES.contains(contentType)) {
-                return;
+                return true;
             }
 
+            // we accept the page
+            return false;
+        }
+
+        /**
+         * Extracts HTML from the CommonCrawl WARC record with correctly identified encoding and
+         * stripped the leading HTTP header
+         *
+         * @param value WARC record
+         * @return HTML as string
+         */
+        protected String extractHTML(WARCWritable value)
+        {
             // detect charset
             byte[] bytes = value.getRecord().getContent();
-            Charset charset = charsetDetector.detectCharset(bytes);
+            Charset charset = CHARSET_DETECTOR.detectCharset(bytes);
 
             String html = new String(bytes, charset);
 
             // strip HTTP header
-            html = html.substring(html.indexOf("\r\n\r\n") + 4);
+            return html.substring(html.indexOf("\r\n\r\n") + 4);
+        }
 
-            //License Detection
-            long licenseDetectStartTime = System.currentTimeMillis();
-            String license = licD.detectLicence(html);
-            double timeTakenForLic = System.currentTimeMillis() - licenseDetectStartTime;
-            if (timeTakenForLic > 500000) {
-                LOG.info(String.format(Locale.ENGLISH,
-                        "~%.1f time taken for License Detection in milli-seconds%n The record ID is %s",
-                        timeTakenForLic, value.getRecord().getHeader().getRecordID()));
+        @Override
+        protected void map(LongWritable key, WARCWritable value, Context context)
+                throws IOException, InterruptedException
+        {
+            // check first if it's worth processing
+            if (ignoreWARCRecord(value)) {
+                return;
             }
 
-            //Boilerplate removal
-            long boilerplateStartTime = System.currentTimeMillis();
-            String plainText = boilPlRem.getPlainText(html, null);
-            double timeTakenForBoilerplate = System.currentTimeMillis() - boilerplateStartTime;
-            if (timeTakenForBoilerplate > 500000) {
-                LOG.info(String.format(Locale.ENGLISH,
-                        "~%.1f time taken for boilerplate removal in milli-seconds%n The record ID is %s",
-                        timeTakenForBoilerplate, value.getRecord().getHeader().getRecordID()));
+            // extract HTML
+            String html = extractHTML(value);
 
+            // license detection
+            String license = LICENSE_DETECTOR.detectLicence(html);
+
+            // boilerplate removal
+            String plainText;
+            if (this.keepMinimalHTML) {
+                plainText = BOILER_PLATE_REMOVAL.getMinimalHtml(html, null);
+            }
+            else {
+                plainText = BOILER_PLATE_REMOVAL.getPlainText(html, null);
             }
 
-            if (!plainText.isEmpty()) {
+            // skip empty documents
+            if (plainText.isEmpty()) {
+                return;
+            }
 
-                // keeping the location and ID of the original file in HDFS
-                FileSplit inputSplit = (FileSplit) context.getInputSplit();
-                // add the while HDFS/AWS path to the register key,
-                // if u want only the .gz name add .getName()
-                final String mapInputFileName = inputSplit.getPath().toString();
+            // keeping the location and ID of the original file in HDFS in header meta-data
+            FileSplit inputSplit = (FileSplit) context.getInputSplit();
+            final String origFile = inputSplit.getPath().toString();
 
-                //Language Detection
-                final String language = langD.identifyLanguage(plainText);
+            // language identification
+            final String language = LANGUAGE_IDENTIFIER.identifyLanguage(plainText);
 
-                // compute simhash
-                long docSimHash = ParallelDocumentDeDuplication.getSimHash(plainText);
+            // compute simhash
+            long docSimHash = ParallelDocumentDeDuplication.getSimHash(plainText);
 
-                WARCRecord.Header header = value.getRecord().getHeader();
+            WARCRecord.Header header = value.getRecord().getHeader();
 
-                //original warc split location
-                header.setField(WARCRecord.WARCRecordFieldConstants.ORIGINAL_LOCATION,
-                        mapInputFileName);
-                // set the license to the metadata
-                header.setField(WARCRecord.WARCRecordFieldConstants.LICENSE, license);
+            // original warc split location
+            header.setField(WARCRecord.WARCRecordFieldConstants.ORIGINAL_LOCATION, origFile);
 
-                //set the language to meta data
-                header.setField(WARCRecord.WARCRecordFieldConstants.LANGUAGE, language);
+            // set the license to the metadata
+            header.setField(WARCRecord.WARCRecordFieldConstants.LICENSE, license);
 
-                // add info about boilerplate removal
-                String noBoilerplate = Boolean.TRUE.toString();
-                header.setField(WARCRecord.WARCRecordFieldConstants.NO_BOILERPLATE, noBoilerplate);
+            //set the language to meta data
+            header.setField(WARCRecord.WARCRecordFieldConstants.LANGUAGE, language);
 
-                // add simhash
-                header.setField(WARCRecord.WARCRecordFieldConstants.SIMHASH,
-                        Long.toString(docSimHash));
+            // add info about boilerplate removal
+            String noBoilerplate = Boolean.TRUE.toString();
+            header.setField(WARCRecord.WARCRecordFieldConstants.NO_BOILERPLATE, noBoilerplate);
 
-                //replace the content with the plain text
-                value.getRecord().setContent(plainText);
+            // add simhash
+            header.setField(WARCRecord.WARCRecordFieldConstants.SIMHASH,
+                    Long.toString(docSimHash));
 
-                // warning: never call getBytes() without specifying charset; will behave
-                // differently on different computers (due to default locales!!!)
-                byte[] plainTextBytes = plainText.getBytes(UTF8_CHARSET);
-                header.setField("Content-Length", String.valueOf(plainTextBytes.length));
+            // replace the content with the plain text
+            value.getRecord().setContent(plainText);
 
-                // bottleneck of single reducer for all "Lic_none_Lang_en" pages (majority of Web)
-                int binNumber = 0;
-                if ("en".equals(language) && LicenseDetector.NO_LICENCE.equals(license)) {
-                    // get the last two digits from the simhash
-                    binNumber = WARCWriterReducerClass.getBinNumberFromSimHash(docSimHash);
-                }
+            // warning: never call getBytes() without specifying charset; will behave
+            // differently on different computers (due to default locales!!!)
+            byte[] plainTextBytes = plainText.getBytes(UTF8_CHARSET);
+            header.setField("Content-Length", String.valueOf(plainTextBytes.length));
 
-                // create prefix as a key
-                context.write(new Text(WARCWriterReducerClass.createOutputFilePrefix(license,
-                        language, noBoilerplate, binNumber)), value);
+            // create prefix as a key
+            context.write(new Text(WARCWriterReducerClass.createOutputFilePrefix(license,
+                    language, noBoilerplate)), value);
 
-                // collect some stats to logs
-                recordCounter++;
-                sizeCounter += plainText.length();
-                if ((recordCounter % 1000) == 0) {
-                    LOG.info(String.format("Processed %d records, total length %d characters",
-                            recordCounter, sizeCounter));
-                }
+            // collect some stats to logs
+            recordCounter++;
+            sizeCounter += plainText.length();
+            if ((recordCounter % 1000) == 0) {
+                LOG.info(String.format("Processed %d records, total length %d characters",
+                        recordCounter, sizeCounter));
             }
         }
     }

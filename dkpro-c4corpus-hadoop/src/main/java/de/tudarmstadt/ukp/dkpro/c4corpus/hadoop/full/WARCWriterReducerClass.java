@@ -37,7 +37,7 @@ import java.util.Locale;
 public class WARCWriterReducerClass
         extends Reducer<Text, WARCWritable, NullWritable, WARCWritable>
 {
-    private MultipleOutputs<NullWritable, WARCWritable> multipleOutputs;
+//    private MultipleOutputs<NullWritable, WARCWritable> multipleOutputs;
 
     /**
      * Returns prefix of the output warc file given the parameters; this method is also as a key
@@ -51,13 +51,11 @@ public class WARCWriterReducerClass
      * @param license       license
      * @param language      lang
      * @param noBoilerplate boolean value
-     * @param binNumber     0-99 for assigning the key to a specific bin for avoiding single
-     *                      reducer bottleneck
      * @return string prefix
      * @throws IllegalArgumentException if any of the parameter is {@code null} or empty
      */
     public static String createOutputFilePrefix(String license, String language,
-            String noBoilerplate, int binNumber)
+            String noBoilerplate)
     {
         if (license == null || license.isEmpty()) {
             throw new IllegalArgumentException("Licence is null/empty (val: '" + license + "')");
@@ -72,8 +70,8 @@ public class WARCWriterReducerClass
                     "noBoilerplate is null/empty (val: '" + noBoilerplate + "')");
         }
 
-        return String.format(Locale.ENGLISH, "Lic_%s_Lang_%s_NoBoilerplate_%s_Bin_%02d",
-                license, language, noBoilerplate, binNumber);
+        return String.format(Locale.ENGLISH, "Lic_%s_Lang_%s_NoBoilerplate_%s", license, language,
+                noBoilerplate);
     }
 
     /**
@@ -82,6 +80,7 @@ public class WARCWriterReducerClass
      * @param simHash simHash
      * @return 0-99
      */
+    @Deprecated // remove
     public static int getBinNumberFromSimHash(long simHash)
     {
         return Math.abs((int) (simHash % 100L));
@@ -91,7 +90,8 @@ public class WARCWriterReducerClass
     protected void setup(Context context)
             throws IOException, InterruptedException
     {
-        multipleOutputs = new MultipleOutputs<>(context);
+        super.setup(context);
+//        multipleOutputs = new MultipleOutputs<>(context);
     }
 
     @Override
@@ -99,8 +99,7 @@ public class WARCWriterReducerClass
             throws IOException, InterruptedException
     {
         for (WARCWritable warcWritable : values) {
-
-            writeSingleWARCWritableToOutput(warcWritable, multipleOutputs);
+            context.write(NullWritable.get(), warcWritable);
         }
     }
 
@@ -112,6 +111,7 @@ public class WARCWriterReducerClass
      * @throws IOException          exception
      * @throws InterruptedException exception
      */
+    // TODO move somewhere else?
     public static void writeSingleWARCWritableToOutput(WARCWritable warcWritable,
             MultipleOutputs<NullWritable, WARCWritable> multipleOutputs)
             throws IOException, InterruptedException
@@ -123,16 +123,15 @@ public class WARCWriterReducerClass
                 .getField(WARCRecord.WARCRecordFieldConstants.NO_BOILERPLATE);
 
         // set the file name prefix
-        String fileName = createOutputFilePrefix(license, language, noBoilerplate, 0);
+        String fileName = createOutputFilePrefix(license, language, noBoilerplate);
 
         // bottleneck of single reducer for all "Lic_none_Lang_en" pages (majority of Web)
-        if ("en".equals(language) && LicenseDetector.NO_LICENCE.equals(license)) {
-            long simHash = Long
-                    .valueOf(header.getField(WARCRecord.WARCRecordFieldConstants.SIMHASH));
-            int binNumber = getBinNumberFromSimHash(simHash);
-
-            fileName = createOutputFilePrefix(license, language, noBoilerplate, binNumber);
-        }
+//        if ("en".equals(language) && LicenseDetector.NO_LICENCE.equals(license)) {
+//            long simHash = Long
+//                    .valueOf(header.getField(WARCRecord.WARCRecordFieldConstants.SIMHASH));
+//            int binNumber = getBinNumberFromSimHash(simHash);
+//            fileName = createOutputFilePrefix(license, language, noBoilerplate);
+//        }
 
         multipleOutputs.write(NullWritable.get(), warcWritable, fileName);
     }
@@ -141,6 +140,7 @@ public class WARCWriterReducerClass
     protected void cleanup(Context context)
             throws IOException, InterruptedException
     {
-        multipleOutputs.close();
+        super.cleanup(context);
+//        multipleOutputs.close();
     }
 }
