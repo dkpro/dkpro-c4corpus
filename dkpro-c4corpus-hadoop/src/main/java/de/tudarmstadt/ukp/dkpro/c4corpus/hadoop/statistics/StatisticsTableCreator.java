@@ -26,6 +26,8 @@ import org.apache.commons.io.LineIterator;
 import java.io.*;
 
 /**
+ * Collects the output from {@link LangLicenseStatistics} and creates a single multi-column table
+ *
  * @author Ivan Habernal
  */
 public class StatisticsTableCreator
@@ -79,12 +81,8 @@ public class StatisticsTableCreator
     public static void main(String[] args)
             throws Exception
     {
-//        InputStream is = StatisticsTableCreator.class.getClassLoader()
-//                .getResourceAsStream("licence-statistics-output-sample.tsv");
-        //        saveTableToCsv(loadTable(is), new FileOutputStream("/tmp/out.csv"));
-        saveTableToCsv(
-                loadTable(new FileInputStream("commoncrawl-subset-phase1-statistics")),
-                new FileOutputStream("commoncrawl-subset-phase1-statistics.csv"));
-
+        File inFile = new File(args[0]);
+        File outFile = new File(args[1]);
+        saveTableToCsv(loadTable(new FileInputStream(inFile)), new FileOutputStream(outFile));
     }
 }

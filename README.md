@@ -452,6 +452,31 @@ and analogically
 
 ## Corpus statistics reported in the LREC article TODO update
 
+### Tokens and documents counts in the final corpus
+
+Reports in Table TODO were collected using the following M/R job:
+
+```
+de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.statistics.LangLicenseStatistics
+```
+
+Run it with the following parameters on EMR cluster:
+
+```
+s3://ukp-research-data/c4corpus/cc-final-2015-11/*.warc.gz s3://your-bucket/statistics
+```
+
+Then download the results into a single local file and convert it to a CSV table:
+
+```
+$ hadoop fs -getMerge s3://your-bucket/statistics/ some-local-file.tsv
+$ java -jar dkpro-c4corpus-hadoop-1.0.0.jar \
+de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.statistics.StatisticsTableCreator \
+some-local-file.tsv output-table.csv
+```
+
+
+
 ### Collecting word distribution statistics
 
 1. Collect word statistics
