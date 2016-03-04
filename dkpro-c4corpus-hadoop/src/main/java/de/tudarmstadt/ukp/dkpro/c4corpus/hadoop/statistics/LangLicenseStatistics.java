@@ -147,9 +147,9 @@ public class LangLicenseStatistics
         @Override
         protected void reduce(Text key, Iterable<MapWritable> values, Context context)
                 throws IOException, InterruptedException {
-            // collect statistics
-            int documentCounts = 0;
-            int tokensCount = 0;
+            // collect statistics (int is too short for that!)
+            long documentCounts = 0;
+            long tokensCount = 0;
             for (MapWritable mapWritable : values) {
                 documentCounts += ((IntWritable) mapWritable.get(KEY_DOCUMENTS)).get();
                 tokensCount += ((IntWritable) mapWritable.get(KEY_TOKENS)).get();

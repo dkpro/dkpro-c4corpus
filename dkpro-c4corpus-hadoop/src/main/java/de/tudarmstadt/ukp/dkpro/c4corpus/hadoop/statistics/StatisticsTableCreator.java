@@ -32,10 +32,10 @@ import java.io.*;
  */
 public class StatisticsTableCreator
 {
-    public static Table<String, String, Integer> loadTable(InputStream stream)
+    public static Table<String, String, Long> loadTable(InputStream stream)
             throws IOException
     {
-        Table<String, String, Integer> result = TreeBasedTable.create();
+        Table<String, String, Long> result = TreeBasedTable.create();
 
         LineIterator lineIterator = IOUtils.lineIterator(stream, "utf-8");
         while (lineIterator.hasNext()) {
@@ -46,8 +46,8 @@ public class StatisticsTableCreator
             String[] split = line.split("\t");
             String language = split[0];
             String license = split[1];
-            Integer documents = Integer.valueOf(split[2]);
-            Integer tokens = Integer.valueOf(split[3]);
+            Long documents = Long.valueOf(split[2]);
+            Long tokens = Long.valueOf(split[3]);
 
             result.put(language, "docs " + license, documents);
             result.put(language, "tokens " + license, tokens);
@@ -56,7 +56,7 @@ public class StatisticsTableCreator
         return result;
     }
 
-    public static void saveTableToCsv(Table<String, String, Integer> table,
+    public static void saveTableToCsv(Table<String, String, Long> table,
             OutputStream outputStream)
     {
         PrintWriter pw = new PrintWriter(outputStream);
@@ -69,7 +69,7 @@ public class StatisticsTableCreator
         for (String rowKey : table.rowKeySet()) {
             pw.printf("%s;", rowKey);
             for (String columnKey : table.columnKeySet()) {
-                Integer value = table.get(rowKey, columnKey);
+                Long value = table.get(rowKey, columnKey);
                 pw.printf("%d;", value != null ? value : 0);
             }
             pw.println();

@@ -450,11 +450,11 @@ and analogically
 * ``<artifactId>dkpro-c4corpus-hadoop</artifactId>``
 
 
-## Corpus statistics reported in the LREC article TODO update
+## Corpus statistics reported in the LREC article
 
-### Tokens and documents counts in the final corpus
+### Token and document counts in the final corpus
 
-Reports in Table TODO were collected using the following M/R job:
+Reports in Table 7 were collected using the following M/R job:
 
 ```
 de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.statistics.LangLicenseStatistics
@@ -466,81 +466,62 @@ Run it with the following parameters on EMR cluster:
 s3://ukp-research-data/c4corpus/cc-final-2015-11/*.warc.gz s3://your-bucket/statistics
 ```
 
-Then download the results into a single local file and convert it to a CSV table:
+Then download the results into a local file system and convert it to a CSV table:
 
 ```
-$ hadoop fs -getMerge s3://your-bucket/statistics/ some-local-file.tsv
-$ java -jar dkpro-c4corpus-hadoop-1.0.0.jar \
+$ aws s3 cp s3://ukp-research-data/c4corpus/statistics/cc-final-2015-11/ . --recursive
+$ gunzip *.gz -c > stats.tsv
+$ java -cp dkpro-c4corpus-hadoop-1.0.0.jar \
 de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.statistics.StatisticsTableCreator \
-some-local-file.tsv output-table.csv
+stats.tsv stats-table.csv
 ```
-
 
 
 ### Collecting word distribution statistics
 
-1. Collect word statistics
-
+* Collect word statistics (CommonCrawl CC)
 ```
-hadoop jar c4corpus-tools-1.0-SNAPSHOT.jar de.tudarmstadt.aiphes.c4corpus.hadoop.statistics.vocabulary.WARCWordDistribution -Dmapreduce.job.queuename=shortrunning /user/habernal/lrec2015-ccweb-phase1/Lic_publicdomain_Lang_en*,/user/habernal/lrec2015-ccweb-phase1/Lic_cc-unspecified_Lang_en*,/user/habernal/lrec2015-ccweb-phase1/Lic_by*_Lang_en* /user/habernal/lrec2015-ccweb-phase1-vocabulary
-
-
--- common crawl cc
-hadoop jar c4corpus-tools-1.0-SNAPSHOT.jar de.tudarmstadt.aiphes.c4corpus.hadoop.statistics.vocabulary.WARCWordDistribution -Dmapreduce.job.queuename=shortrunning /user/habernal/lrec2015-commoncrawl-subset-phase1/Lic_publicdomain_Lang_en*,/user/habernal/lrec2015-commoncrawl-subset-phase1/Lic_cc-unspecified_Lang_en*,/user/habernal/lrec2015-commoncrawl-subset-phase1/Lic_by*_Lang_en* /user/habernal/lrec2015-commoncrawl-subset-phase1-vocabulary
-
--- common crawl none
-hadoop jar c4corpus-tools-1.0-SNAPSHOT.jar de.tudarmstadt.aiphes.c4corpus.hadoop.statistics.vocabulary.WARCWordDistribution -Dmapreduce.job.queuename=shortrunning /user/habernal/lrec2015-commoncrawl-subset-phase1/Lic_none_Lang_en* /user/habernal/lrec2015-commoncrawl-subset-phase1-vocabulary-none
-
+hadoop jar dkpro-c4corpus-hadoop-1.0.0.jar \ 
+de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.statistics.vocabulary.WARCWordDistribution \
+s3://ukp-research-data/c4corpus/statistics/cc-final-2015-11/Lic_publicdomain_Lang_en*,\
+s3://ukp-research-data/c4corpus/statistics/cc-final-2015-11/Lic_cc-unspecified_Lang_en*,\
+s3://ukp-research-data/c4corpus/statistics/cc-final-2015-11/Lic_by*_Lang_en* \
+s3://your-bucket/output-folder1
 ```
 
-2. Sort vocabularies using Pig
+* Sort vocabularies using Pig
 
 `$ pig`
 
 ```PigLatin
-a = LOAD '/user/habernal/lrec2015-enwiki-vocabulary/*' AS (word:chararray, counts:int);
+a = LOAD 's3://your-bucket/output-folder1*' AS (word:chararray, counts:int);
 b = order a by counts desc;
 c = filter b by counts > 4;
-store c into '/user/habernal/lrec2015-enwiki-vocabulary-sorted/' using PigStorage();
+store c into 's3://your-bucket/output-folder2' using PigStorage();
 ```
 
-TODO: consider creating a pig script (http://sudarmuthu.com/blog/passing-command-line-arguments-to-pig-scripts/)
-
-3. Get data to your local filesystem
+* Get data to your local filesystem
 
 ```
-hadoop fs -getmerge /user/habernal/lrec2015-brown-vocabulary-sorted/* brown-vocabulary-sorted.txt
+hadoop fs -getmerge s3://your-bucket/output-folder2/* cc-vocabulary-sorted.txt
 ```
 
-4. Compare two corpora using `de.tudarmstadt.aiphes.c4corpus.hadoop.statistics.vocabulary.TopNWordsCorrelation`
+* Compare two corpora using `de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.statistics.vocabulary.TopNWordsCorrelation`
+    * parameters `brown-vocabulary-sorted.txt another-corpus.txt topNWords`
 
-* parameters `brown-vocabulary-sorted.txt another-corpus.txt topNWords`
 
 ## Collect vocabulary distribution from Wikipedia
 
 
-1. Download Wikipedia dump
-
-```
-wget http://download.wikimedia.org/enwiki/latest/enwiki-latest-pages-articles.xml.bz2
-```
-
-(Note: torrents are much faster)
-
-2. Run WikiExtractor.py to extract plain text (http://medialab.di.unipi.it/wiki/Wikipedia_Extractor)
-
-```
-./WikiExtractor.py -c -o extracted
-```
-
-3. Upload Wikipedia to HDFS
-
-
-habernal@node-00b:~/wikipedia/extracted-merged$ for file in * ; do echo $file ; filename=$(basename "$file") ; cat $file | hadoop fs -put - "/user/habernal/enwiki/$filename" ; done
-
-
+* Download Wikipedia dump
+    * ``wget http://download.wikimedia.org/enwiki/latest/enwiki-latest-pages-articles.xml.bz2``
+    * (Note: torrents are much faster)
+* Run WikiExtractor.py to extract plain text (http://medialab.di.unipi.it/wiki/Wikipedia_Extractor)
+    * ``./WikiExtractor.py -c -o extracted``
+* Upload Wikipedia to HDFS
 ```
 ~/wikipedia/extracted$ for prefix in * ; do for file in $prefix/* ; do echo $prefix ; echo $file; \
- filename=$(basename "$file") ; echo $filename; head -1 $file; \
-  cat $file | hadoop fs -put - "/user/habernal/enwiki/$prefix_$filename.txt" ; done; done
+filename=$(basename "$file") ; echo $filename; head -1 $file; \
+cat $file | hadoop fs -put - "/user/your-folder/enwiki/$prefix_$filename.txt" ; done; done
 ```
+* We ran this step on a local Hadoop cluster; you have to adjust it to work on AWS EMR
