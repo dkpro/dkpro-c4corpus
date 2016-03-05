@@ -449,6 +449,69 @@ and analogically
 * ``<artifactId>dkpro-c4corpus-language</artifactId>``
 * ``<artifactId>dkpro-c4corpus-hadoop</artifactId>``
 
+## Working with C4Corpus - Word count example
+
+Although you can download the C4Corpus to your computer and process it locally, it is probably
+worth running it on an AWS EMR cluster (good scalability).
+
+See ``de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.examples.WordCountExample`` under ``dkpro-c4corpus-hadoop`` 
+which is an adaptation of the famous word counting example present in every Hadoop tutorial.
+
+You should run it on the processed C4Corpus; here we want to count words in all German data.
+
+* Spin an EMR cluster. It doesn't have to be big, I tested this example with 2 nodes
+    * Tested with ``emr-4.2.0`` distribution but it should work with newer ones as well
+    * Also add ``Pig 0.14.0`` if you want to analyze the output
+* Run this step, change your output bucket accordingly
+
+```
+hadoop jar s3://your-bucket/dkpro-c4corpus-hadoop-1.0.0.jar \
+de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.examples.WordCounterExample \
+s3://ukp-research-data/c4corpus/cc-final-2015-11/*Lang_de*.warc.gz \
+s3://ukp-research-data/c4corpus/statistics/examples-word-count-de-2015-11/
+```
+
+This will produce several plain text files with words and its counts. The output is pretty big (320 MB)
+because of many "words" with a single occurrence.
+ 
+Let's explore that deeper using Pig. Login to your headnode, i.e.,
+
+``
+ssh -i your-keypair.pem hadoop@ec2-54-85-129-184.compute-1.amazonaws.com
+``
+
+and run Pig
+
+```
+[hadoop@ip-172-31-9-118 ~]$ pig
+[...]
+grunt> words = load 's3://ukp-research-data/c4corpus/statistics/examples-word-count-de-2015-11/' 
+ as (word:chararray, counts:int);
+grunt> sorted = order words by counts desc;
+grunt> top100 = limit sorted 100;
+grunt> dump top100;
+[...]
+(und,43420735)
+(der,38801000)
+(die,36769583)
+(in,24394590)
+(r,16453990)
+(von,15897453)
+(f,15624384)
+(den,15533307)
+(mit,15096028)
+(ist,15001207)
+(zu,14588717)
+(das,13847411)
+(auf,11843696)
+(1,11153547)
+(nicht,10757865)
+(im,10262142)
+[...]
+```
+
+This will sort the words by their counts (revesed) and prints the top 100 words to the console.
+Consult [Pig documentation](http://pig.apache.org/) for further data manipulation.
 
 ## Corpus statistics reported in the LREC article
 
