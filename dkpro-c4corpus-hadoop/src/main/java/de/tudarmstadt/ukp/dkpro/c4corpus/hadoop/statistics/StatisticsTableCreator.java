@@ -56,8 +56,7 @@ public class StatisticsTableCreator
         return result;
     }
 
-    public static void saveTableToCsv(Table<String, String, Long> table,
-            OutputStream outputStream)
+    public static void saveTableToCsv(Table<String, String, Long> table, OutputStream outputStream)
     {
         PrintWriter pw = new PrintWriter(outputStream);
         pw.write(";");
