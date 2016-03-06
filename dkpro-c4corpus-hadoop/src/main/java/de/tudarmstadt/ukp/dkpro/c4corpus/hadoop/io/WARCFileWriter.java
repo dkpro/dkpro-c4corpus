@@ -148,6 +148,15 @@ public class WARCFileWriter
         Path path = workOutputPath.suffix(String.format(extensionFormat, segmentsCreated));
         FileSystem fs = path.getFileSystem(conf);
 
+        // find a non-existing output path by increasing segment counter
+        // see https://github.com/dkpro/dkpro-c4corpus/issues/13
+        while (fs.exists(path)) {
+            logger.warn("Output path " + path + " already exists; increasing segment counter");
+            segmentsCreated++;
+            path = workOutputPath.suffix(String.format(extensionFormat, segmentsCreated));
+            fs = path.getFileSystem(conf);
+        }
+
         FSDataOutputStream fsStream = (progress == null) ?
                 fs.create(path, false) :
                 fs.create(path, progress);
