@@ -21,10 +21,11 @@ import de.tudarmstadt.ukp.dkpro.c4corpus.boilerplate.BoilerPlateRemoval;
 import de.tudarmstadt.ukp.dkpro.c4corpus.boilerplate.impl.JusTextBoilerplateRemoval;
 import de.tudarmstadt.ukp.dkpro.c4corpus.deduplication.impl.ParallelDocumentDeDuplication;
 import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.CharsetDetector;
-import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.ConfigurationHelper;
 import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.LanguageIdentifier;
 import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.impl.CybozuLanguageIdentifier;
 import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.impl.ICUCharsetDetectorWrapper;
+import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io.WARCInputFormat;
+import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io.WARCOutputFormat;
 import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io.WARCRecord;
 import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io.WARCWritable;
 import de.tudarmstadt.ukp.dkpro.c4corpus.license.LicenseDetector;
@@ -32,11 +33,16 @@ import de.tudarmstadt.ukp.dkpro.c4corpus.license.impl.FastRegexLicenceDetector;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.conf.Configured;
+import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.LongWritable;
-import org.apache.hadoop.io.Text;
+import org.apache.hadoop.io.NullWritable;
+import org.apache.hadoop.io.compress.GzipCodec;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
+import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.FileSplit;
+import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+import org.apache.hadoop.mapreduce.lib.output.LazyOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
@@ -68,8 +74,30 @@ public class Phase1FullJob
     {
         Job job = Job.getInstance(getConf());
         // set from the command line
-        ConfigurationHelper.configureJob(job, Phase1FullJob.class, MapperClass.class,
-                WARCWriterReducerClass.class, args[0], args[1]);
+
+        job.setJarByClass(Phase1FullJob.class);
+        job.setJobName(Phase1FullJob.class.getName());
+
+        // mapper
+        job.setMapperClass(MapperClass.class);
+
+        // no reducer
+
+        // input-output is warc
+        job.setInputFormatClass(WARCInputFormat.class);
+        // prevent producing empty files
+        LazyOutputFormat.setOutputFormatClass(job, WARCOutputFormat.class);
+
+        // mapper output data
+        job.setMapOutputKeyClass(NullWritable.class);
+        job.setMapOutputValueClass(WARCWritable.class);
+
+        // set output compression to GZip
+        FileOutputFormat.setCompressOutput(job, true);
+        FileOutputFormat.setOutputCompressorClass(job, GzipCodec.class);
+
+        FileInputFormat.addInputPaths(job, args[0]);
+        FileOutputFormat.setOutputPath(job, new Path(args[1]));
 
         return job.waitForCompletion(true) ? 0 : 1;
     }
@@ -81,7 +109,7 @@ public class Phase1FullJob
     }
 
     public static class MapperClass
-            extends Mapper<LongWritable, WARCWritable, Text, WARCWritable>
+            extends Mapper<LongWritable, WARCWritable, NullWritable, WARCWritable>
     {
 
         private final static CharsetDetector CHARSET_DETECTOR = new ICUCharsetDetectorWrapper();
@@ -100,7 +128,7 @@ public class Phase1FullJob
         private static final Charset UTF8_CHARSET = Charset.forName("utf-8");
 
         // only meaningful html pages
-        private static final Set<String> ALLOWED_CONTENT_TYPES = new HashSet<String>(
+        private static final Set<String> ALLOWED_CONTENT_TYPES = new HashSet<>(
                 Arrays.asList("text/html", "application/xhtml+xml"));
 
         // mapper parameter
@@ -241,8 +269,7 @@ public class Phase1FullJob
             header.setField("Content-Length", String.valueOf(plainTextBytes.length));
 
             // create prefix as a key
-            context.write(new Text(WARCWriterReducerClass.createOutputFilePrefix(license,
-                    language, noBoilerplate)), value);
+            context.write(NullWritable.get(), value);
 
             // collect some stats to logs
             recordCounter++;
