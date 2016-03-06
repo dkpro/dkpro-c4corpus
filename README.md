@@ -259,9 +259,10 @@ You can remove boilerplate from HTML pages locally.
 
 * ``dkpro-c4corpus-boilerplate`` contains a Java implementation of a state-of-the-art boilerplate removal (JusText, Pomikalek, 2011) 
 * ``dkpro-c4corpus-deduplication`` implements near-duplicate content detection based on SimHash
-* ``dkpro-c4corpus-hadoop`` contains several Hadoop Map/Reduce jobs for running the pipeline agains the CommonCrawl corpus
+* ``dkpro-c4corpus-hadoop`` contains several Hadoop Map/Reduce jobs for running the pipeline on the CommonCrawl corpus
 * ``dkpro-c4corpus-language`` provides language and encoding detection functionality
 * ``dkpro-c4corpus-license`` implements Creative Commons license detection in html pages
+* ``dkpro-c4corpus-warc-io`` contains I/O tools for reading WARC file format 
 
 Except ``dkpro-c4corpus-hadoop`` the modules are independent of each other and can run locally without Hadoop.
 
