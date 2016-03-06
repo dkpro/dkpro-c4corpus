@@ -48,6 +48,7 @@
 		<module>dkpro-c4corpus-license</module>
 		<module>dkpro-c4corpus-language</module>
 		<module>dkpro-c4corpus-deduplication</module>
+		<module>dkpro-c4corpus-warc-io</module>
 		<module>dkpro-c4corpus-hadoop</module>
 	</modules>
 
