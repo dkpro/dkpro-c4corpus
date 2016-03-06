@@ -18,8 +18,8 @@
 package de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.statistics.vocabulary;
 
 import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io.WARCInputFormat;
-import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io.WARCRecord;
 import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io.WARCWritable;
+import de.tudarmstadt.ukp.dkpro.c4corpus.warc.io.WARCRecord;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
@@ -58,7 +58,7 @@ public class WARCWordDistribution
 
         private static final Text word = new Text();
         private final static IntWritable one = new IntWritable(1);
-        private String tokens = "[_|$#<>\\^=\\[\\]\\*/\\\\,;,.\\-:()?!\"`'{}]";
+        private String tokens = "[_|$#<>\\^=\\[\\]\\*/\\\\,;.\\-:()?!\"`'{}]";
 
         @Override
         protected void map(LongWritable key, WARCWritable value, Context context)

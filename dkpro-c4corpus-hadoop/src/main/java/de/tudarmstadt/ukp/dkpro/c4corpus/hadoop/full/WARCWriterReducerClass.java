@@ -18,9 +18,8 @@
 
 package de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.full;
 
-import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io.WARCRecord;
 import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io.WARCWritable;
-import de.tudarmstadt.ukp.dkpro.c4corpus.license.LicenseDetector;
+import de.tudarmstadt.ukp.dkpro.c4corpus.warc.io.WARCRecord;
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;

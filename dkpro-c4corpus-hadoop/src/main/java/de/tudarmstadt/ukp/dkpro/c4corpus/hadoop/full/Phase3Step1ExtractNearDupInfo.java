@@ -22,8 +22,8 @@ import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.deduplication.DeDuplicationTextO
 import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.deduplication.DocumentInfo;
 import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.deduplication.DocumentInfoOutputFormat;
 import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io.WARCInputFormat;
-import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io.WARCRecord;
 import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io.WARCWritable;
+import de.tudarmstadt.ukp.dkpro.c4corpus.warc.io.WARCRecord;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
@@ -107,8 +107,8 @@ public class Phase3Step1ExtractNearDupInfo
             //ID of single warc record (document)
             String docID = value.getRecord().getHeader().getRecordID();
 
-            String docSimHashString = value.getRecord().getHeader().getField(
-                    WARCRecord.WARCRecordFieldConstants.SIMHASH);
+            String docSimHashString = value.getRecord().getHeader()
+                    .getField(WARCRecord.WARCRecordFieldConstants.SIMHASH);
             if (docSimHashString == null) {
                 throw new IOException(
                         WARCRecord.WARCRecordFieldConstants.SIMHASH + " metadata not found");
@@ -117,8 +117,8 @@ public class Phase3Step1ExtractNearDupInfo
 
             int docLength = docText.length();
 
-            String language = value.getRecord().getHeader().getField(
-                    WARCRecord.WARCRecordFieldConstants.LANGUAGE);
+            String language = value.getRecord().getHeader()
+                    .getField(WARCRecord.WARCRecordFieldConstants.LANGUAGE);
 
             //get the binary representation of this document split into bands
             Set<String> bandsOfBitsHashIndex = SimHashUtils.computeHashIndex(docSimHash);

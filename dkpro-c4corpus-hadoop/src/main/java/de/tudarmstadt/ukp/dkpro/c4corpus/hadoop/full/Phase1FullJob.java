@@ -26,10 +26,10 @@ import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.impl.CybozuLanguageIdentifier;
 import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.impl.ICUCharsetDetectorWrapper;
 import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io.WARCInputFormat;
 import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io.WARCOutputFormat;
-import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io.WARCRecord;
 import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io.WARCWritable;
 import de.tudarmstadt.ukp.dkpro.c4corpus.license.LicenseDetector;
 import de.tudarmstadt.ukp.dkpro.c4corpus.license.impl.FastRegexLicenceDetector;
+import de.tudarmstadt.ukp.dkpro.c4corpus.warc.io.WARCRecord;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.conf.Configured;
@@ -257,8 +257,7 @@ public class Phase1FullJob
             header.setField(WARCRecord.WARCRecordFieldConstants.NO_BOILERPLATE, noBoilerplate);
 
             // add simhash
-            header.setField(WARCRecord.WARCRecordFieldConstants.SIMHASH,
-                    Long.toString(docSimHash));
+            header.setField(WARCRecord.WARCRecordFieldConstants.SIMHASH, Long.toString(docSimHash));
 
             // replace the content with the plain text
             value.getRecord().setContent(plainText);

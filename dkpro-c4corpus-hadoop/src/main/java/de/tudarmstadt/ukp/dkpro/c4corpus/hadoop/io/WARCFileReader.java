@@ -19,6 +19,7 @@
  */
 package de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io;
 
+import de.tudarmstadt.ukp.dkpro.c4corpus.warc.io.WARCRecord;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
@@ -64,7 +65,8 @@ public class WARCFileReader
         logger.info("Reading from " + filePath);
 
         CompressionCodec codec = filePath.getName().endsWith(".gz") ?
-                WARCFileWriter.getGzipCodec(conf) : null;
+                WARCFileWriter.getGzipCodec(conf) :
+                null;
         byteStream = new CountingInputStream(new BufferedInputStream(fs.open(filePath)));
         dataStream = new DataInputStream(
                 codec == null ? byteStream : codec.createInputStream(byteStream));

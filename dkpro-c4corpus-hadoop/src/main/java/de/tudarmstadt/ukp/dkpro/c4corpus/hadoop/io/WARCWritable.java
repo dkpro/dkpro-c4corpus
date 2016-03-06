@@ -19,6 +19,7 @@
  */
 package de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io;
 
+import de.tudarmstadt.ukp.dkpro.c4corpus.warc.io.WARCRecord;
 import org.apache.hadoop.io.Writable;
 
 import java.io.DataInput;

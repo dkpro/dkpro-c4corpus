@@ -16,9 +16,8 @@
  * limitations under the License.
  */
 
-package de.tudarmstadt.ukp.dkpro.c4corpus.hadoop;
+package de.tudarmstadt.ukp.dkpro.c4corpus.warc.io;
 
-import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io.WARCRecord;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
@@ -37,9 +36,8 @@ public class WARCRecordTest
     public void testParseWARCInfo()
             throws IOException
     {
-        DataInputStream stream = new DataInputStream(
-                new ByteArrayInputStream(("WARC/1.0\r\n" + "WARC-Type: warcinfo\r\n"
-                        + "WARC-Date: 2014-03-18T17:47:38Z\r\n"
+        DataInputStream stream = new DataInputStream(new ByteArrayInputStream(
+                ("WARC/1.0\r\n" + "WARC-Type: warcinfo\r\n" + "WARC-Date: 2014-03-18T17:47:38Z\r\n"
                         + "WARC-Record-ID: <urn:uuid:d9bbb325-c09f-473c-8600-1c9dbd4ec443>\r\n"
                         + "Content-Length: 371\r\n" + "Content-Type: application/warc-fields\r\n"
                         + "WARC-Filename: CC-MAIN-20140313024455-00000-ip-10-183-142-35.ec2.internal.warc.gz\r\n"
@@ -65,26 +63,22 @@ public class WARCRecordTest
     public void testExtractHTTPHeaderContentType()
             throws Exception
     {
-        String httpHeaders = "HTTP/1.1 200 OK\n"
-                + "Date: Sun, 05 Jul 2015 17:30:02 GMT\n"
+        String httpHeaders = "HTTP/1.1 200 OK\n" + "Date: Sun, 05 Jul 2015 17:30:02 GMT\n"
                 + "Server: Apache/2.2.29 (Unix) FrontPage/5.0.2.2635\n"
                 + "X-Powered-By: PHP/5.3.29-pl0-gentoo\n"
                 + "X-Pingback: http://0351de3.netsolhost.com/WordPress/xmlrpc.php\n"
                 + "Link: <http://0351de3.netsolhost.com/WordPress/?p=8261>; rel=shortlink\n"
-                + "Connection: close\n"
-                + "Content-Type: text/html; charset=UTF-8\n";
+                + "Connection: close\n" + "Content-Type: text/html; charset=UTF-8\n";
 
         assertEquals("text/html", WARCRecord.extractHTTPHeaderContentType(httpHeaders));
 
-        httpHeaders = "HTTP/1.1 200 OK\n"
-                + "Date: Sun, 05 Jul 2015 17:30:02 GMT\n"
+        httpHeaders = "HTTP/1.1 200 OK\n" + "Date: Sun, 05 Jul 2015 17:30:02 GMT\n"
                 + "Content-Type: application/xhtml+xml\n"
                 + "Server: Apache/2.2.29 (Unix) FrontPage/5.0.2.2635\n";
 
         assertEquals("application/xhtml+xml", WARCRecord.extractHTTPHeaderContentType(httpHeaders));
 
-        httpHeaders = "HTTP/1.1 200 OK\n"
-                + "Date: Sun, 05 Jul 2015 17:30:02 GMT\n"
+        httpHeaders = "HTTP/1.1 200 OK\n" + "Date: Sun, 05 Jul 2015 17:30:02 GMT\n"
                 + "Content-Type: application/wordperfect5.1;\n"
                 + "Server: Apache/2.2.29 (Unix) FrontPage/5.0.2.2635\n";
 
@@ -97,25 +91,21 @@ public class WARCRecordTest
     public void testExtractHTTPHeaderCharset()
             throws Exception
     {
-        String httpHeaders = "HTTP/1.1 200 OK\n"
-                + "Date: Sun, 05 Jul 2015 17:30:02 GMT\n"
+        String httpHeaders = "HTTP/1.1 200 OK\n" + "Date: Sun, 05 Jul 2015 17:30:02 GMT\n"
                 + "Server: Apache/2.2.29 (Unix) FrontPage/5.0.2.2635\n"
                 + "X-Powered-By: PHP/5.3.29-pl0-gentoo\n"
                 + "X-Pingback: http://0351de3.netsolhost.com/WordPress/xmlrpc.php\n"
                 + "Link: <http://0351de3.netsolhost.com/WordPress/?p=8261>; rel=shortlink\n"
-                + "Connection: close\n"
-                + "Content-Type: text/html; charset= UTF-8\n";
+                + "Connection: close\n" + "Content-Type: text/html; charset= UTF-8\n";
 
         assertEquals("utf-8", WARCRecord.extractHTTPHeaderCharset(httpHeaders));
 
-        httpHeaders = "HTTP/1.1 200 OK\n"
-                + "Date: Sun, 05 Jul 2015 17:30:02 GMT\n"
+        httpHeaders = "HTTP/1.1 200 OK\n" + "Date: Sun, 05 Jul 2015 17:30:02 GMT\n"
                 + "Server: Apache/2.2.29 (Unix) FrontPage/5.0.2.2635\n"
                 + "X-Powered-By: PHP/5.3.29-pl0-gentoo\n"
                 + "X-Pingback: http://0351de3.netsolhost.com/WordPress/xmlrpc.php\n"
                 + "Link: <http://0351de3.netsolhost.com/WordPress/?p=8261>; rel=shortlink\n"
-                + "Connection: close\n"
-                + "Content-Type: text/html; charset=charset=ISO-8859-4";
+                + "Connection: close\n" + "Content-Type: text/html; charset=charset=ISO-8859-4";
 
         assertEquals("iso-8859-4", WARCRecord.extractHTTPHeaderCharset(httpHeaders));
 

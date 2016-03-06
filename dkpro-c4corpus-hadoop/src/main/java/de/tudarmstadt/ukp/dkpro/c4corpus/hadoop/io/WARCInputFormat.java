@@ -19,6 +19,7 @@
  */
 package de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io;
 
+import de.tudarmstadt.ukp.dkpro.c4corpus.warc.io.WARCRecord;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.mapreduce.InputSplit;

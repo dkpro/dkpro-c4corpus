@@ -19,6 +19,7 @@
  */
 package de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io;
 
+import de.tudarmstadt.ukp.dkpro.c4corpus.warc.io.WARCRecord;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FSDataOutputStream;
 import org.apache.hadoop.fs.FileSystem;
@@ -124,8 +125,7 @@ public class WARCFileWriter
         try {
             return ReflectionUtils.newInstance(
                     conf.getClassByName("org.apache.hadoop.io.compress.GzipCodec")
-                            .asSubclass(CompressionCodec.class),
-                    conf);
+                            .asSubclass(CompressionCodec.class), conf);
         }
         catch (ClassNotFoundException e) {
             logger.warn("GzipCodec could not be instantiated", e);
@@ -145,8 +145,7 @@ public class WARCFileWriter
     {
         bytesWritten = 0;
 
-        Path path = workOutputPath.suffix(
-                String.format(extensionFormat, segmentsCreated));
+        Path path = workOutputPath.suffix(String.format(extensionFormat, segmentsCreated));
         FileSystem fs = path.getFileSystem(conf);
 
         FSDataOutputStream fsStream = (progress == null) ?

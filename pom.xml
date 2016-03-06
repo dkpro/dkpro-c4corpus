@@ -100,6 +100,11 @@
 				<artifactId>dkpro-c4corpus-license</artifactId>
 				<version>${project.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>org.dkpro.c4corpus</groupId>
+				<artifactId>dkpro-c4corpus-warc-io</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 
 			<!--JSoup lib is also used on multiple places -->
 			<dependency>

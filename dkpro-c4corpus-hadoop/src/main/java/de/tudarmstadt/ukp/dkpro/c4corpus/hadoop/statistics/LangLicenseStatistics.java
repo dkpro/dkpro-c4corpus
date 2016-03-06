@@ -19,8 +19,8 @@
 package de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.statistics;
 
 import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.ConfigurationHelper;
-import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io.WARCRecord;
 import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io.WARCWritable;
+import de.tudarmstadt.ukp.dkpro.c4corpus.warc.io.WARCRecord;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.io.*;
 import org.apache.hadoop.mapreduce.Job;

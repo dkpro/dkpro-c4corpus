@@ -18,8 +18,8 @@
 package de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.full;
 
 import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.ConfigurationHelper;
-import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io.WARCRecord;
 import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io.WARCWritable;
+import de.tudarmstadt.ukp.dkpro.c4corpus.warc.io.WARCRecord;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.NullWritable;
@@ -53,10 +53,8 @@ public class Phase2ExactMatchDeDuplication
     {
         Job job = Job.getInstance(getConf());
         //set from the command line
-        ConfigurationHelper
-                .configureJob(job, Phase1FullJob.class, ExactMatchDetectionMapper.class,
-                        ExactMatchDetectionReducer.class,
-                        args[0], args[1]);
+        ConfigurationHelper.configureJob(job, Phase1FullJob.class, ExactMatchDetectionMapper.class,
+                ExactMatchDetectionReducer.class, args[0], args[1]);
 
         return job.waitForCompletion(true) ? 0 : 1;
 
@@ -77,13 +75,12 @@ public class Phase2ExactMatchDeDuplication
                 throws IOException, InterruptedException
         {
 
-            String docSimHashString = value.getRecord().getHeader().getField(
-                    WARCRecord.WARCRecordFieldConstants.SIMHASH);
+            String docSimHashString = value.getRecord().getHeader()
+                    .getField(WARCRecord.WARCRecordFieldConstants.SIMHASH);
 
             if (docSimHashString == null) {
-                throw new IOException(
-                        WARCRecord.WARCRecordFieldConstants.SIMHASH
-                                + " metadata not found. Did you run Phase1 on the data?");
+                throw new IOException(WARCRecord.WARCRecordFieldConstants.SIMHASH
+                        + " metadata not found. Did you run Phase1 on the data?");
             }
 
             String docLength = String.valueOf(value.getRecord().getHeader().getContentLength());

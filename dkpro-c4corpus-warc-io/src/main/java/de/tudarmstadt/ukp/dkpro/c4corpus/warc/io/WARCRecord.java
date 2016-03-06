@@ -17,7 +17,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io;
+package de.tudarmstadt.ukp.dkpro.c4corpus.warc.io;
 
 import java.io.*;
 import java.util.LinkedHashMap;
@@ -110,7 +110,7 @@ public class WARCRecord
             throw new IOException("Expected WARC version, but got: " + versionLine);
         }
 
-        LinkedHashMap<String, String> headers = new LinkedHashMap<String, String>();
+        LinkedHashMap<String, String> headers = new LinkedHashMap<>();
         String line, fieldName = null;
 
         do {
@@ -564,7 +564,7 @@ public class WARCRecord
     }
 
     /**
-     * Constants for additional project-specific fields in {@linkplain de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io.WARCRecord.Header#getField(String)}
+     * Constants for additional project-specific fields in {@linkplain WARCRecord.Header#getField(String)}
      */
     public static class WARCRecordFieldConstants
     {

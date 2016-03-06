@@ -23,7 +23,7 @@ import de.tudarmstadt.ukp.dkpro.c4corpus.boilerplate.impl.JusTextBoilerplateRemo
 import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.CharsetDetector;
 import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.impl.ICUCharsetDetectorWrapper;
 import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io.WARCFileWriter;
-import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io.WARCRecord;
+import de.tudarmstadt.ukp.dkpro.c4corpus.warc.io.WARCRecord;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.compress.CompressionCodec;
@@ -72,8 +72,7 @@ public class WarcBoilerplateRemoval
         int recordsRead = 0;
 
         Path outputPath = new Path(outFile.getAbsolutePath());
-        WARCFileWriter warcFileWriter = new WARCFileWriter(conf, codec,
-                outputPath);
+        WARCFileWriter warcFileWriter = new WARCFileWriter(conf, codec, outputPath);
 
         // detecting the correct charset
         final CharsetDetector charsetDetector = new ICUCharsetDetectorWrapper();
@@ -133,9 +132,8 @@ public class WarcBoilerplateRemoval
             throw new IOException(crcFile + " was not deleted");
         }
 
-        System.out.printf(Locale.ENGLISH, "%d records written to %s, total time %f%n",
-                recordsRead, outFile.getName(),
-                counter * 1000f / (double) (System.currentTimeMillis() - startTime)
-        );
+        System.out.printf(Locale.ENGLISH, "%d records written to %s, total time %f%n", recordsRead,
+                outFile.getName(),
+                counter * 1000f / (double) (System.currentTimeMillis() - startTime));
     }
 }
