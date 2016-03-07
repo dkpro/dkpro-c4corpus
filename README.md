@@ -352,6 +352,66 @@ s3://your-bucket/output-path/cc-phase1out-2015-11
 
 Consult [AWS EMR Documentation](http://docs.aws.amazon.com/cli/latest/reference/emr/create-cluster.html) for details.
 
+
+```
+Elapsed: 	10hrs, 30mins, 54sec
+Diagnostics: 	
+Average Map Time 	21mins, 37sec
+Average Shuffle Time 	4hrs, 2mins, 32sec
+Average Merge Time 	2sec
+Average Reduce Time 	6mins, 11sec 
+
+Job Counters 
+		Killed map tasks=1
+		Killed reduce tasks=9
+		Launched map tasks=34901
+		Launched reduce tasks=1038
+		Data-local map tasks=34901
+		Total time spent by all maps in occupied slots (ms)=2355616565952
+		Total time spent by all reduces in occupied slots (ms)=1597882218400
+		Total time spent by all map tasks (ms)=45300318576
+		Total time spent by all reduce tasks (ms)=15364252100
+		Total vcore-seconds taken by all map tasks=45300318576
+		Total vcore-seconds taken by all reduce tasks=15364252100
+		Total megabyte-seconds taken by all map tasks=75379730110464
+		Total megabyte-seconds taken by all reduce tasks=51132230988800
+	Map-Reduce Framework
+		Map input records=5218270609
+		Map output records=1106772814
+		Map output bytes=5486829270291
+		Map output materialized bytes=2915042688228
+		Input split bytes=7953710
+		Combine input records=0
+		Combine output records=0
+		Reduce input groups=1999
+		Reduce shuffle bytes=2915042688228
+		Reduce input records=1106772814
+		Reduce output records=1106772814
+		Spilled Records=2219542021
+		Shuffled Maps =35912100
+		Failed Shuffles=0
+		Merged Map outputs=35912100
+		GC time elapsed (ms)=609065604
+		CPU time spent (ms)=49256484730
+		Physical memory (bytes) snapshot=43846440337408
+		Virtual memory (bytes) snapshot=77435973947392
+		Total committed heap usage (bytes)=43111809548288
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters 
+		Bytes Read=31414560882228
+	File Output Format Counters 
+		Bytes Written=1793068433099
+
+```
+
+
+
 #### Phase 2: Exact match de-duplication
 
 Similarly as in the previous step, but with different parameters
