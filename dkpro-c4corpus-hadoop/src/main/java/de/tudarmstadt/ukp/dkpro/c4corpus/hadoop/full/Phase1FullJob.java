@@ -297,7 +297,7 @@ public class Phase1FullJob
     /**
      * Keeps only values
      */
-    private class SimpleReducer
+    public static class SimpleReducer
             extends Reducer<IntWritable, WARCWritable, NullWritable, WARCWritable>
     {
         @Override
