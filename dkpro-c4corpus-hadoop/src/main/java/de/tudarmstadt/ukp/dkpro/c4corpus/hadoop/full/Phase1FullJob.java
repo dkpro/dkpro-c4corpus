@@ -34,15 +34,18 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.NullWritable;
+import org.apache.hadoop.io.compress.CompressionCodec;
 import org.apache.hadoop.io.compress.GzipCodec;
+import org.apache.hadoop.io.compress.SnappyCodec;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
+import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.FileSplit;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
-import org.apache.hadoop.mapreduce.lib.output.LazyOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
@@ -81,15 +84,20 @@ public class Phase1FullJob
         // mapper
         job.setMapperClass(MapperClass.class);
 
-        // no reducer
+        // we will compress the mapper's output (use fast Snappy compressor)
+        job.getConfiguration().setBoolean(Job.MAP_OUTPUT_COMPRESS, true);
+        job.getConfiguration()
+                .setClass(Job.MAP_OUTPUT_COMPRESS_CODEC, SnappyCodec.class, CompressionCodec.class);
+
+        // reducer
+        job.setReducerClass(SimpleReducer.class);
 
         // input-output is warc
         job.setInputFormatClass(WARCInputFormat.class);
-        // prevent producing empty files
-        LazyOutputFormat.setOutputFormatClass(job, WARCOutputFormat.class);
+        job.setOutputFormatClass(WARCOutputFormat.class);
 
         // mapper output data
-        job.setMapOutputKeyClass(NullWritable.class);
+        job.setMapOutputKeyClass(IntWritable.class);
         job.setMapOutputValueClass(WARCWritable.class);
 
         // set output compression to GZip
@@ -109,7 +117,7 @@ public class Phase1FullJob
     }
 
     public static class MapperClass
-            extends Mapper<LongWritable, WARCWritable, NullWritable, WARCWritable>
+            extends Mapper<LongWritable, WARCWritable, IntWritable, WARCWritable>
     {
 
         private final static CharsetDetector CHARSET_DETECTOR = new ICUCharsetDetectorWrapper();
@@ -267,8 +275,14 @@ public class Phase1FullJob
             byte[] plainTextBytes = plainText.getBytes(UTF8_CHARSET);
             header.setField("Content-Length", String.valueOf(plainTextBytes.length));
 
+            // create random hash from docSimHash which breaks the hamming distance
+            // never use NullWritable as output key!
+            // https://support.pivotal.io/hc/en-us/articles/202810986-Mapper-output-key-
+            // value-NullWritable-can-cause-reducer-phase-to-move-slowly
+            int randomHash = String.valueOf(docSimHash).hashCode() % 1000;
+
             // create prefix as a key
-            context.write(NullWritable.get(), value);
+            context.write(new IntWritable(randomHash), value);
 
             // collect some stats to logs
             recordCounter++;
@@ -280,4 +294,19 @@ public class Phase1FullJob
         }
     }
 
+    /**
+     * Keeps only values
+     */
+    private class SimpleReducer
+            extends Reducer<IntWritable, WARCWritable, NullWritable, WARCWritable>
+    {
+        @Override
+        protected void reduce(IntWritable key, Iterable<WARCWritable> values, Context context)
+                throws IOException, InterruptedException
+        {
+            for (WARCWritable warcWritable : values) {
+                context.write(NullWritable.get(), warcWritable);
+            }
+        }
+    }
 }
