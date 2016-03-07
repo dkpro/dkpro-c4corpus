@@ -597,5 +597,10 @@ public class WARCRecord
          * Original location
          */
         public static final String ORIGINAL_LOCATION = "c4_originalLocation";
+
+        /**
+         * Boolean tag for minimal html
+         */
+        public static final String MINIMAL_HTML = "c4_minimalHtml";
     }
 }

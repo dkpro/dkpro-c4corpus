@@ -54,7 +54,7 @@ public class WARCWriterReducerClass
      * @throws IllegalArgumentException if any of the parameter is {@code null} or empty
      */
     public static String createOutputFilePrefix(String license, String language,
-            String noBoilerplate)
+            String noBoilerplate, String minimalHtml)
     {
         if (license == null || license.isEmpty()) {
             throw new IllegalArgumentException("Licence is null/empty (val: '" + license + "')");
@@ -69,8 +69,13 @@ public class WARCWriterReducerClass
                     "noBoilerplate is null/empty (val: '" + noBoilerplate + "')");
         }
 
-        return String.format(Locale.ENGLISH, "Lic_%s_Lang_%s_NoBoilerplate_%s", license, language,
-                noBoilerplate);
+        if (minimalHtml == null || minimalHtml.isEmpty()) {
+            throw new IllegalArgumentException(
+                    "minimalHtml is null/empty (val: '" + minimalHtml + "')");
+        }
+
+        return String.format(Locale.ENGLISH, "Lic_%s_Lang_%s_NoBoilerplate_%s_MinHtml_%s", license, language,
+                noBoilerplate, minimalHtml);
     }
 
     /**
@@ -120,9 +125,11 @@ public class WARCWriterReducerClass
         String language = header.getField(WARCRecord.WARCRecordFieldConstants.LANGUAGE);
         String noBoilerplate = header
                 .getField(WARCRecord.WARCRecordFieldConstants.NO_BOILERPLATE);
+        String minimalHtml = header.getField(WARCRecord.WARCRecordFieldConstants.MINIMAL_HTML);
+
 
         // set the file name prefix
-        String fileName = createOutputFilePrefix(license, language, noBoilerplate);
+        String fileName = createOutputFilePrefix(license, language, noBoilerplate, minimalHtml);
 
         // bottleneck of single reducer for all "Lic_none_Lang_en" pages (majority of Web)
 //        if ("en".equals(language) && LicenseDetector.NO_LICENCE.equals(license)) {

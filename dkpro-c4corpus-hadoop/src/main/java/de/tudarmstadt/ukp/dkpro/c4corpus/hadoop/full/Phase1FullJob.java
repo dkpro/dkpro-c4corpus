@@ -264,6 +264,10 @@ public class Phase1FullJob
             String noBoilerplate = Boolean.TRUE.toString();
             header.setField(WARCRecord.WARCRecordFieldConstants.NO_BOILERPLATE, noBoilerplate);
 
+            // minimal html tag
+            String minimalHtml = Boolean.valueOf(this.keepMinimalHTML).toString();
+            header.setField(WARCRecord.WARCRecordFieldConstants.MINIMAL_HTML, minimalHtml);
+
             // add simhash
             header.setField(WARCRecord.WARCRecordFieldConstants.SIMHASH, Long.toString(docSimHash));
 
