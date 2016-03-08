@@ -90,7 +90,7 @@ public class Phase1FullJob
                 .setClass(Job.MAP_OUTPUT_COMPRESS_CODEC, SnappyCodec.class, CompressionCodec.class);
 
         // reducer
-        job.setReducerClass(SimpleReducer.class);
+        job.setReducerClass(SimpleWarcWriterReducer.class);
 
         // input-output is warc
         job.setInputFormatClass(WARCInputFormat.class);
@@ -301,7 +301,7 @@ public class Phase1FullJob
     /**
      * Keeps only values
      */
-    public static class SimpleReducer
+    public static class SimpleWarcWriterReducer
             extends Reducer<IntWritable, WARCWritable, NullWritable, WARCWritable>
     {
         @Override

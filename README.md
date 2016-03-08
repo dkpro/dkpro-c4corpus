@@ -424,7 +424,55 @@ s3://your-bucket/output-path/cc-phase2out-2015-11/
 ```
 
 Took 22 minutes with 4 + 16 c3.8xlarge instances. 
-                     
+
+```
+Job Counters 
+		Launched map tasks=2088
+		Launched reduce tasks=522
+		Data-local map tasks=2088
+		Total time spent by all maps in occupied slots (ms)=35480702088
+		Total time spent by all reduces in occupied slots (ms)=74178655824
+		Total time spent by all map tasks (ms)=682321194
+		Total time spent by all reduce tasks (ms)=713256306
+		Total vcore-seconds taken by all map tasks=682321194
+		Total vcore-seconds taken by all reduce tasks=713256306
+		Total megabyte-seconds taken by all map tasks=1135382466816
+		Total megabyte-seconds taken by all reduce tasks=2373716986368
+	Map-Reduce Framework
+		Map input records=1105484605
+		Map output records=1105484605
+		Map output bytes=5508868950574
+		Map output materialized bytes=2338339670842
+		Input split bytes=311112
+		Combine input records=0
+		Combine output records=0
+		Reduce input groups=427404794
+		Reduce shuffle bytes=2338339670842
+		Reduce input records=1105484605
+		Reduce output records=427404794
+		Spilled Records=3316291949
+		Shuffled Maps =1089936
+		Failed Shuffles=2990
+		Merged Map outputs=1089936
+		GC time elapsed (ms)=4112696
+		CPU time spent (ms)=484494420
+		Physical memory (bytes) snapshot=2619546624000
+		Virtual memory (bytes) snapshot=6272763899904
+		Total committed heap usage (bytes)=2961300258816
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=653
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters 
+		Bytes Read=1793068399499
+	File Output Format Counters 
+		Bytes Written=907193887387
+```
+
+
 #### Phase 3: Detecting near duplicates
 
 ##### Step 1: Extract near duplicates info
