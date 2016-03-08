@@ -189,6 +189,28 @@ ubuntu@ip-172-31-50-XX:~$ aws s3 ls s3://ukp-research-data/c4corpus/cc-phase1out
 2016-02-02 13:12:12  435304263 Lic_by-nc-nd_Lang_en_NoBoilerplate_true-r-00284.seg-00005.warc.gz
 ```
 
+##### Downloading the free part of C4Corpus
+
+This will print all file names with CC, public domain or cc-unspecified licenses
+
+```
+ubuntu@ip-172-31-50-XX:~$ for i in `aws s3 ls s3://ukp-research-data/c4corpus/cc-final-2015-11/ | \
+ awk '{print $4}' | grep -E 'Lic_by*|Lic_public*|Lic_cc*' ` ; do echo $i; done
+```
+
+Now copy all these files to the local dir
+
+```
+ubuntu@ip-172-31-50-XX:~$ for i in `aws s3 ls s3://ukp-research-data/c4corpus/cc-final-2015-11/ | awk '{print $4}' | grep -E 'Lic_by*|Lic_public*|Lic_cc*' ` ; do aws s3 cp s3://ukp-research-data/c4corpus/cc-final-2015-11/${i} c4corpus-2015-11/ ; done
+download: s3://ukp-research-data/c4corpus/cc-final-2015-11/Lic_by-nc-nd_Lang_af_NoBoilerplate_true-r-00023.seg-00000.warc.gz to c4corpus-2015-11/Lic_by-nc-nd_Lang_af_NoBoilerplate_true-r-00023.seg-00000.warc.gz
+download: s3://ukp-research-data/c4corpus/cc-final-2015-11/Lic_by-nc-nd_Lang_ar_NoBoilerplate_true-r-00035.seg-00000.warc.gz to c4corpus-2015-11/Lic_by-nc-nd_Lang_ar_NoBoilerplate_true-r-00035.seg-00000.warc.gz
+download: s3://ukp-research-data/c4corpus/cc-final-2015-11/Lic_by-nc-nd_Lang_bg_NoBoilerplate_true-r-00055.seg-00000.warc.gz to c4corpus-2015-11/Lic_by-nc-nd_Lang_bg_NoBoilerplate_true-r-00055.seg-00000.warc.gz
+[...]
+```
+
+Be aware of transfer costs in AWS!
+
+
 ### Running boilerplate removal outside Hadoop
 
 You can remove boilerplate from HTML pages locally.
