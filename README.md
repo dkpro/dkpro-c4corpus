@@ -270,6 +270,18 @@ You can remove boilerplate from HTML pages locally.
     <p>Image copyright AP</p>
     ```
 
+### List of URLs from CommonCrawl
+
+* All URLs can be extracted using ``de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.uriextractor.URIExtractor``
+
+* Extracted URLs from 2016-07 crawl are available at our public S3 bucket, size 25.55 GB:
+
+```
+$ aws s3 ls s3://ukp-research-data/c4corpus/common-crawl-full-url-list-2016-07/
+[...]
+$ aws s3 ls s3://ukp-research-data/c4corpus/common-crawl-full-url-list-2016-07/ | \ 
+awk '{ sum += $3 }; END { print sum } '
+```
 
 ## C4CorpusTools Developer's Guide
 
