@@ -26,10 +26,21 @@ Please use the following citation if you use C4Corpus or C4CorpusTools
 }
 ```
 
-> **Abstract:** TODO add from paper 
+> **Abstract:** Large Web corpora containing full documents with permissive licenses are crucial
+for many NLP tasks. In this article we present the construction of 12 million-pages Web corpus
+(over 10 billion tokens) licensed under CreativeCommons license family in 50+ languages that has
+been extracted from CommonCrawl, the largest publicly available general Web crawl to date with
+about 2 billion crawled URLs. Our highly-scalable Hadoop-based framework is able to process the
+full CommonCrawl corpus on 2000+ CPU cluster on the Amazon Elastic Map/Reduce infrastructure.
+The processing pipeline includes license identification, state-of-the-art boilerplate removal,
+exact duplicate and near-duplicate document removal, and language detection. The construction
+of the corpus is highly configurable and fully reproducible, and we provide both the framework
+(DKPro C4CorpusTools) and the resulting data (C4Corpus) to the research community.
 
 
 **Contact person:** Ivan Habernal, habernal@ukp.informatik.tu-darmstadt.de
+
+The full article is available at the [UKP website](https://www.ukp.tu-darmstadt.de/publications/details/?tx_bibtex_pi1[pub_id]=TUD-CS-2016-0023).
 
 UKP Lab: http://www.ukp.tu-darmstadt.de/ &mdash; TU Darmstadt: http://www.tu-darmstadt.de/
 
