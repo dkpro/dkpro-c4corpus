@@ -110,12 +110,12 @@ Default output format [None]:
 #### 4. Test accessing the CommonCrawl
 
 ```
-ubuntu@ip-172-31-50-XX:~$ aws s3 ls s3://aws-publicdatasets/common-crawl/crawl-data/CC-MAIN-2015-18/
+ubuntu@ip-172-31-50-XX:~$ aws s3 ls s3://aws-publicdatasets/common-crawl/crawl-data/CC-MAIN-2015-48/
                            PRE segments/
-2015-05-27 01:37:59       1366 segment.paths.gz
-2015-05-27 01:37:59     121379 warc.paths.gz
-2015-05-27 01:38:00     120377 wat.paths.gz
-2015-05-27 01:38:00     120377 wet.paths.gz
+2015-12-18 16:32:16        654 segment.paths.gz
+2015-12-18 16:32:16     109521 warc.paths.gz
+2015-12-18 16:32:16     109417 wat.paths.gz
+2015-12-18 16:32:16     109418 wet.paths.gz
 ```
 
 #### 5. Test accessing C4Corpus
