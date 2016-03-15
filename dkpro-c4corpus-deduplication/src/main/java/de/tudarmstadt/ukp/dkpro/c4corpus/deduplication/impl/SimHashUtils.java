@@ -114,8 +114,6 @@ public class SimHashUtils
      */
     public static Set<String> computeHashIndex(long docHash)
     {
-
-        //band index
         int bandIndex = 0;
         //a band (window) used to store a part of the hash (represented in bits)
         BitSet bitRange = new BitSet(BAND_WIDTH);
@@ -124,18 +122,33 @@ public class SimHashUtils
         Set<String> bandBitset = new HashSet<>();
         //divide our HASH_LENGTH-bit hash into bit ranges of BandWidth bits
         for (int i = 0; i < HASH_LENGTH; ++i) {
-            bitRange.set(bitsWidthCounter, ((docHash >> i) & 1) == 1);
-            if (bitsWidthCounter++ == BAND_WIDTH) {
-
+            bitRange.set(bitsWidthCounter++, ((docHash >> i) & 1) == 1);
+            if (bitsWidthCounter == BAND_WIDTH) {
                 bandBitset.add(bandIndex + "_" + bitRange.toString());
-
                 bitsWidthCounter = 0;
-                bitRange = new BitSet(BAND_WIDTH); // reset bitRange holder.
+                bitRange.clear();
                 bandIndex++;
             }
         }
         return bandBitset;
     }
+
+    /**
+     * Slice a 64-bit hash into four hashes, each with all but a 16-bit
+     * range masked out. It will be used to get similar candidates.
+     *
+     * @param docHash
+     * @return
+     */
+    public static long[] sliceHash(long docHash)
+    {
+        long[] result = new long[4];
+        for (int i = 0; i < 4; i++) {
+            result[i] = docHash & (0xffffL << (i*16));
+        }
+        return result;
+    }
+
 
     /**
      * Compress the hashes of all the shingles of one document to a single
