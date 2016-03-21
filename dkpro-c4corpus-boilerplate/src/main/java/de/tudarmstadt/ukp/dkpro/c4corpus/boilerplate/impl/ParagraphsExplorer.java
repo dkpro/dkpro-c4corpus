@@ -46,12 +46,10 @@ public class ParagraphsExplorer
         INNERTEXT_ONLY, BLOCKLEVEL, UNKNOW
     }
 
-    ;
-
     public ParagraphsExplorer()
     {
-        this.paragraphs = new LinkedList<Paragraph>();
-        nodes = new LinkedList<Node>();
+        this.paragraphs = new LinkedList<>();
+        nodes = new LinkedList<>();
     }
 
     @Override
@@ -75,7 +73,7 @@ public class ParagraphsExplorer
     /**
      * Get the paragraphs after visiting the document
      *
-     * @return
+     * @return paragraphs
      */
     public LinkedList<Paragraph> getParagraphs()
     {
@@ -103,7 +101,6 @@ public class ParagraphsExplorer
             return;
         case INNERTEXT_ONLY:
             appendToLastParagraph(node);
-            return;
         }
     }
 
@@ -174,7 +171,7 @@ public class ParagraphsExplorer
 
     /**
      * Visit from node to the ancestor - if all the visited ancestors are
-     * {@link NodeHelper.TagType#INNERTEXT} returns
+     * {@link NodeHelper.TagType#INNER_TEXT} returns
      * {@link ParagraphsExplorer.AncestorState#INNERTEXT_ONLY} - if one of the
      * visited ancestors is {@link NodeHelper#isBlockTag(Node)}
      * returns {@link ParagraphsExplorer.AncestorState#BLOCKLEVEL} - otherwise

@@ -112,10 +112,7 @@ public class Document implements Comparable<Document> {
             return false;
         }
         final Document other = (Document) obj;
-        if ((this.docID == null) ? (other.docID != null) : !this.docID.equals(other.docID)) {
-            return false;
-        }
-        return true;
+        return (this.docID == null) ? other.docID == null : this.docID.equals(other.docID);
     }
 
     @Override

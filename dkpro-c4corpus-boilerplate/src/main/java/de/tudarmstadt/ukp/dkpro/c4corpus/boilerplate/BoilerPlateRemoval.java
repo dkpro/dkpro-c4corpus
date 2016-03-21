@@ -34,7 +34,7 @@ public interface BoilerPlateRemoval
      * @param locale Locale (language) of the html page, if known in advance. If {@code locale} is
      *               {@code null}, the implementing class should take care of language identification
      * @return plain text string
-     * @throws java.io.IOException
+     * @throws IOException exception
      */
     String getPlainText(String html, Locale locale)
             throws IOException;
@@ -48,7 +48,7 @@ public interface BoilerPlateRemoval
      * @param locale Locale (language) of the html page, if known in advance. If {@code locale} is
      *               {@code null}, the implementing class should take care of language identification
      * @return html string
-     * @throws java.io.IOException
+     * @throws IOException exception
      */
     String getMinimalHtml(String html, Locale locale)
             throws IOException;

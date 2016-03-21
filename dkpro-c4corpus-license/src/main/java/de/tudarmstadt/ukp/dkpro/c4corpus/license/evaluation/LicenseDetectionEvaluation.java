@@ -72,7 +72,7 @@ public class LicenseDetectionEvaluation {
 
         float precision = tp / (float) (tp + fp);
         float recall = tp / (float) (tp + fn);
-        float fScore = (2 * precision * recall) / (float) (precision + recall);
+        float fScore = (2 * precision * recall) / (precision + recall);
 
         System.out.println("The page is licensed and predicted as licensed => True Positive: " + tp);
         System.out.println("The page is not licensed and not predicted as licensed => True Negative: " + tn);

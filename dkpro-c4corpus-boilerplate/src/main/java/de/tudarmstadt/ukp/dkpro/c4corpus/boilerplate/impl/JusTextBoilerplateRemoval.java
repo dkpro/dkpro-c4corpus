@@ -34,9 +34,9 @@ import java.util.*;
 /**
  * Re-implementing the jusText python boilerplate removal algorithm (Pomikalek,
  * 2011)
- * <p/>
+ * <br/>
  * References:
- * <p/>
+ * <br/>
  * Pomikalek, J. (2011). Removing boilerplate and duplicate content from web corpora.
  * Ph.D. thesis, Masaryk university, Faculty of informatics, Brno, Czech Republic.
  *
