@@ -175,7 +175,7 @@ public class Paragraph
     /**
      * links density means the number of characters of the sentence defining the link
      * divide by the length of the whole paragraph.
-     * e.g: hi {@cde <a ...>omnia</a>} this is an example
+     * e.g: hi {@code <a ...>omnia</a>} this is an example
      * link density = 5 (length of omnia) / 26 (paragraph length)
      *
      * @return

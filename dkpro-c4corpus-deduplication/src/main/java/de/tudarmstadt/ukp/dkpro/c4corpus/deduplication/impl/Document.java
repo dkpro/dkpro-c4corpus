@@ -22,14 +22,17 @@ package de.tudarmstadt.ukp.dkpro.c4corpus.deduplication.impl;
  *
  * @author Omnia ayed
  */
-public class Document implements Comparable<Document> {
+public class Document
+        implements Comparable<Document>
+{
 
     private String docID;
     private Integer docLength;
     private Long docSimHash;
     private String docLang;
 
-    public void createDocument(String documentInfoCommaSep) {
+    public void createDocument(String documentInfoCommaSep)
+    {
         //process the doc
         String[] idLengSimHashOfDoc = documentInfoCommaSep.split(";");
 
@@ -46,47 +49,53 @@ public class Document implements Comparable<Document> {
         this.docLang = docLang;
     }
 
-    public void setDocID(String docID) {
+    public void setDocID(String docID)
+    {
         this.docID = docID;
     }
 
-    public void setDocLength(int docLength) {
+    public void setDocLength(int docLength)
+    {
         this.docLength = docLength;
     }
 
-    public void setDocSimHash(long docSimHash) {
+    public void setDocSimHash(long docSimHash)
+    {
         this.docSimHash = docSimHash;
     }
 
-    public void setDocLanguage(String lang) {
+    public void setDocLanguage(String lang)
+    {
         this.docLang = lang;
     }
 
-    public String getDocID() {
+    public String getDocID()
+    {
         return docID;
     }
 
-    public Integer getDocLength() {
+    public Integer getDocLength()
+    {
         return docLength;
     }
 
-    public Long getDocSimHash() {
+    public Long getDocSimHash()
+    {
         return docSimHash;
     }
 
-    public String getDocLang() {
+    public String getDocLang()
+    {
         return docLang;
     }
 
-    /**
+    /*
      * a compare method to be used when adding Document to a TreeSet or similar
      * sorted data structure
-     *
-     * @param d1
-     * @return
      */
     @Override
-    public int compareTo(Document d1) {
+    public int compareTo(Document d1)
+    {
 
         int cmp = docLength.compareTo(d1.docLength);
 
@@ -95,7 +104,7 @@ public class Document implements Comparable<Document> {
             //either the documents have exact match content or it is just a coincidance
             //so the SimHash must be checked
             //exact match documents will have identical SimHash
-//            return docSimHash.compareTo(d1.getDocSimHash());
+            //            return docSimHash.compareTo(d1.getDocSimHash());
             //it is better to sort the ID alphabeticly if two documents have the same length
             return docID.compareTo(d1.docID);
         }
@@ -104,7 +113,8 @@ public class Document implements Comparable<Document> {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(Object obj)
+    {
         if (obj == null) {
             return false;
         }
@@ -116,7 +126,8 @@ public class Document implements Comparable<Document> {
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         int hash = 3;
         hash = 53 * hash + (this.docID != null ? this.docID.hashCode() : 0);
 
@@ -124,8 +135,8 @@ public class Document implements Comparable<Document> {
     }
 
     @Override
-    public String toString() {
-        String result = this.docID + ";" + this.docLength + ";" + this.docSimHash;
-        return result;
+    public String toString()
+    {
+        return this.docID + ";" + this.docLength + ";" + this.docSimHash;
     }
 }

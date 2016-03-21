@@ -38,14 +38,11 @@ public class SimHashUtils
 
     /**
      * converts a text into a number of "characters n-grams" shingles.
-     *
-     * @param text
-     * @return
      */
     public static Set<String> createCharGramsShingles(String text)
     {
 
-        Set<String> shingles = new HashSet<String>();
+        Set<String> shingles = new HashSet<>();
 
         for (int i = 0; i < text.length() - CHAR_GRAM_LENGTH + 1; i++) {
             // extract an ngram
@@ -66,7 +63,7 @@ public class SimHashUtils
     public static Set<Integer> hash(Set<String> shingles)
     {
 
-        Set<Integer> hashedShingles = new LinkedHashSet<Integer>();
+        Set<Integer> hashedShingles = new LinkedHashSet<>();
 
         for (String shingle : shingles) {
             int hashValue = shingle.hashCode();
