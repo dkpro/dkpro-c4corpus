@@ -110,12 +110,12 @@ Default output format [None]:
 #### 4. Test accessing the CommonCrawl
 
 ```
-ubuntu@ip-172-31-50-XX:~$ aws s3 ls s3://aws-publicdatasets/common-crawl/crawl-data/CC-MAIN-2015-18/
+ubuntu@ip-172-31-50-XX:~$ aws s3 ls s3://aws-publicdatasets/common-crawl/crawl-data/CC-MAIN-2015-48/
                            PRE segments/
-2015-05-27 01:37:59       1366 segment.paths.gz
-2015-05-27 01:37:59     121379 warc.paths.gz
-2015-05-27 01:38:00     120377 wat.paths.gz
-2015-05-27 01:38:00     120377 wet.paths.gz
+2015-12-18 16:32:16        654 segment.paths.gz
+2015-12-18 16:32:16     109521 warc.paths.gz
+2015-12-18 16:32:16     109417 wat.paths.gz
+2015-12-18 16:32:16     109418 wet.paths.gz
 ```
 
 #### 5. Test accessing C4Corpus
@@ -377,7 +377,7 @@ aws emr create-cluster \
 * Path to logs and packed ``dkpro-c4corpus-hadoop-1.0.0.jar``, output path
 * ``bid-price`` if you want to use Spot instances (highly recommended, but might get unstable)
     * If Spot instances died (were over-bidden), the entire job went unstable and failed,
-    I recommend to put your bid higher then usual to make sure you won't loose instances
+    I recommend to put your bid higher then usual to make sure you won't lose instances
 * Parameter ``c4corpus.keepminimalhtml`` is optional. If set to ``true``, the minimal HTML tags
 for each paragraph will be kept (see the example for boilerplate removal above)
 
