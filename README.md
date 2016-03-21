@@ -377,7 +377,7 @@ aws emr create-cluster \
 * Path to logs and packed ``dkpro-c4corpus-hadoop-1.0.0.jar``, output path
 * ``bid-price`` if you want to use Spot instances (highly recommended, but might get unstable)
     * If Spot instances died (were over-bidden), the entire job went unstable and failed,
-    I recommend to put your bid higher then usual to make sure you won't loose instances
+    I recommend to put your bid higher then usual to make sure you won't lose instances
 * Parameter ``c4corpus.keepminimalhtml`` is optional. If set to ``true``, the minimal HTML tags
 for each paragraph will be kept (see the example for boilerplate removal above)
 
