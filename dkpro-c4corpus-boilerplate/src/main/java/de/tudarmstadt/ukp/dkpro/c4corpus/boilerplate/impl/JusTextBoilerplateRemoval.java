@@ -51,7 +51,6 @@ public class JusTextBoilerplateRemoval
     static final double LENGTH_HIGH_DEFAULT = 200;
     static final double STOPWORDS_LOW_DEFAULT = 0.30;
     static final double STOPWORDS_HIGH_DEFAULT = 0.32;
-    static final boolean NO_HEADINGS_DEFAULT = false;
 
     // Short and near-good headings within MAX_HEADING_DISTANCE characters before
     // a good paragraph are classified as good unless --no-headings is specified.
@@ -68,11 +67,8 @@ public class JusTextBoilerplateRemoval
 
     /**
      * covert html to a jsoup document
-     *
-     * @param html
-     * @return
      */
-    public Document convertHtmlToDoc(String html)
+    private Document convertHtmlToDoc(String html)
     {
         //remove comments
         html = html.replaceAll("<!--(.*?)-->", "");
@@ -98,11 +94,8 @@ public class JusTextBoilerplateRemoval
 
     /**
      * remove unwanted parts from a jsoup doc
-     *
-     * @param jsoupDoc
-     * @return
      */
-    public Document cleanDom(Document jsoupDoc)
+    private Document cleanDom(Document jsoupDoc)
     {
         String[] tagsToRemove = { "head", "script", ".hidden", "embedded" };
 
@@ -119,9 +112,6 @@ public class JusTextBoilerplateRemoval
     /**
      * Initialize the Paragraph explorer class in order to convert a document to
      * a list of blocks (paragraphs)
-     *
-     * @param node
-     * @return
      */
     private LinkedList<Paragraph> makeParagraphs(Node node)
     {
@@ -135,16 +125,8 @@ public class JusTextBoilerplateRemoval
      * one of four classes: bad – boilerplate blocks good – main content blocks
      * short – too short to make a reliable decision about the class near-good –
      * somewhere in-between short and good
-     *
-     * @param paragraphs
-     * @param stoplist
-     * @param lengthLow
-     * @param lengthHigh
-     * @param stopwordsLow
-     * @param stopwordsHigh
-     * @param maxLinkDensity
      */
-    public void classifyContextFree(List<Paragraph> paragraphs, Set<String> stoplist,
+    private void classifyContextFree(List<Paragraph> paragraphs, Set<String> stoplist,
             double lengthLow, double lengthHigh, double stopwordsLow,
             double stopwordsHigh, double maxLinkDensity)
     {
@@ -155,7 +137,7 @@ public class JusTextBoilerplateRemoval
         }
         for (Paragraph paragraph : paragraphs) {
             int length = paragraph.getRawText().length();
-            float stopword_density = paragraph.stopwords_density(stopListLower);
+            float stopWordDensity = paragraph.stopwords_density(stopListLower);
             double link_density = paragraph.calcLinksDensity();
 
             if (link_density > maxLinkDensity) {
@@ -173,7 +155,7 @@ public class JusTextBoilerplateRemoval
                     paragraph.setContextFreeClass("short");
                 }
             }
-            else if (stopword_density >= stopwordsHigh) {
+            else if (stopWordDensity >= stopwordsHigh) {
                 if (length > lengthHigh) {
                     paragraph.setContextFreeClass("good");
                 }
@@ -181,7 +163,7 @@ public class JusTextBoilerplateRemoval
                     paragraph.setContextFreeClass("neargood");
                 }
             }
-            else if (stopword_density >= stopwordsLow) {
+            else if (stopWordDensity >= stopwordsLow) {
                 paragraph.setContextFreeClass("neargood");
             }
             else {
@@ -190,35 +172,12 @@ public class JusTextBoilerplateRemoval
         }
     }
 
-    public String getNeighbour(int i, List<Paragraph> paragraphs, boolean ignoreNeargood, int inc,
-            int boundary)
-    {
-        while (i + inc != boundary) {
-            i += inc;
-            String c = paragraphs.get(i).getClassType();
-            if (c.equalsIgnoreCase("good") || c.equalsIgnoreCase("bad")) {
-                return c;
-            }
-            if (c.equalsIgnoreCase("neargood") && !ignoreNeargood) {
-                return c;
-            }
-        }
-        return "bad";
-    }
-
     /**
      * Optimization of the original getNeighbour method to reduce the time
      * complexity. used to save the nearest previous neighbour.
-     *
-     * @param i
-     * @param paragraphs
-     * @param ignoreNeargood
-     * @param inc
-     * @param boundary
-     * @return
      */
-    public String getPrevNeighbourOptimized(int i, List<Paragraph> paragraphs,
-            boolean ignoreNeargood, int inc, int boundary)
+    private String getPrevNeighbourOptimized(int i, List<Paragraph> paragraphs,
+            boolean ignoreNearGood, int inc, int boundary)
     {
         while (i + inc != boundary) {
             i += inc;
@@ -227,7 +186,7 @@ public class JusTextBoilerplateRemoval
                 prevNeighbourCache = new Pair(i, c);
                 return c;
             }
-            if (c.equalsIgnoreCase("neargood") && !ignoreNeargood) {
+            if (c.equalsIgnoreCase("neargood") && !ignoreNearGood) {
                 return c;
             }
             if (prevNeighbourCache != null
@@ -242,18 +201,11 @@ public class JusTextBoilerplateRemoval
     /**
      * Optimization of the original getNeighbour method to reduce the time
      * complexity. used to save the nearest next neighbour.
-     *
-     * @param i
-     * @param paragraphs
-     * @param ignoreNeargood
-     * @param inc
-     * @param boundary
-     * @return
      */
-    public String getNextNeighbourOptimized(int i, List<Paragraph> paragraphs,
+    private String getNextNeighbourOptimized(int i, List<Paragraph> paragraphs,
             boolean ignoreNeargood, int inc, int boundary)
     {
-        int counter = 0; //to avoid infint loop in case the whole document is short
+        int counter = 0; // to avoid infinite loop in case the whole document is short
         while (i + inc != boundary && counter < LOOP_THRESHOLD_OF_NEIGHBOURS) {
             i += inc;
             String c = paragraphs.get(i).getClassType();
@@ -272,7 +224,7 @@ public class JusTextBoilerplateRemoval
                 return nextNeighbourCache.getClassType();
             }
 
-            //corner case if the whole document is initialy short and no bad 
+            //corner case if the whole document is initially short and no bad
             //or good classes at the end of the paragraphs.
             if (nextNeighbourCache == null && i == boundary - 1) {
                 nextNeighbourCache = new Pair(i, "bad");
@@ -284,64 +236,20 @@ public class JusTextBoilerplateRemoval
     }
 
     /**
-     * Return the class of the paragraph at the top end of the short/neargood
-     * paragraphs block. If ignore_neargood is True, than only 'bad' or 'good'
-     * can be returned, otherwise 'neargood' can be returned, too.
-     *
-     * @param i
-     * @param paragraphs
-     * @param ignoreNeargood
-     * @return
-     */
-    @Deprecated // never used
-    public String getPrevNeighbour(int i, List<Paragraph> paragraphs, boolean ignoreNeargood)
-    {
-
-        return getNeighbour(i, paragraphs, ignoreNeargood, -1, -1);
-    }
-
-    /**
      * optimized version to be used only if the class is short and
      * ignoreNeargood is false.
-     *
-     * @param i
-     * @param paragraphs
-     * @param ignoreNeargood
-     * @return
      */
-    public String getPrevNeighbourOptimized(int i, List<Paragraph> paragraphs,
+    private String getPrevNeighbourOptimized(int i, List<Paragraph> paragraphs,
             boolean ignoreNeargood)
     {
         return getPrevNeighbourOptimized(i, paragraphs, ignoreNeargood, -1, -1);
     }
 
     /**
-     * Return the class of the paragraph at the bottom end of the short/neargood
-     * paragraphs block. If ignore_neargood is True, than only 'bad' or 'good'
-     * can be returned, otherwise 'neargood' can be returned, too.
-     *
-     * @param i
-     * @param paragraphs
-     * @param ignoreNeargood
-     * @return
-     */
-    @Deprecated // never used
-    public String getNextNeighbour(int i, List<Paragraph> paragraphs, boolean ignoreNeargood)
-    {
-
-        return getNeighbour(i, paragraphs, ignoreNeargood, 1, paragraphs.size());
-    }
-
-    /**
      * optimized version to be used only if the class is short and
      * ignoreNeargood is false.
-     *
-     * @param i
-     * @param paragraphs
-     * @param ignoreNeargood
-     * @return
      */
-    public String getNextNeighbourOptimized(int i, List<Paragraph> paragraphs,
+    private String getNextNeighbourOptimized(int i, List<Paragraph> paragraphs,
             boolean ignoreNeargood)
     {
         return getNextNeighbourOptimized(i, paragraphs, ignoreNeargood, 1, paragraphs.size());
@@ -352,11 +260,8 @@ public class JusTextBoilerplateRemoval
      * classification of paragraphs has already been called. The purpose is to
      * re classify neargood and short paragraphs according to the classes of the
      * surrounding blocks.
-     *
-     * @param paragraphs
-     * @param maxHeadingDistance
      */
-    public void reclassifyContextSensitive(List<Paragraph> paragraphs, int maxHeadingDistance)
+    private void reclassifyContextSensitive(List<Paragraph> paragraphs, int maxHeadingDistance)
     {
 
         // copy classes 
@@ -383,9 +288,9 @@ public class JusTextBoilerplateRemoval
         }
 
         //re-classify short
-        //a new datastructure is used for storage as we dont want to mess the 
+        //a new data structure is used for storage as we don't want to mess the
         //original classification. It will be used by other parts of the code later.       
-        Map<Integer, String> newClasses = new LinkedHashMap<Integer, String>();
+        Map<Integer, String> newClasses = new LinkedHashMap<>();
 
         for (int i = 0; i < paragraphs.size(); i++) {
             if (!paragraphs.get(i).getClassType().equalsIgnoreCase("short")) {
@@ -395,7 +300,7 @@ public class JusTextBoilerplateRemoval
             String prevNeighbour = getPrevNeighbourOptimized(i, paragraphs, true); //ignore_neargood
             String nextNeighbour = getNextNeighbourOptimized(i, paragraphs, true); //ignore_neargood
 
-            Set<String> neighbours = new LinkedHashSet<String>();
+            Set<String> neighbours = new LinkedHashSet<>();
             neighbours.add(prevNeighbour);
             neighbours.add(nextNeighbour);
 
@@ -463,27 +368,16 @@ public class JusTextBoilerplateRemoval
     /**
      * Converts an HTML page into a list of classified paragraphs. Each
      * paragraph is represented as instance of class "Paragraph"
-     *
-     * @param htmlText
-     * @param stopwordsSet
-     * @param lengthLow
-     * @param lengthHigh
-     * @param stopwordsLow
-     * @param stopwordsHigh
-     * @param maxLinkDensity
-     * @param maxHeadingDistance
-     * @param noHeadings
-     * @return
      */
-    public List<Paragraph> classify(String htmlText, Set<String> stopwordsSet, double lengthLow,
+    private List<Paragraph> classify(String htmlText, Set<String> stopwordsSet, double lengthLow,
             double lengthHigh, double stopwordsLow,
             double stopwordsHigh, double maxLinkDensity,
-            int maxHeadingDistance, boolean noHeadings)
+            int maxHeadingDistance)
     {
 
         //language-independent mode
         if (stopwordsSet.isEmpty()) {
-            //empty stoplist, switch to language-independent mode
+            //empty stop list, switch to language-independent mode
             stopwordsHigh = 0;
             stopwordsLow = 0;
         }
@@ -502,13 +396,8 @@ public class JusTextBoilerplateRemoval
 
     /**
      * using defaults and allowing language-independent mode
-     *
-     * @param htmlText
-     * @param locale
-     * @return
-     * @throws IOException
      */
-    public List<Paragraph> classify(String htmlText, Locale locale)
+    private List<Paragraph> classify(String htmlText, Locale locale)
             throws IOException
     {
 
@@ -530,8 +419,8 @@ public class JusTextBoilerplateRemoval
                 JusTextBoilerplateRemoval.STOPWORDS_LOW_DEFAULT,
                 JusTextBoilerplateRemoval.STOPWORDS_HIGH_DEFAULT,
                 JusTextBoilerplateRemoval.MAX_LINK_DENSITY_DEFAULT,
-                JusTextBoilerplateRemoval.MAX_HEADING_DISTANCE_DEFAULT,
-                JusTextBoilerplateRemoval.NO_HEADINGS_DEFAULT);
+                JusTextBoilerplateRemoval.MAX_HEADING_DISTANCE_DEFAULT
+        );
     }
 
     @Override
