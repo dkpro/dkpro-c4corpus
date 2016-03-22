@@ -1,0 +1,342 @@
+== DKPro C4CorpusTools Developer's Guide
+
+
+* Java 1.6 is required for compiling and running the project
+* For running the Hadoop pipeline, Hadoop 2.6 is recommended
+    * Running the pipeline on CommonCrawl located at S3 requires and active Amazon Web Services (AWS) account
+
+=== Project structure
+
+* ``dkpro-c4corpus-boilerplate`` contains a Java implementation of a state-of-the-art boilerplate removal (JusText, Pomikalek, 2011)
+* ``dkpro-c4corpus-deduplication`` implements near-duplicate content detection based on SimHash
+* ``dkpro-c4corpus-hadoop`` contains several Hadoop Map/Reduce jobs for running the pipeline on the CommonCrawl corpus
+* ``dkpro-c4corpus-language`` provides language and encoding detection functionality
+* ``dkpro-c4corpus-license`` implements Creative Commons license detection in html pages
+* ``dkpro-c4corpus-warc-io`` contains I/O tools for reading WARC file format
+
+Except ``dkpro-c4corpus-hadoop`` the modules are independent of each other and can run locally without Hadoop.
+
+
+
+=== Run the whole pipeline on CommonCrawl corpus
+
+```
+$ mvn package
+```
+
+It will produce a fat jar ``dkpro-c4corpus-hadoop-1.0.0.jar`` in ``dkpro-c4corpus-hadoop/target/``.
+
+Upload the ``dkpro-c4corpus-hadoop-1.0.0.jar`` file into your S3 bucket.
+
+Phase 1: License detection, language detection, and boilerplate removal::
+
+* If you are confident with AWS Elastic Map Reduce command line, you can use the following script
+(slightly modified version of what we used)
+
+```
+aws emr create-cluster \
+    --applications Name=Hadoop \
+    --ec2-attributes \
+        '{"KeyName":"your-keypair-name", \                                         <---- change this
+        "InstanceProfile":"EMR_EC2_DefaultRole", \
+        "SubnetId":"subnet-xxxxx", \                                               <---- change this
+        "EmrManagedSlaveSecurityGroup":"sg-xxxxxx", \                              <---- change this
+        "EmrManagedMasterSecurityGroup":"sg-xxxxxx"}' \                            <---- change this
+    --service-role EMR_DefaultRole \
+    --enable-debugging \
+    --release-label emr-4.2.0 \
+    --log-uri 's3n://your-logs/elasticmapreduce/' \                                <---- change this
+    --steps '[\
+        {"Args":["de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.full.Phase1FullJob", \
+        "-D","mapreduce.task.timeout=7200000", \
+        "-D", "mapreduce.map.failures.maxpercent=5", \
+        "-D", "mapreduce.map.maxattempts=2", \
+        "-D", "c4corpus.keepminimalhtml=true", \                      <---- change this (optionally)
+        "s3://aws-publicdatasets/common-crawl/crawl-data/CC-MAIN-2015-27/segments/*/warc/*.warc.gz",\
+        "s3://ukp-research-data/c4corpus/cc-phase1out-2015-11"], \                 <---- change this
+        "Type":"CUSTOM_JAR", \
+        "ActionOnFailure":"CANCEL_AND_WAIT", \
+        "Jar":"s3://path-to-your/dkpro-c4corpus-hadoop-1.0.0.jar", \               <---- change this
+        "Properties":"", \
+        "Name":"Custom JAR"}]' \
+    --name 'Full cluster phase 1' \
+    --instance-groups '[\
+        {"InstanceCount":32, \                                        <---- change this (optionally)
+            "bid-price":"your-bid-value", \                                        <---- change this
+            "InstanceGroupType":"TASK",\
+            "InstanceType":"c3.8xlarge", \
+            "Name":"c3.8xlarge = 32 CPU"}, \
+        {"InstanceCount":2, \
+            "InstanceGroupType":"CORE",\
+            "InstanceType":"m3.xlarge", \
+            "Name":"Core instance group - 2"}, \
+        {"InstanceCount":1, \
+            "InstanceGroupType":"MASTER", \
+            "InstanceType":"m3.xlarge", \
+            "Name":"Master instance group - 1"}]' \
+    --auto-terminate \
+    --region us-east-1
+```
+
+* Enter your correct ``EmrManagedSlaveSecurityGroup`` and ``SubnetId``
+* Path to logs and packed ``dkpro-c4corpus-hadoop-1.0.0.jar``, output path
+* ``bid-price`` if you want to use Spot instances (highly recommended, but might get unstable)
+    ** If Spot instances died (were over-bidden), the entire job went unstable and failed,
+    I recommend to put your bid higher then usual to make sure you won't lose instances
+* Parameter ``c4corpus.keepminimalhtml`` is optional. If set to ``true``, the minimal HTML tags
+for each paragraph will be kept (see the example for boilerplate removal above)
+
+* Using 32 c3.8xlarge spot instances (each 32 CPUs, thus 1024 CPUs in total), the job finished
+in 22 hours (47,656 Normalized instance hours)
+
+You can also configure the EMR cluster in the Web Console; then you only need to provide manually the
+job parameters, namely path to your  ``dkpro-c4corpus-hadoop-1.0.0.jar`` with the following parameters
+
+```
+de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.full.Phase1FullJob \
+-D mapreduce.task.timeout=36000000 -D mapreduce.map.failures.maxpercent=5 \
+-D mapreduce.map.maxattempts=2 \
+s3://aws-publicdatasets/common-crawl/crawl-data/CC-MAIN-2015-27/segments/*/warc/*.warc.gz \
+s3://your-bucket/output-path/cc-phase1out-2015-11
+```
+
+Consult http://docs.aws.amazon.com/cli/latest/reference/emr/create-cluster.html[AWS EMR Documentation] for details.
+
+
+Phase 2: Exact match de-duplication::
+
+Similarly as in the previous step, but with different parameters
+
+```
+de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.full.Phase2ExactMatchDeDuplication \
+-D mapreduce.task.timeout=36000000 \
+s3://your-bucket/output-path/cc-phase1out-2015-11/*.warc.gz \
+s3://your-bucket/output-path/cc-phase2out-2015-11/
+```
+
+Took 22 minutes with 4 + 16 c3.8xlarge instances.
+
+Phase 3: Detecting near duplicates::
+
+* Step 1: Extract near duplicates info::
+```
+de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.full.Phase3Step1ExtractNearDupInfo \
+s3://your-bucket/output-path/cc-phase2out-2015-11/*.warc.gz \
+s3://your-bucket/output-path/cc-phase3step1out-2015-11/
+```
+
+56 minutes, 1152 normalized instance hours
+
+
+* Step 2: Distinct data::
+
+```
+de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.full.Phase3Step2DistinctDataJob \
+s3://your-bucket/output-path/cc-phase3step1out-2015-11/*.txt \
+s3://your-bucket/output-path/cc-phase3step2out-2015-11/
+```
+
+45 minutes, 384 normalized instance hours
+
+* Step 3: Tuples creation::
+
+```
+de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.full.Phase3Step3NearDupTuplesCreation \
+-D mapreduce.task.timeout=0 \
+s3://your-bucket/output-path/cc-phase3step2out-2015-11/* \
+s3://your-bucket/output-path/cc-phase3step3out-2015-11/
+```
+
+* The timeout should be disabled as while calculating the Hamming distance,
+the mapper neither reads an input, writes an output, nor updates its status string
+so it will fail after the default 3 hours.
+
+
+1 day, 12 hours, 7104 normalized instance hours
+
+* Step 4: Greedy clustering::
+
+
+```
+de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.full.Phase3Step4GreedyClustering \
+-D mapreduce.task.timeout=0 \
+s3://your-bucket/output-path/cc-phase3step3out-2015-11/* \
+s3://your-bucket/output-path/cc-phase3step4out-2015-11/
+```
+
+Phase 4: Removing near duplicates::
+
+```
+de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.full.Phase4RemoveDuplicatesUsingReduceSideJoins \
+s3://your-bucket/output-path/cc-phase3step4out-2015-11/ \
+s3://your-bucket/output-path/cc-phase2out-2015-11/*.warc.gz \
+s3://your-bucket/output-path/cc-phase4out-2015-11/
+```
+
+Phase 5: Sorting final corpus by language and license::
+
+```
+de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.full.Phase5MergeByLangLicJob \
+s3://your-bucket/output-path/cc-phase4out-2015-11/*.warc.gz \
+s3://your-bucket/output-path/cc-final-2015-11/
+```
+
+=== Including C4CorpusTools in your Java projects
+
+C4CorpusTools is hosted on Maven Central, you can add the following dependencies into your ``pom.xml``
+(see descriptions above)
+
+```
+<dependency>
+  <groupId>org.dkpro.c4corpus</groupId>
+  <artifactId>dkpro-c4corpus-boilerplate</artifactId>
+  <version>1.0.0</version>
+</dependency>
+```
+
+and analogically
+
+* ``<artifactId>dkpro-c4corpus-license</artifactId>``
+* ``<artifactId>dkpro-c4corpus-deduplication</artifactId>``
+* ``<artifactId>dkpro-c4corpus-language</artifactId>``
+* ``<artifactId>dkpro-c4corpus-hadoop</artifactId>``
+
+== Working with C4Corpus - Word count example
+
+Although you can download the C4Corpus to your computer and process it locally, it is probably
+worth running it on an AWS EMR cluster (good scalability).
+
+See ``de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.examples.WordCountExample`` under ``dkpro-c4corpus-hadoop``
+which is an adaptation of the famous word counting example present in every Hadoop tutorial.
+
+You should run it on the processed C4Corpus; here we want to count words in all German data.
+
+* Spin an EMR cluster. It doesn't have to be big, I tested this example with 2 nodes
+    ** Tested with ``emr-4.2.0`` distribution but it should work with newer ones as well
+    ** Also add ``Pig 0.14.0`` if you want to analyze the output
+* Run this step, change your output bucket accordingly
+
+```
+hadoop jar s3://your-bucket/dkpro-c4corpus-hadoop-1.0.0.jar \
+de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.examples.WordCounterExample \
+s3://ukp-research-data/c4corpus/cc-final-2015-11/*Lang_de*.warc.gz \
+s3://ukp-research-data/c4corpus/statistics/examples-word-count-de-2015-11/
+```
+
+This will produce several plain text files with words and its counts. The output is pretty big (320 MB)
+because of many "words" with a single occurrence.
+
+Let's explore that deeper using Pig. Login to your headnode, i.e.,
+
+``
+ssh -i your-keypair.pem hadoop@ec2-54-85-129-184.compute-1.amazonaws.com
+``
+
+and run Pig
+
+```
+[hadoop@ip-172-31-9-118 ~]$ pig
+[...]
+grunt> words = load 's3://ukp-research-data/c4corpus/statistics/examples-word-count-de-2015-11/'
+ as (word:chararray, counts:int);
+grunt> sorted = order words by counts desc;
+grunt> top100 = limit sorted 100;
+grunt> dump top100;
+[...]
+(und,43420735)
+(der,38801000)
+(die,36769583)
+(in,24394590)
+(r,16453990)
+(von,15897453)
+(f,15624384)
+(den,15533307)
+(mit,15096028)
+(ist,15001207)
+(zu,14588717)
+(das,13847411)
+(auf,11843696)
+(1,11153547)
+(nicht,10757865)
+(im,10262142)
+[...]
+```
+
+This will sort the words by their counts (revesed) and prints the top 100 words to the console.
+Consult [Pig documentation](http://pig.apache.org/) for further data manipulation.
+
+== Corpus statistics reported in the LREC article
+
+=== Token and document counts in the final corpus
+
+Reports in Table 7 were collected using the following M/R job:
+
+```
+de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.statistics.LangLicenseStatistics
+```
+
+Run it with the following parameters on EMR cluster:
+
+```
+s3://ukp-research-data/c4corpus/cc-final-2015-11/*.warc.gz s3://your-bucket/statistics
+```
+
+Then download the results into a local file system and convert it to a CSV table:
+
+```
+$ aws s3 cp s3://ukp-research-data/c4corpus/statistics/cc-final-2015-11/ . --recursive
+$ gunzip *.gz -c > stats.tsv
+$ java -cp dkpro-c4corpus-hadoop-1.0.0.jar \
+de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.statistics.StatisticsTableCreator \
+stats.tsv stats-table.csv
+```
+
+
+=== Collecting word distribution statistics
+
+* Collect word statistics (CommonCrawl CC)
+```
+hadoop jar dkpro-c4corpus-hadoop-1.0.0.jar \
+de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.statistics.vocabulary.WARCWordDistribution \
+s3://ukp-research-data/c4corpus/statistics/cc-final-2015-11/Lic_publicdomain_Lang_en*,\
+s3://ukp-research-data/c4corpus/statistics/cc-final-2015-11/Lic_cc-unspecified_Lang_en*,\
+s3://ukp-research-data/c4corpus/statistics/cc-final-2015-11/Lic_by*_Lang_en* \
+s3://your-bucket/output-folder1
+```
+
+* Sort vocabularies using Pig
+
+`$ pig`
+
+```PigLatin
+a = LOAD 's3://your-bucket/output-folder1*' AS (word:chararray, counts:int);
+b = order a by counts desc;
+c = filter b by counts > 4;
+store c into 's3://your-bucket/output-folder2' using PigStorage();
+```
+
+* Get data to your local filesystem
+
+```
+hadoop fs -getmerge s3://your-bucket/output-folder2/* cc-vocabulary-sorted.txt
+```
+
+* Compare two corpora using `de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.statistics.vocabulary.TopNWordsCorrelation`
+    ** parameters `brown-vocabulary-sorted.txt another-corpus.txt topNWords`
+
+
+== Collect vocabulary distribution from Wikipedia
+
+
+* Download Wikipedia dump
+    ** ``wget http://download.wikimedia.org/enwiki/latest/enwiki-latest-pages-articles.xml.bz2``
+    ** (Note: torrents are much faster)
+* Run WikiExtractor.py to extract plain text (http://medialab.di.unipi.it/wiki/Wikipedia_Extractor)
+    ** ``./WikiExtractor.py -c -o extracted``
+* Upload Wikipedia to HDFS
+```
+~/wikipedia/extracted$ for prefix in * ; do for file in $prefix/* ; do echo $prefix ; echo $file; \
+filename=$(basename "$file") ; echo $filename; head -1 $file; \
+cat $file | hadoop fs -put - "/user/your-folder/enwiki/$prefix_$filename.txt" ; done; done
+```
+* We ran this step on a local Hadoop cluster; you have to adjust it to work on AWS EMR

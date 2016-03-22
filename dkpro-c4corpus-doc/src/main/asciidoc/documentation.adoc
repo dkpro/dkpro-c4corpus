@@ -15,10 +15,13 @@
 // limitations under the License.
 
 = DKPro C4Corpus™ User Guide and Reference
-:Author: The DKPro Lab Team
+:Author: The DKPro C4Corpus Team
 :toc-title: Documentation
 
-This document targets users of DKPro C4Corpus.
+image::logo_c4_100.png[]
+
+
+This document targets users and developers of DKPro C4Corpus.
 
 include::{include-dir}C4CorpusUsersGuide.adoc[]
 

@@ -1,0 +1,109 @@
+phase1
+
+
+```
+Elapsed: 	10hrs, 30mins, 54sec
+Diagnostics:
+Average Map Time 	21mins, 37sec
+Average Shuffle Time 	4hrs, 2mins, 32sec
+Average Merge Time 	2sec
+Average Reduce Time 	6mins, 11sec
+
+Job Counters
+		Killed map tasks=1
+		Killed reduce tasks=9
+		Launched map tasks=34901
+		Launched reduce tasks=1038
+		Data-local map tasks=34901
+		Total time spent by all maps in occupied slots (ms)=2355616565952
+		Total time spent by all reduces in occupied slots (ms)=1597882218400
+		Total time spent by all map tasks (ms)=45300318576
+		Total time spent by all reduce tasks (ms)=15364252100
+		Total vcore-seconds taken by all map tasks=45300318576
+		Total vcore-seconds taken by all reduce tasks=15364252100
+		Total megabyte-seconds taken by all map tasks=75379730110464
+		Total megabyte-seconds taken by all reduce tasks=51132230988800
+	Map-Reduce Framework
+		Map input records=5218270609
+		Map output records=1106772814
+		Map output bytes=5486829270291
+		Map output materialized bytes=2915042688228
+		Input split bytes=7953710
+		Combine input records=0
+		Combine output records=0
+		Reduce input groups=1999
+		Reduce shuffle bytes=2915042688228
+		Reduce input records=1106772814
+		Reduce output records=1106772814
+		Spilled Records=2219542021
+		Shuffled Maps =35912100
+		Failed Shuffles=0
+		Merged Map outputs=35912100
+		GC time elapsed (ms)=609065604
+		CPU time spent (ms)=49256484730
+		Physical memory (bytes) snapshot=43846440337408
+		Virtual memory (bytes) snapshot=77435973947392
+		Total committed heap usage (bytes)=43111809548288
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters
+		Bytes Read=31414560882228
+	File Output Format Counters
+		Bytes Written=1793068433099
+
+```
+
+
+phase2
+
+```
+Job Counters
+		Launched map tasks=2088
+		Launched reduce tasks=522
+		Data-local map tasks=2088
+		Total time spent by all maps in occupied slots (ms)=35480702088
+		Total time spent by all reduces in occupied slots (ms)=74178655824
+		Total time spent by all map tasks (ms)=682321194
+		Total time spent by all reduce tasks (ms)=713256306
+		Total vcore-seconds taken by all map tasks=682321194
+		Total vcore-seconds taken by all reduce tasks=713256306
+		Total megabyte-seconds taken by all map tasks=1135382466816
+		Total megabyte-seconds taken by all reduce tasks=2373716986368
+	Map-Reduce Framework
+		Map input records=1105484605
+		Map output records=1105484605
+		Map output bytes=5508868950574
+		Map output materialized bytes=2338339670842
+		Input split bytes=311112
+		Combine input records=0
+		Combine output records=0
+		Reduce input groups=427404794
+		Reduce shuffle bytes=2338339670842
+		Reduce input records=1105484605
+		Reduce output records=427404794
+		Spilled Records=3316291949
+		Shuffled Maps =1089936
+		Failed Shuffles=2990
+		Merged Map outputs=1089936
+		GC time elapsed (ms)=4112696
+		CPU time spent (ms)=484494420
+		Physical memory (bytes) snapshot=2619546624000
+		Virtual memory (bytes) snapshot=6272763899904
+		Total committed heap usage (bytes)=2961300258816
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=653
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters
+		Bytes Read=1793068399499
+	File Output Format Counters
+		Bytes Written=907193887387
+```

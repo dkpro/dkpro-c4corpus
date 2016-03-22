@@ -1,0 +1,286 @@
+== DKPro C4CorpusTools
+
+**NOTE: work in progress until 1.0.0 release**
+
+DKPro C4CorpusTools is a collection of tools for processing CommonCrawl corpus, including Creative
+Commons license detection, boilerplate removal, language detection, and near-duplicate removal.
+
+* **DKPro C4CorpusTools** (or C4CorpusTools) refers to the project source codes
+* **C4Corpus** refers the preprocessed CommonCrawl data set (**C4** =
+ **C**reative **C**ommons from **C**ommon **C**rawl)
+
+Please use the following citation if you use C4Corpus or C4CorpusTools
+
+```
+@InProceedings{Habernal.et.al.2016.LREC,
+  author    = {Habernal, Ivan and Zayed, Omnia, and Gurevych, Iryna},
+  title     = {{C4Corpus: Multilingual Web-size corpus with free license}},
+  booktitle = {Proceedings of the 10th International Conference on Language Resources
+               and Evaluation (LREC 2016)},
+  month     = {May},
+  year      = {2016},
+  address   = {Portoro\v{z}, Slovenia},
+  publisher = {European Language Resources Association (ELRA)},
+  pages     = {(to appear)},
+  url       = {TBA}
+}
+```
+
+> **Abstract:** Large Web corpora containing full documents with permissive licenses are crucial
+for many NLP tasks. In this article we present the construction of 12 million-pages Web corpus
+(over 10 billion tokens) licensed under CreativeCommons license family in 50+ languages that has
+been extracted from CommonCrawl, the largest publicly available general Web crawl to date with
+about 2 billion crawled URLs. Our highly-scalable Hadoop-based framework is able to process the
+full CommonCrawl corpus on 2000+ CPU cluster on the Amazon Elastic Map/Reduce infrastructure.
+The processing pipeline includes license identification, state-of-the-art boilerplate removal,
+exact duplicate and near-duplicate document removal, and language detection. The construction
+of the corpus is highly configurable and fully reproducible, and we provide both the framework
+(DKPro C4CorpusTools) and the resulting data (C4Corpus) to the research community.
+
+
+**Contact person:** Ivan Habernal, habernal@ukp.informatik.tu-darmstadt.de
+
+The full article is available at the link:++https://www.ukp.tu-darmstadt.de/publications/details/?tx_bibtex_pi1[pub_id]=TUD-CS-2016-0023++[UKP website].
+
+UKP Lab: http://www.ukp.tu-darmstadt.de/ &mdash; TU Darmstadt: http://www.tu-darmstadt.de/
+
+
+
+* For bug reporting please use the GitHub bug tracker
+* Don't hesitate to send me an e-mail if you have general questions about C4Corpus and C4CorpusTools
+* For questions regarding CommonCrawl or Amazon Web Services, use the appropriate channels
+    ** https://groups.google.com/forum/#!forum/common-crawl[CommonCrawl forum]
+    ** (http://docs.aws.amazon.com[AWS Documentation]
+
+
+The rest of this README contains
+* C4Corpus Users's Guide
+    ** How to access C4Corpus at S3
+    ** Running boilerplate removal outside Hadoop
+* C4Corpus Developers's Guide
+* Corpus statistics reported in the LREC article
+
+
+== C4Corpus User's Guide
+
+Follow these instructions if you don't plan to run the whole processing by yourself but only want to access the final C4Corpus.
+Permission to access the C4Corpus is limited only to Amazon Web Services (AWS) accounts.
+If you don't have an AWS account, you can create one using Free Tier (free for a year),
+see http://aws.amazon.com/ .
+This should be sufficient for accessing the C4Corpus as well as for simple processing.
+AWS Free Tier does not apply for AWS Elastic Map Reduce.
+We strongly recommend to first consult the [official AWS Documentation](http://docs.aws.amazon.com/) if any of the steps below are not clear.
+
+
+=== How to access C4Corpus at S3
+
+The following steps were tested on a clean AWS Free Tier account.
+
+Launch your instance at Amazon EC2::
+* Pick _"US East (N. Virginia)"_ region (``us-east-1``), CommonCrawl and C4Corpus are located here
+* You can run Free Tier server, the following was tested with Ubuntu 14.04 LTS as FreeTier (``t2.micro``)
+    ** Read Amazon EC2 Documentation for details about instance launching, access, etc.
+    ** Remember that you just launched a publicly accessible server, so make sure it's up-to-date and secure;
+    again, refer to AWS documentation
+* Connect to your machine using SSH (you have to use your private ```*.pem``` key which you can only download when launching the instance)
+
+Install required software for command-line access to AWS (including S3)::
+```
+ubuntu@ip-172-31-50-XX:~$ sudo apt-get install awscli
+```
+
+Configure AWS access::
+* You need two keys: _AWS Access Key ID_ and _AWS Secret Access Key_:
+    ** You'll find it under Security Credential settings for your AWS Account at https://console.aws.amazon.com/iam/home?region=us-east-1#security_credential
+    under _"Access Keys (Access Key ID and Secret Access Key)"_. Details are provided in the
+    http://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSGettingStartedGuide/AWSCredentials.html[documentation]
+* Create a new access key and **keep it safe**, because you cannot retrieve the Secret Key later again
+
+```
+ubuntu@ip-172-31-50-XX:~$ aws configure
+AWS Access Key ID [None]: AKIAIHV............
+AWS Secret Access Key [None]: 84uPPc...................................
+Default region name [None]: us-east-1
+Default output format [None]:
+```
+
+Test accessing the CommonCrawl::
+```
+ubuntu@ip-172-31-50-XX:~$ aws s3 ls s3://aws-publicdatasets/common-crawl/crawl-data/CC-MAIN-2015-48/
+                           PRE segments/
+2015-12-18 16:32:16        654 segment.paths.gz
+2015-12-18 16:32:16     109521 warc.paths.gz
+2015-12-18 16:32:16     109417 wat.paths.gz
+2015-12-18 16:32:16     109418 wet.paths.gz
+```
+
+Test accessing C4Corpus::
+
+Part of the final C4Corpus (performed on CC-MAIN-2015-48 crawl)
+
+
+```
+ubuntu@ip-172-XXX:~$ aws s3 ls ukp-research-data/c4corpus/CC-MAIN-2015-48/cc-final-2015-48/ | head
+2016-03-22 10:43:15          0
+2016-03-22 10:48:13      40465 Lic_by-nc-nd_Lang_af_NoBoilerplate_true-r-00023.seg-00000.warc.gz
+2016-03-22 10:48:15    5296281 Lic_by-nc-nd_Lang_ar_NoBoilerplate_true-r-00035.seg-00000.warc.gz
+2016-03-22 10:48:17    4704493 Lic_by-nc-nd_Lang_bg_NoBoilerplate_true-r-00055.seg-00000.warc.gz
+2016-03-22 10:48:18     430272 Lic_by-nc-nd_Lang_bn_NoBoilerplate_true-r-00062.seg-00000.warc.gz
+2016-03-22 10:48:20    4503740 Lic_by-nc-nd_Lang_cs_NoBoilerplate_true-r-00027.seg-00000.warc.gz
+2016-03-22 10:48:22    1533357 Lic_by-nc-nd_Lang_da_NoBoilerplate_true-r-00040.seg-00000.warc.gz
+2016-03-22 10:48:23   47112767 Lic_by-nc-nd_Lang_de_NoBoilerplate_true-r-00044.seg-00000.warc.gz
+2016-03-22 10:48:26    4200445 Lic_by-nc-nd_Lang_el_NoBoilerplate_true-r-00011.seg-00000.warc.gz
+2016-03-22 10:48:28 1000013818 Lic_by-nc-nd_Lang_en_NoBoilerplate_true-r-00013.seg-00000.warc.gz
+```
+
+
+Download sample data::
+
+```
+ubuntu@ip-172-31-50-XX:~$ aws s3 cp \
+s3://ukp-research-data/c4corpus/CC-MAIN-2015-48/cc-final-2015-48/Lic_by-nc-nd_Lang_cs_NoBoilerplate_true-r-00130.seg-00000.warc.gz .
+```
+
+```
+(outputs)
+download: s3://ukp-research-data/c4corpus/CC-MAIN-2015-48/cc-final-2015-48/Lic_by-nc-nd_Lang_cs_NoBoilerplate_true-r-00130.seg-00000.warc.gz to ./Lic_by-nc-nd_Lang_cs_NoBoilerplate_true-r-00130.seg-00000.warc.gz
+ubuntu@ip-172-31-50-XX:~$ ls -htr | tail -1
+Lic_by-nc-nd_Lang_cs_NoBoilerplate_true-r-00130.seg-00000.warc.gz
+```
+
+* and that's it! :)
+
+Accessing the final output of the C4Corpus Tools preprocessing::
+
+The final C4Corpus is located at ```s3://ukp-research-data/c4corpus/CC-MAIN-2015-48/cc-final-2015-48/``` with the following file naming
+
+```
+Lic_LICENSE_Lang_LANGUAGE_NoBoilerplate_BOOLEAN-r-00284.seg-00000.warc.gz
+```
+
+For example
+
+```
+Lic_by-nc-nd_Lang_en_NoBoilerplate_true-r-00284.seg-00000.warc.gz
+```
+
+* ```aws s3``` command doesn't support wild characters, so the following command returns an empty output
+
+```
+ubuntu@ip-172-31-50-XX:~$ aws s3 ls s3://ukp-research-data/c4corpus/CC-MAIN-2015-48/cc-final-2015-48/Lic_by-nc_*.warc.gz
+ubuntu@ip-172-31-50-XX:~$
+```
+
+* You have to grep the output from ``aws s3 ls`` to get a list of files with a certain language or license, for example
+
+```
+ubuntu@ip-172-31-50-XX:~$ aws s3 ls s3://ukp-research-data/c4corpus/CC-MAIN-2015-48/cc-final-2015-48/ \
+| grep "Lic_by-nc-nd_Lang_en"
+2016-02-02 13:10:41 1000039131 Lic_by-nc-nd_Lang_en_NoBoilerplate_true-r-00284.seg-00000.warc.gz
+2016-02-02 13:10:52 1000026370 Lic_by-nc-nd_Lang_en_NoBoilerplate_true-r-00284.seg-00001.warc.gz
+2016-02-02 13:11:11 1000035397 Lic_by-nc-nd_Lang_en_NoBoilerplate_true-r-00284.seg-00002.warc.gz
+2016-02-02 13:11:32 1000040643 Lic_by-nc-nd_Lang_en_NoBoilerplate_true-r-00284.seg-00003.warc.gz
+2016-02-02 13:11:53 1000019635 Lic_by-nc-nd_Lang_en_NoBoilerplate_true-r-00284.seg-00004.warc.gz
+2016-02-02 13:12:12  435304263 Lic_by-nc-nd_Lang_en_NoBoilerplate_true-r-00284.seg-00005.warc.gz
+```
+
+==== Downloading the free part of C4Corpus
+
+This will print all file names with CC, public domain or cc-unspecified licenses
+
+```
+ubuntu@ip-172-31-50-XX:~$ for i in `aws s3 ls s3://ukp-research-data/c4corpus/CC-MAIN-2015-48/cc-final-2015-48/ | \
+ awk '{print $4}' | grep -E 'Lic_by*|Lic_public*|Lic_cc*' ` ; do echo $i; done
+```
+
+Now copy all these files to the local dir
+
+```
+ubuntu@ip-172-X:~$ for i in `aws s3 ls s3://ukp-research-data/c4corpus/CC-MAIN-2015-48/cc-final-2015-48/ | \
+awk '{print $4}' | grep -E 'Lic_by*|Lic_public*|Lic_cc*' ` ; do \
+aws s3 cp s3://ukp-research-data/c4corpus/CC-MAIN-2015-48/cc-final-2015-48/${i} c4corpus-2015-11/ ; done
+```
+
+```
+[...]
+download: s3://ukp-research-data/c4corpus/cc-final-2015-11/Lic_by-nc-nd_Lang_af_NoBoilerplate_true-r-00023.seg-00000.warc.gz to c4corpus-2015-11/Lic_by-nc-nd_Lang_af_NoBoilerplate_true-r-00023.seg-00000.warc.gz
+download: s3://ukp-research-data/c4corpus/cc-final-2015-11/Lic_by-nc-nd_Lang_ar_NoBoilerplate_true-r-00035.seg-00000.warc.gz to c4corpus-2015-11/Lic_by-nc-nd_Lang_ar_NoBoilerplate_true-r-00035.seg-00000.warc.gz
+download: s3://ukp-research-data/c4corpus/cc-final-2015-11/Lic_by-nc-nd_Lang_bg_NoBoilerplate_true-r-00055.seg-00000.warc.gz to c4corpus-2015-11/Lic_by-nc-nd_Lang_bg_NoBoilerplate_true-r-00055.seg-00000.warc.gz
+[...]
+```
+
+Be aware of transfer costs in AWS!
+
+
+=== Running boilerplate removal outside Hadoop
+
+You can remove boilerplate from HTML pages locally.
+
+* Package the module ```dkpro-c4corpus-boilerplate```
+
+    ```
+    $ cd dkpro-c4corpus-boilerplate/
+    $ mvn package
+    ```
+* Test some example page from BBC
+    ```
+    $ wget http://www.bbc.com/news/election-us-2016-35694116 -O /tmp/input.html -o /dev/null
+    $ head /tmp/input.html
+    <!DOCTYPE html>
+    <html lang="en" id="responsive-news" prefix="og: http://ogp.me/ns#">
+    <head >
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>US election 2016: Super Tuesday to test candidates - BBC News</title>
+        <meta name="description" content="Candidates bidding for their party's ticket in the November US presidential election face their biggest test yet in the so-called Super Tuesday primaries.">
+        <link rel="dns-prefetch" href="https://ssl.bbc.co.uk/">
+        <link rel="dns-prefetch" href="http://sa.bbc.co.uk/">
+    ```
+
+* There are two options for boilerplate removal
+    ** Keep only plain text
+
+```
+$ java -jar target/dkpro-c4corpus-boilerplate-1.0.0.jar /tmp/input.html /tmp/output-plain.html false
+$ head /tmp/output-plain.html
+Senator Ted Cruz cannot afford to lose to Mr Trump in Texas, Mr Cruz's home state, while a reverse for Mr Trump in Massachusetts, with its moderate voters, could break the property tycoon's nationwide momentum.
+Mrs Clinton is hoping to build on her weekend victory in South Carolina, where she polled heavily among African-Americans, to restore her political fortunes after a bruising defeat in New Hampshire to Bernie Sanders, her self-styled democratic socialist rival.
+On 8 November, America is due to elect a successor to Barack Obama, a Democratic president standing down after two terms in office which have seen the Republicans take control of both houses of Congress.
+Opinion polls give Mr Trump a lead in almost all of the 11 states holding Republican contests on Tuesday: Alabama, Arkansas, Georgia, Massachusetts, Oklahoma, Tennessee, Texas, Vermont, Virginia, Alaska and Minnesota.
+The colourful campaign of the billionaire, who won three of the four early voting states, has divided Republicans.
+He said he was "frustrated and saddened" and would look for a third option if Mr Trump won the Republican nomination.
+Marco Rubio, the third-placed Republican contender after Mr Trump and Mr Cruz, is hoping to stay competitive, gambling on a win in his home state of Florida on 15 March.
+Image copyright Reuters
+Image caption Donald Trump autographs the back of a supporter's hand in Valdosta, Georgia, on Monday
+Image copyright AP
+```
+
+    ** Keep also a minimal HTML tags for paragraphs, spans, headers, etc.
+
+```
+$ java -jar target/dkpro-c4corpus-boilerplate-1.0.0.jar /tmp/input.html /tmp/output-minimal.html true
+$ head /tmp/output-minimal.html
+<p>Senator Ted Cruz cannot afford to lose to Mr Trump in Texas, Mr Cruz's home state, while a reverse for Mr Trump in Massachusetts, with its moderate voters, could break the property tycoon's nationwide momentum.</p>
+<p>Mrs Clinton is hoping to build on her weekend victory in South Carolina, where she polled heavily among African-Americans, to restore her political fortunes after a bruising defeat in New Hampshire to Bernie Sanders, her self-styled democratic socialist rival.</p>
+<p>On 8 November, America is due to elect a successor to Barack Obama, a Democratic president standing down after two terms in office which have seen the Republicans take control of both houses of Congress.</p>
+<p>Opinion polls give Mr Trump a lead in almost all of the 11 states holding Republican contests on Tuesday: Alabama, Arkansas, Georgia, Massachusetts, Oklahoma, Tennessee, Texas, Vermont, Virginia, Alaska and Minnesota.</p>
+<p>The colourful campaign of the billionaire, who won three of the four early voting states, has divided Republicans.</p>
+<p>He said he was "frustrated and saddened" and would look for a third option if Mr Trump won the Republican nomination.</p>
+<p>Marco Rubio, the third-placed Republican contender after Mr Trump and Mr Cruz, is hoping to stay competitive, gambling on a win in his home state of Florida on 15 March.</p>
+<p>Image copyright Reuters</p>
+<span>Image caption Donald Trump autographs the back of a supporter's hand in Valdosta, Georgia, on Monday</span>
+<p>Image copyright AP</p>
+```
+
+=== List of URLs from CommonCrawl
+
+* All URLs can be extracted using ``de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.uriextractor.URIExtractor``
+
+* Extracted URLs from 2016-07 crawl are available at our public S3 bucket, size 25.55 GB:
+
+```
+$ aws s3 ls s3://ukp-research-data/c4corpus/common-crawl-full-url-list-2016-07/
+[...]
+$ aws s3 ls s3://ukp-research-data/c4corpus/common-crawl-full-url-list-2016-07/ | \
+awk '{ sum += $3 }; END { print sum } '
+```
