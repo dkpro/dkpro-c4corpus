@@ -147,8 +147,7 @@ public class ParallelDocumentDeDuplication
 
             TreeSet<Document> cluster = new TreeSet<>();
             for (String docAsString : trimmedLine.split(",")) {
-                Document document = new Document();
-                document.createDocument(docAsString.trim());
+                Document document = new Document(docAsString.trim());
                 cluster.add(document);
             }
             result.add(cluster);

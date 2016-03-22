@@ -26,47 +26,20 @@ public class Document
         implements Comparable<Document>
 {
 
-    private String docID;
-    private Integer docLength;
-    private Long docSimHash;
-    private String docLang;
+    private final String docID;
+    private final Integer docLength;
+    private final Long docSimHash;
+    private final String docLang;
 
-    public void createDocument(String documentInfoCommaSep)
+    public Document(String documentInfoCommaSep)
     {
         //process the doc
-        String[] idLengSimHashOfDoc = documentInfoCommaSep.split(";");
+        String[] idLenSimHashOfDoc = documentInfoCommaSep.split(";");
 
-        String docID = idLengSimHashOfDoc[0].replaceAll("\\[", "").trim();
-        this.docID = docID;
-
-        int docLength = Integer.valueOf(idLengSimHashOfDoc[1].trim());
-        this.docLength = docLength;
-
-        long docSimHash = Long.valueOf(idLengSimHashOfDoc[2].trim());
-        this.docSimHash = docSimHash;
-
-        String docLang = idLengSimHashOfDoc[3].replaceAll("\\]", "").trim();
-        this.docLang = docLang;
-    }
-
-    public void setDocID(String docID)
-    {
-        this.docID = docID;
-    }
-
-    public void setDocLength(int docLength)
-    {
-        this.docLength = docLength;
-    }
-
-    public void setDocSimHash(long docSimHash)
-    {
-        this.docSimHash = docSimHash;
-    }
-
-    public void setDocLanguage(String lang)
-    {
-        this.docLang = lang;
+        this.docID = idLenSimHashOfDoc[0].replaceAll("\\[", "").trim();
+        this.docLength = Integer.parseInt(idLenSimHashOfDoc[1].trim());
+        this.docSimHash = Long.parseLong(idLenSimHashOfDoc[2].trim());
+        this.docLang = idLenSimHashOfDoc[3].replaceAll("\\]", "").trim();
     }
 
     public String getDocID()
