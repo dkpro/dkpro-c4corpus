@@ -50,6 +50,7 @@
 		<module>dkpro-c4corpus-deduplication</module>
 		<module>dkpro-c4corpus-warc-io</module>
 		<module>dkpro-c4corpus-hadoop</module>
+		<module>dkpro-c4corpus-doc</module>
 	</modules>
 
 	<dependencies>
