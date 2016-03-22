@@ -120,46 +120,34 @@ ubuntu@ip-172-31-50-XX:~$ aws s3 ls s3://aws-publicdatasets/common-crawl/crawl-d
 
 #### 5. Test accessing C4Corpus
 
-This is the complete folder with all steps performed by preprocessing
+Part of the final C4Corpus (performed on CC-MAIN-2015-48 crawl)
+
 
 ```
-ubuntu@ip-172-31-50-XX:~$ aws s3 ls s3://ukp-research-data/c4corpus/
-                           PRE cc-phase1out-2015-11/
-                           PRE cc-phase2out-2015-11/
-                           PRE cc-phase3step1out-2015-11/
-                           PRE cc-phase3step2out-2015-11/
-                           PRE cc-phase3step3out-2015-11/
-                           PRE cc-phase3step4out-2015-11/
-                           PRE cc-phase4out-2015-11/
-```
-
-
-Part of the final C4Corpus
-
-FIXME update to the final location
-
-```
-ubuntu@ip-172-31-50-XX:~$ aws s3 ls s3://ukp-research-data/c4corpus/cc-phase1out-2015-11/ | head
-2016-02-02 13:09:48          0 
-2016-02-02 13:10:39      47852 Lic_by-nc-nd_Lang_af_NoBoilerplate_true-r-00585.seg-00000.warc.gz
-2016-02-02 13:10:39    5345561 Lic_by-nc-nd_Lang_ar_NoBoilerplate_true-r-00179.seg-00000.warc.gz
-2016-02-02 13:10:39    4707924 Lic_by-nc-nd_Lang_bg_NoBoilerplate_true-r-00143.seg-00000.warc.gz
-2016-02-02 13:10:39     420970 Lic_by-nc-nd_Lang_bn_NoBoilerplate_true-r-00387.seg-00000.warc.gz
-2016-02-02 13:10:39    6008314 Lic_by-nc-nd_Lang_cs_NoBoilerplate_true-r-00130.seg-00000.warc.gz
-2016-02-02 13:10:39    1471382 Lic_by-nc-nd_Lang_da_NoBoilerplate_true-r-00171.seg-00000.warc.gz
-2016-02-02 13:10:39  110294744 Lic_by-nc-nd_Lang_de_NoBoilerplate_true-r-00356.seg-00000.warc.gz
-2016-02-02 13:11:05    4446993 Lic_by-nc-nd_Lang_el_NoBoilerplate_true-r-00352.seg-00000.warc.gz
-2016-02-02 13:10:41 1000039131 Lic_by-nc-nd_Lang_en_NoBoilerplate_true-r-00284.seg-00000.warc.gz
+ubuntu@ip-172-XXX:~$ aws s3 ls ukp-research-data/c4corpus/CC-MAIN-2015-48/cc-final-2015-48/ | head
+2016-03-22 10:43:15          0 
+2016-03-22 10:48:13      40465 Lic_by-nc-nd_Lang_af_NoBoilerplate_true-r-00023.seg-00000.warc.gz
+2016-03-22 10:48:15    5296281 Lic_by-nc-nd_Lang_ar_NoBoilerplate_true-r-00035.seg-00000.warc.gz
+2016-03-22 10:48:17    4704493 Lic_by-nc-nd_Lang_bg_NoBoilerplate_true-r-00055.seg-00000.warc.gz
+2016-03-22 10:48:18     430272 Lic_by-nc-nd_Lang_bn_NoBoilerplate_true-r-00062.seg-00000.warc.gz
+2016-03-22 10:48:20    4503740 Lic_by-nc-nd_Lang_cs_NoBoilerplate_true-r-00027.seg-00000.warc.gz
+2016-03-22 10:48:22    1533357 Lic_by-nc-nd_Lang_da_NoBoilerplate_true-r-00040.seg-00000.warc.gz
+2016-03-22 10:48:23   47112767 Lic_by-nc-nd_Lang_de_NoBoilerplate_true-r-00044.seg-00000.warc.gz
+2016-03-22 10:48:26    4200445 Lic_by-nc-nd_Lang_el_NoBoilerplate_true-r-00011.seg-00000.warc.gz
+2016-03-22 10:48:28 1000013818 Lic_by-nc-nd_Lang_en_NoBoilerplate_true-r-00013.seg-00000.warc.gz
 ```
 
 
 #### 6. Download sample data
 
-FIXME update to the final location
+```
+ubuntu@ip-172-31-50-XX:~$ aws s3 cp \
+s3://ukp-research-data/c4corpus/CC-MAIN-2015-48/cc-final-2015-48/Lic_by-nc-nd_Lang_cs_NoBoilerplate_true-r-00130.seg-00000.warc.gz .
+```
 
 ```
-ubuntu@ip-172-31-50-XX:~$ aws s3 cp s3://ukp-research-data/c4corpus/cc-phase1out-2015-11/Lic_by-nc-nd_Lang_cs_NoBoilerplate_true-r-00130.seg-00000.warc.gz .
-download: s3://ukp-research-data/c4corpus/cc-phase1out-2015-11/Lic_by-nc-nd_Lang_cs_NoBoilerplate_true-r-00130.seg-00000.warc.gz to ./Lic_by-nc-nd_Lang_cs_NoBoilerplate_true-r-00130.seg-00000.warc.gz
+(outputs)
+download: s3://ukp-research-data/c4corpus/CC-MAIN-2015-48/cc-final-2015-48/Lic_by-nc-nd_Lang_cs_NoBoilerplate_true-r-00130.seg-00000.warc.gz to ./Lic_by-nc-nd_Lang_cs_NoBoilerplate_true-r-00130.seg-00000.warc.gz
 ubuntu@ip-172-31-50-XX:~$ ls -htr | tail -1
 Lic_by-nc-nd_Lang_cs_NoBoilerplate_true-r-00130.seg-00000.warc.gz
 ```
@@ -168,7 +156,7 @@ Lic_by-nc-nd_Lang_cs_NoBoilerplate_true-r-00130.seg-00000.warc.gz
 
 #### 7. Accessing the final output of the C4Corpus Tools preprocessing
 
-The final C4Corpus is located at ```s3://ukp-research-data/c4corpus/cc-final-2015-11/``` with the following file naming
+The final C4Corpus is located at ```s3://ukp-research-data/c4corpus/CC-MAIN-2015-48/cc-final-2015-48/``` with the following file naming
 
 ```
 Lic_LICENSE_Lang_LANGUAGE_NoBoilerplate_BOOLEAN-r-00284.seg-00000.warc.gz
@@ -183,14 +171,14 @@ Lic_by-nc-nd_Lang_en_NoBoilerplate_true-r-00284.seg-00000.warc.gz
 * ```aws s3``` command doesn't support wild characters, so the following command returns an empty output
 
 ```
-ubuntu@ip-172-31-50-XX:~$ aws s3 ls s3://ukp-research-data/c4corpus/cc-phase1out-2015-11/Lic_by-nc_*.warc.gz
+ubuntu@ip-172-31-50-XX:~$ aws s3 ls s3://ukp-research-data/c4corpus/CC-MAIN-2015-48/cc-final-2015-48/Lic_by-nc_*.warc.gz
 ubuntu@ip-172-31-50-XX:~$ 
 ```
 
 * You have to grep the output from ```aws s3 ls`` to get a list of files with a certain language or license, for example
 
 ```
-ubuntu@ip-172-31-50-XX:~$ aws s3 ls s3://ukp-research-data/c4corpus/cc-phase1out-2015-11/ \
+ubuntu@ip-172-31-50-XX:~$ aws s3 ls s3://ukp-research-data/c4corpus/CC-MAIN-2015-48/cc-final-2015-48/ \
 | grep "Lic_by-nc-nd_Lang_en"
 2016-02-02 13:10:41 1000039131 Lic_by-nc-nd_Lang_en_NoBoilerplate_true-r-00284.seg-00000.warc.gz
 2016-02-02 13:10:52 1000026370 Lic_by-nc-nd_Lang_en_NoBoilerplate_true-r-00284.seg-00001.warc.gz
@@ -205,14 +193,20 @@ ubuntu@ip-172-31-50-XX:~$ aws s3 ls s3://ukp-research-data/c4corpus/cc-phase1out
 This will print all file names with CC, public domain or cc-unspecified licenses
 
 ```
-ubuntu@ip-172-31-50-XX:~$ for i in `aws s3 ls s3://ukp-research-data/c4corpus/cc-final-2015-11/ | \
+ubuntu@ip-172-31-50-XX:~$ for i in `aws s3 ls s3://ukp-research-data/c4corpus/CC-MAIN-2015-48/cc-final-2015-48/ | \
  awk '{print $4}' | grep -E 'Lic_by*|Lic_public*|Lic_cc*' ` ; do echo $i; done
 ```
 
 Now copy all these files to the local dir
 
 ```
-ubuntu@ip-172-31-50-XX:~$ for i in `aws s3 ls s3://ukp-research-data/c4corpus/cc-final-2015-11/ | awk '{print $4}' | grep -E 'Lic_by*|Lic_public*|Lic_cc*' ` ; do aws s3 cp s3://ukp-research-data/c4corpus/cc-final-2015-11/${i} c4corpus-2015-11/ ; done
+ubuntu@ip-172-X:~$ for i in `aws s3 ls s3://ukp-research-data/c4corpus/CC-MAIN-2015-48/cc-final-2015-48/ | \
+awk '{print $4}' | grep -E 'Lic_by*|Lic_public*|Lic_cc*' ` ; do \
+aws s3 cp s3://ukp-research-data/c4corpus/CC-MAIN-2015-48/cc-final-2015-48/${i} c4corpus-2015-11/ ; done
+```
+
+```
+[...]
 download: s3://ukp-research-data/c4corpus/cc-final-2015-11/Lic_by-nc-nd_Lang_af_NoBoilerplate_true-r-00023.seg-00000.warc.gz to c4corpus-2015-11/Lic_by-nc-nd_Lang_af_NoBoilerplate_true-r-00023.seg-00000.warc.gz
 download: s3://ukp-research-data/c4corpus/cc-final-2015-11/Lic_by-nc-nd_Lang_ar_NoBoilerplate_true-r-00035.seg-00000.warc.gz to c4corpus-2015-11/Lic_by-nc-nd_Lang_ar_NoBoilerplate_true-r-00035.seg-00000.warc.gz
 download: s3://ukp-research-data/c4corpus/cc-final-2015-11/Lic_by-nc-nd_Lang_bg_NoBoilerplate_true-r-00055.seg-00000.warc.gz to c4corpus-2015-11/Lic_by-nc-nd_Lang_bg_NoBoilerplate_true-r-00055.seg-00000.warc.gz
