@@ -42,7 +42,7 @@ import java.io.IOException;
 /**
  * Detecting exact match duplicates from a dataset. The output is a dataset free
  * of exact matches. Two records are considered exact matches if they have the
- * same length & SimHash.
+ * same length and SimHash.
  *
  * @author Omnia Zayed
  * @author Ivan Habernal

@@ -26,18 +26,30 @@ import java.util.Set;
  * methods that will be used to calculate simHash
  *
  * @author Omnia Zayed
+ * @author Ivan Habernal
  */
 public class SimHashUtils
 {
 
     static int HASH_LENGTH = 64;
-    static int CHAR_GRAM_LENGTH = 7; //char n-gram shingle size
-    static int BAND_WIDTH = 16; //the size of the band (window) of the bits of the sim hash
+
+    /**
+     * char n-gram shingle size
+     */
+    static int CHAR_GRAM_LENGTH = 7;
+
+    /**
+     * size of the band (window) of the bits of the sim hash
+     */
+    static int BAND_WIDTH = 16;
+
     public static int HAMMING_DISTANCE_THRESHOLD = 3;
-    static int CLUSTER_PARTITION_SIZE = 1000;
 
     /**
      * converts a text into a number of "characters n-grams" shingles.
+     *
+     * @param text plain text
+     * @return shingles
      */
     public static Set<String> createCharGramsShingles(String text)
     {
@@ -77,9 +89,9 @@ public class SimHashUtils
      * count the number of bits that differ between two queries as a measure of
      * dissimilarity. Also known as Hamming distance based on the bit population
      *
-     * @param simHash1
-     * @param simHash2
-     * @return
+     * @param simHash1 hash 1
+     * @param simHash2 hash 2
+     * @return different bits
      */
     public static int diffOfBits(long simHash1, long simHash2)
     {
@@ -97,19 +109,19 @@ public class SimHashUtils
      * divide the 64-bit hash into 4 bit ranges of 16 bits. It will be used to
      * get similar candidates.
      *
-     * @param docHash
-     * @return
+     * @param docHash hash
+     * @return ranges
      */
     public static Set<String> computeHashIndex(long docHash)
     {
 
         //band index
         int bandIndex = 0;
-        //a band (window) used to store a part of the hash (repressented in bits)
+        //a band (window) used to store a part of the hash (represented in bits)
         BitSet bitRange = new BitSet(BAND_WIDTH);
         //pointer to each element in a single band (window)
         int bitsWidthCounter = 0;
-        Set<String> bandBitset = new HashSet<String>();
+        Set<String> bandBitset = new HashSet<>();
         //divide our HASH_LENGTH-bit hash into bit ranges of BandWidth bits
         for (int i = 0; i < HASH_LENGTH; ++i) {
             bitRange.set(bitsWidthCounter, ((docHash >> i) & 1) == 1);
@@ -130,8 +142,8 @@ public class SimHashUtils
      * fingerprint (SimHash) This implementation is based on the algorithm
      * described here: http://www.titouangalopin.com/blog/2014-05-29-simhash
      *
-     * @param hashValues
-     * @return
+     * @param hashValues hashes
+     * @return simhash fingerprint
      */
     public static long simHash(Set<Integer> hashValues)
     {

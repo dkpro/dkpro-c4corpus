@@ -59,7 +59,7 @@ import java.util.Set;
  * Single Map-Reduce task for performing license identification, boilerplate
  * removal, language identification and sim hashing. Only non-empty texts after
  * boilerplate removal are kept.
- * <p/>
+ * <br>
  * Configuration parameters
  * {@code c4corpus.keepminimalhtml} - boolean (keep minimal html in boilerplate removal?)
  *
@@ -159,6 +159,7 @@ public class Phase1FullJob
          *
          * @param value WARC record
          * @return true if ignored, false otherwise
+         * @throws IOException I/O exception
          */
         protected static boolean ignoreWARCRecord(WARCWritable value)
                 throws IOException

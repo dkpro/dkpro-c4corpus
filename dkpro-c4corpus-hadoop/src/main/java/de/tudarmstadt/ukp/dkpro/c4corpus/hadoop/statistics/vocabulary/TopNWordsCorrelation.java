@@ -41,7 +41,7 @@ public class TopNWordsCorrelation
      * @param goldCorpus  gold corpus
      * @param otherCorpus other corpus
      * @param topN        how many entries from the gold corpus should be taken
-     * @throws IOException
+     * @throws IOException I/O exception
      */
     public static void spearmanCorrelation(File goldCorpus, File otherCorpus,
             int topN)
@@ -98,7 +98,7 @@ public class TopNWordsCorrelation
     public static LinkedHashMap<String, Integer> loadCorpusToRankedVocabulary(InputStream corpus)
             throws IOException
     {
-        LinkedHashMap<String, Integer> result = new LinkedHashMap<String, Integer>();
+        LinkedHashMap<String, Integer> result = new LinkedHashMap<>();
 
         LineIterator lineIterator = IOUtils.lineIterator(corpus, "utf-8");
         int counter = 0;

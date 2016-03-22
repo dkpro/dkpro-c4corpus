@@ -46,7 +46,7 @@ import java.util.Set;
  * This class takes warc.gz files as input and clusters similar candidates
  * according to the SimHash value. The simHash value is converted to bands of
  * bits. The output is a data structure called Document Info which includes the
- * doc id, simhash & length. the document info is written as a text file.
+ * doc id, simhash and length. the document info is written as a text file.
  *
  * @author Omnia Zayed
  */

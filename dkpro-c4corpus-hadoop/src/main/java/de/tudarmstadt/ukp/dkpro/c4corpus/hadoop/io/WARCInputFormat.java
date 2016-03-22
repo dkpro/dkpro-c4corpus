@@ -34,20 +34,20 @@ import java.io.IOException;
 
 /**
  * Hadoop InputFormat for mapreduce jobs ('new' API) that want to process data in WARC files.
- * <p/>
+ * <br>
  * Usage:
- * <p/>
+ * <br>
  * ```java
  * Job job = new Job(getConf());
  * job.setInputFormatClass(WARCInputFormat.class);
  * ```
- * <p/>
+ * <br>
  * Mappers should use a key of {@link org.apache.hadoop.io.LongWritable} (which is
  * 1 for the first record in a file, 2 for the second record, etc.) and a value of
  * {@link WARCWritable}.
- * <p/>
+ * <br>
  * Based on https://github.com/ept/warc-hadoop
- * <p/>
+ * <br>
  * Note: originally published under MIT license, which is compatible with ASL license
  * https://www.gnu.org/philosophy/license-list.html
  *

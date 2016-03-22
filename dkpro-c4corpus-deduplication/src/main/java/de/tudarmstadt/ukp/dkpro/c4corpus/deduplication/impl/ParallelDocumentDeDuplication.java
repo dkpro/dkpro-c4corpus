@@ -22,7 +22,7 @@ import java.util.*;
 
 /**
  * Duplicates and Near duplicates removal using SimHash and Hamming distance.
- * Part of this implementation is following the steps & theory described here:
+ * Part of this implementation is following the steps and theory described here:
  * https://moz.com/devblog/near-duplicate-detection/
  *
  * @author Omnia Zayed
@@ -32,8 +32,8 @@ public class ParallelDocumentDeDuplication
 {
 
     /**
-     * Runs the local greedy algorihtm over the input lines containing document tuples and returns
-     * the set of IDs found to be near-duplicite
+     * Runs the local greedy algorithm over the input lines containing document tuples and returns
+     * the set of IDs found to be near-duplicate
      *
      * @param inputLines input lines
      * @return set of docs
@@ -62,9 +62,9 @@ public class ParallelDocumentDeDuplication
 
         //keep the longest document
         // a set to keep the final unique docs
-        Set<Document> results = new HashSet<Document>();
+        Set<Document> results = new HashSet<>();
         //to be deleted documents
-        Set<Document> docsToBeDeleted = new HashSet<Document>();
+        Set<Document> docsToBeDeleted = new HashSet<>();
         //for each Ci belongs to CS
         for (TreeSet<Document> cluster : clustersOfSimilarDocuments) {
             // create descending iterator
@@ -96,7 +96,7 @@ public class ParallelDocumentDeDuplication
                     //add the rest of documents in the cluster to the deleted documents
                     cluster.remove(docJ);
                     docsToBeDeleted.addAll(cluster);
-                    //break the cluter loop
+                    //break the cluster loop
                     break;
                 }
             }
@@ -119,10 +119,8 @@ public class ParallelDocumentDeDuplication
         return pairFound;
     }
 
-    /**
+    /*
      * Collects the ids of warc records to be deleted.
-     *
-     * @throws IOException
      */
     protected static Set<String> collectIDsOfDeletedRecords(Set<Document> recordsToDelete)
             throws IOException
@@ -134,11 +132,9 @@ public class ParallelDocumentDeDuplication
         return result;
     }
 
-    /**
+    /*
      * Converts a list of lines to a set of documents tuples (given that each line
      * contains a tuple of documents information)
-     *
-     * @return set of document tuples
      */
     protected static Set<TreeSet<Document>> linesToClusters(List<String> lines)
             throws IOException

@@ -36,12 +36,10 @@ import java.util.Locale;
 public class WARCWriterReducerClass
         extends Reducer<Text, WARCWritable, NullWritable, WARCWritable>
 {
-//    private MultipleOutputs<NullWritable, WARCWritable> multipleOutputs;
-
     /**
      * Returns prefix of the output warc file given the parameters; this method is also as a key
      * for distributing entries to reducers.
-     * <p/>
+     * <br>
      * The result has this format:
      * {@code Lic_LICENSE_Lang_LANGUAGE_NoBoilerplate_BOOLEAN_Bin_BINNUMBER}
      * or
@@ -50,6 +48,7 @@ public class WARCWriterReducerClass
      * @param license       license
      * @param language      lang
      * @param noBoilerplate boolean value
+     * @param minimalHtml   boolean value
      * @return string prefix
      * @throws IllegalArgumentException if any of the parameter is {@code null} or empty
      */
@@ -74,28 +73,9 @@ public class WARCWriterReducerClass
                     "minimalHtml is null/empty (val: '" + minimalHtml + "')");
         }
 
-        return String.format(Locale.ENGLISH, "Lic_%s_Lang_%s_NoBoilerplate_%s_MinHtml_%s", license, language,
+        return String.format(Locale.ENGLISH, "Lic_%s_Lang_%s_NoBoilerplate_%s_MinHtml_%s", license,
+                language,
                 noBoilerplate, minimalHtml);
-    }
-
-    /**
-     * Returns two last digits of the simHash (0-99)
-     *
-     * @param simHash simHash
-     * @return 0-99
-     */
-    @Deprecated // remove
-    public static int getBinNumberFromSimHash(long simHash)
-    {
-        return Math.abs((int) (simHash % 100L));
-    }
-
-    @Override
-    protected void setup(Context context)
-            throws IOException, InterruptedException
-    {
-        super.setup(context);
-//        multipleOutputs = new MultipleOutputs<>(context);
     }
 
     @Override
@@ -127,26 +107,17 @@ public class WARCWriterReducerClass
                 .getField(WARCRecord.WARCRecordFieldConstants.NO_BOILERPLATE);
         String minimalHtml = header.getField(WARCRecord.WARCRecordFieldConstants.MINIMAL_HTML);
 
-
         // set the file name prefix
         String fileName = createOutputFilePrefix(license, language, noBoilerplate, minimalHtml);
 
         // bottleneck of single reducer for all "Lic_none_Lang_en" pages (majority of Web)
-//        if ("en".equals(language) && LicenseDetector.NO_LICENCE.equals(license)) {
-//            long simHash = Long
-//                    .valueOf(header.getField(WARCRecord.WARCRecordFieldConstants.SIMHASH));
-//            int binNumber = getBinNumberFromSimHash(simHash);
-//            fileName = createOutputFilePrefix(license, language, noBoilerplate);
-//        }
+        //        if ("en".equals(language) && LicenseDetector.NO_LICENCE.equals(license)) {
+        //            long simHash = Long
+        //                    .valueOf(header.getField(WARCRecord.WARCRecordFieldConstants.SIMHASH));
+        //            int binNumber = getBinNumberFromSimHash(simHash);
+        //            fileName = createOutputFilePrefix(license, language, noBoilerplate);
+        //        }
 
         multipleOutputs.write(NullWritable.get(), warcWritable, fileName);
-    }
-
-    @Override
-    protected void cleanup(Context context)
-            throws IOException, InterruptedException
-    {
-        super.cleanup(context);
-//        multipleOutputs.close();
     }
 }

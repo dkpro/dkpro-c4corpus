@@ -36,7 +36,7 @@ import java.io.*;
 /**
  * Writes {@link WARCRecord}s to a WARC file, using Hadoop's filesystem APIs. (This means you
  * can write to HDFS, S3 or any other filesystem supported by Hadoop).
- * <p/>
+ * <br>
  * WARCFileWriter keeps track of how much data it has written (optionally gzip-compressed);
  * when the file becomes larger than some threshold, it is automatically closed and a
  * new segment is started. A segment number is appended to the filename for that purpose.
@@ -45,9 +45,9 @@ import java.io.*;
  * `warc.output.segment.size` key in the Hadoop configuration to the number of bytes.
  * (Files may actually be a bit larger than this threshold, since we finish writing the
  * current record before opening a new file.)
- * <p/>
+ * <br>
  * Based on https://github.com/ept/warc-hadoop
- * <p/>
+ * <br>
  * Note: originally published under MIT license, which is compatible with ASL license
  * https://www.gnu.org/philosophy/license-list.html
  *
@@ -79,7 +79,7 @@ public class WARCFileWriter
      *                       will be used. The codec's default file extension is appended to the filename.
      * @param workOutputPath The directory and filename prefix to which the data should be
      *                       written. We append a segment number and filename extensions to it.
-     * @throws IOException
+     * @throws IOException I/O exception
      */
     public WARCFileWriter(Configuration conf, CompressionCodec codec, Path workOutputPath)
             throws IOException
@@ -98,7 +98,7 @@ public class WARCFileWriter
      * @param workOutputPath The directory and filename prefix to which the data should be
      *                       written. We append a segment number and filename extensions to it.
      * @param progress       An object used by the mapred API for tracking a task's progress.
-     * @throws IOException
+     * @throws IOException I/O exception
      */
     public WARCFileWriter(Configuration conf, CompressionCodec codec, Path workOutputPath,
             Progressable progress)
@@ -119,6 +119,7 @@ public class WARCFileWriter
      * most common compression applied to WARC files.
      *
      * @param conf The Hadoop configuration.
+     * @return codec instance
      */
     public static CompressionCodec getGzipCodec(Configuration conf)
     {
@@ -173,7 +174,7 @@ public class WARCFileWriter
      * Appends a {@link WARCRecord} to the file, in WARC/1.0 format.
      *
      * @param record The record to be written.
-     * @throws IOException
+     * @throws IOException I/O exception
      */
     public void write(WARCRecord record)
             throws IOException
@@ -189,7 +190,7 @@ public class WARCFileWriter
      * Appends a {@link WARCRecord} wrapped in a {@link WARCWritable} to the file.
      *
      * @param record The wrapper around the record to be written.
-     * @throws IOException
+     * @throws IOException I/O exception
      */
     public void write(WARCWritable record)
             throws IOException
@@ -202,7 +203,7 @@ public class WARCFileWriter
     /**
      * Flushes any buffered data and closes the file.
      *
-     * @throws IOException
+     * @throws IOException I/O exception
      */
     public void close()
             throws IOException

@@ -31,9 +31,9 @@ import java.io.*;
 
 /**
  * Reads {@link WARCRecord}s from a WARC file, using Hadoop's filesystem APIs.
- * <p/>
+ * <br>
  * Based on https://github.com/ept/warc-hadoop
- * <p/>
+ * <br>
  * Note: originally published under MIT license, which is compatible with ASL license
  * https://www.gnu.org/philosophy/license-list.html
  *
@@ -55,7 +55,7 @@ public class WARCFileReader
      *
      * @param conf     The Hadoop configuration.
      * @param filePath The Hadoop path to the file that should be read.
-     * @throws IOException
+     * @throws IOException I/O exception
      */
     public WARCFileReader(Configuration conf, Path filePath)
             throws IOException
@@ -76,7 +76,7 @@ public class WARCFileReader
      * Reads the next record from the file.
      *
      * @return The record that was read.
-     * @throws IOException
+     * @throws IOException I/O exception
      */
     public WARCRecord read()
             throws IOException
@@ -89,7 +89,7 @@ public class WARCFileReader
     /**
      * Closes the file. No more reading is possible after the file has been closed.
      *
-     * @throws IOException
+     * @throws IOException I/O exception
      */
     public void close()
             throws IOException
@@ -102,7 +102,7 @@ public class WARCFileReader
     }
 
     /**
-     * Returns the number of records that have been read since the file was opened.
+     * @return the number of records that have been read since the file was opened.
      */
     public long getRecordsRead()
     {
@@ -110,7 +110,7 @@ public class WARCFileReader
     }
 
     /**
-     * Returns the number of bytes that have been read from file since it was opened.
+     * @return the number of bytes that have been read from file since it was opened.
      * If the file is compressed, this refers to the compressed file size.
      */
     public long getBytesRead()
@@ -119,7 +119,7 @@ public class WARCFileReader
     }
 
     /**
-     * Returns the proportion of the file that has been read, as a number between 0.0
+     * @return the proportion of the file that has been read, as a number between 0.0
      * and 1.0.
      */
     public float getProgress()

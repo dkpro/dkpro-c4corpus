@@ -22,7 +22,6 @@ import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URISyntaxException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -56,12 +55,11 @@ public class Utils
     }
 
     /**
-     * load the stop-words list of a given language
+     * Loads the stop-words list of a given language
      *
-     * @param locale
-     * @return
-     * @throws URISyntaxException
-     * @throws IOException
+     * @param locale locale
+     * @return set of stop words
+     * @throws IOException exception
      */
     public static Set<String> loadStopWords(Locale locale)
             throws IOException
@@ -75,8 +73,7 @@ public class Utils
         }
 
         List<String> stopList = IOUtils.readLines(stream);
-        HashSet<String> stopSet = new HashSet<String>(stopList);
-        return stopSet;
+        return new HashSet<>(stopList);
 
     }
 
@@ -139,7 +136,7 @@ public class Utils
                 ;
         result = result.replaceAll("[" + dashChars + "]+", "-");
 
-        // elipsis
+        // ellipsis
         result = result.replaceAll("\\u2026", "...");
 
         // quotation marks

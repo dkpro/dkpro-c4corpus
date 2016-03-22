@@ -24,15 +24,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author Omnia Zayed original code author is Phu-Hiep DUONG (found on-line but
- *         edited some parts)
+ * Helper methods for JSoup node handling
+ *
+ * @author Phu-Hiep DUONG
+ * @author Omnia Zayed
+ * @author Ivan Habernal
  */
 public class NodeHelper
 {
 
     /**
-     * return the nearest common ancestor of node1 and node2
+     * Returns the nearest common ancestor of node1 and node2
      *
+     * @param node1 node 1
+     * @param node2 node 2
+     * @return nearest common ancestor node
      * @throws IllegalStateException if node1 and node2 has no common ancestor
      *                               to make sure that node1 and node2 should inside the same document
      */
@@ -49,7 +55,11 @@ public class NodeHelper
     }
 
     /**
-     * return true if node1 is ancestor of node2 or node1 == node2
+     * Returns true if node1 is ancestor of node2 or node1 == node2
+     *
+     * @param node1 node 1
+     * @param node2 node 2
+     * @return boolean value
      */
     public static boolean isAncestor(Node node1, Node node2)
     {
@@ -69,7 +79,10 @@ public class NodeHelper
     }
 
     /**
-     * return true if node has a link ancestor
+     * Returns true if node has a link ancestor
+     *
+     * @param node node
+     * @return boolean value
      */
     public static boolean isLink(Node node)
     {

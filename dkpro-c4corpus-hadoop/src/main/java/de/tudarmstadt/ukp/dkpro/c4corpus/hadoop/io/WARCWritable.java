@@ -31,9 +31,9 @@ import java.io.IOException;
  * This allows WARC records to be used throughout Hadoop (e.g. written to sequence files
  * when shuffling data between mappers and reducers). The record is encoded as a single
  * record in standard WARC/1.0 format.
- * <p/>
+ * <p>
  * Based on https://github.com/ept/warc-hadoop
- * <p/>
+ * <p>
  * Note: originally published under MIT license, which is compatible with ASL license
  * https://www.gnu.org/philosophy/license-list.html
  *
@@ -56,6 +56,8 @@ public class WARCWritable
 
     /**
      * Creates a writable wrapper around a given WARCRecord.
+     *
+     * @param record existing record
      */
     public WARCWritable(WARCRecord record)
     {
@@ -64,6 +66,8 @@ public class WARCWritable
 
     /**
      * Returns the record currently wrapped by this writable.
+     *
+     * @return current record
      */
     public WARCRecord getRecord()
     {
@@ -72,6 +76,8 @@ public class WARCWritable
 
     /**
      * Updates the record held within this writable wrapper.
+     *
+     * @param record the record to be set
      */
     public void setRecord(WARCRecord record)
     {

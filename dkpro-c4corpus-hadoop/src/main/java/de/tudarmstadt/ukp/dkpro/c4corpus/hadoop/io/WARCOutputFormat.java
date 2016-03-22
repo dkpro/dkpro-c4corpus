@@ -31,9 +31,9 @@ import java.io.IOException;
 
 /**
  * Hadoop OutputFormat for mapreduce jobs ('new' API) that want to write data to WARC files.
- * <p/>
+ * <br>
  * Usage:
- * <p/>
+ * <br>
  * ```java
  * Job job = new Job(getConf());
  * job.setOutputFormatClass(WARCOutputFormat.class);
@@ -41,13 +41,13 @@ import java.io.IOException;
  * job.setOutputValueClass(WARCWritable.class);
  * FileOutputFormat.setCompressOutput(job, true);
  * ```
- * <p/>
+ * <br>
  * The tasks generating the output (usually the reducers, but may be the mappers if there
  * are no reducers) should use `NullWritable.get()` as the output key, and the
  * {@link WARCWritable} as the output value.
- * <p/>
+ * <br>
  * Based on https://github.com/ept/warc-hadoop
- * <p/>
+ * <br>
  * Note: originally published under MIT license, which is compatible with ASL license
  * https://www.gnu.org/philosophy/license-list.html
  *

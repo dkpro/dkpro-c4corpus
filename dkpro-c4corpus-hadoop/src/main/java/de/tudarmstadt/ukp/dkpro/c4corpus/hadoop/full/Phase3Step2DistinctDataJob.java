@@ -17,8 +17,6 @@
  */
 package de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.full;
 
-import java.io.IOException;
-
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.LongWritable;
@@ -37,29 +35,27 @@ import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
+import java.io.IOException;
+
 /**
  * this class is used as a preprocessing step to remove redundant (duplicates)
  * lines from a text file. It will be basically used instead of the pig distinct
- * command after step 1 & 3 in the Near Duplicates De-duplication
+ * command after step 1 and 3 in the Near Duplicates De-duplication
  *
  * @author Omnia Zayed
+ * @author Ivan Habernal
  */
-public class Phase3Step2DistinctDataJob extends Configured
-        implements Tool {
+public class Phase3Step2DistinctDataJob
+        extends Configured
+        implements Tool
+{
 
     @Override
     public int run(String[] args)
-            throws Exception {
+            throws Exception
+    {
 
-//         Configuration conf = new Configuration();
-//        //allocte memory (from command line)
-//        conf.setInt("mapreduce.map.memory.mb", 5120);
-//        conf.set("mapreduce.map.java.opts", "-Xmx4280m");
-//        conf.setInt("mapreduce.reduce.memory.mb", 5120);
-//        conf.set("mapreduce.reduce.java.opts", "-Xmx4096m");
         Job job = Job.getInstance(getConf());
-//        //set from the command line
-//        job.getConfiguration().set("mapreduce.job.queuename", "longrunning");
         job.setJarByClass(Phase3Step2DistinctDataJob.class);
         job.setJobName(Phase3Step2DistinctDataJob.class.getName());
 
@@ -79,7 +75,7 @@ public class Phase3Step2DistinctDataJob extends Configured
 
         job.setInputFormatClass(TextInputFormat.class);
         LazyOutputFormat.setOutputFormatClass(job, TextOutputFormat.class);
-        
+
         //i/o paths
         FileInputFormat.addInputPaths(job, commaSeparatedInputFiles);
         FileOutputFormat.setOutputPath(job, new Path(outputPath));
@@ -88,16 +84,19 @@ public class Phase3Step2DistinctDataJob extends Configured
     }
 
     public static void main(String[] args)
-            throws Exception {
+            throws Exception
+    {
         ToolRunner.run(new Phase3Step2DistinctDataJob(), args);
     }
 
     public static class RemoveRedundantDataMapper
-            extends Mapper<LongWritable, Text, Text, NullWritable> {
+            extends Mapper<LongWritable, Text, Text, NullWritable>
+    {
 
         @Override
         public void map(LongWritable ignore, Text value, Context context)
-                throws java.io.IOException, InterruptedException {
+                throws java.io.IOException, InterruptedException
+        {
             FileSplit fileSplit = (FileSplit) context.getInputSplit();
             String fileName = fileSplit.getPath().getName().replaceAll("-r-.*", "");
             String outputKey = fileName + "_" + value.toString();
@@ -106,28 +105,32 @@ public class Phase3Step2DistinctDataJob extends Configured
     }
 
     public static class RemoveRedundantDataReducer
-            extends Reducer<Text, NullWritable, Text, NullWritable> {
+            extends Reducer<Text, NullWritable, Text, NullWritable>
+    {
 
         private MultipleOutputs<Text, NullWritable> multipleOutputs;
 
         @Override
         protected void setup(Context context)
-                throws IOException, InterruptedException {
-            multipleOutputs = new MultipleOutputs<Text, NullWritable>(context);
+                throws IOException, InterruptedException
+        {
+            multipleOutputs = new MultipleOutputs<>(context);
         }
 
         @Override
         public void reduce(Text key, Iterable<NullWritable> values, Context context)
-                throws IOException, InterruptedException {
+                throws IOException, InterruptedException
+        {
             String fileName = key.toString().split("_")[0];
             String outputKey = key.toString().split("_")[1];
-            
+
             multipleOutputs.write(new Text(outputKey), NullWritable.get(), fileName);
         }
 
         @Override
         protected void cleanup(Context context)
-                throws IOException, InterruptedException {
+                throws IOException, InterruptedException
+        {
             multipleOutputs.close();
         }
     }

@@ -113,6 +113,10 @@ public class ParagraphsExplorer
      * isBlockTag(Node) returns
      * {@link ParagraphsExplorer.AncestorState#BLOCKLEVEL} - otherwise returns
      * {@link ParagraphsExplorer.AncestorState#UNKNOW}
+     *
+     * @param lastNode    last node
+     * @param currentNode current node
+     * @return state
      */
     public static AncestorState getAncestorState(Node lastNode, Node currentNode)
     {

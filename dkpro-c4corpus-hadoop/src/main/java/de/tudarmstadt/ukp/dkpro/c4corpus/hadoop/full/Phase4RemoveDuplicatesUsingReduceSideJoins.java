@@ -45,7 +45,7 @@ import java.util.List;
  * Delete warc records given a list of the files IDs to be deleted (Text File)
  * arg0 the txt file of IDs to be deleted arg1 is the original warc data set,
  * arg2 is the output
- * <p/>
+ * <br>
  * Based on Reduce-Side Joins, see p. 270 in Tom White (2015) Hadoop: The Definitive
  * Guide 4th Edition,
  *
@@ -77,7 +77,7 @@ public class Phase4RemoveDuplicatesUsingReduceSideJoins
         //second input the look up text file
         MultipleInputs.addInputPath(job, new Path(textFilePath), TextInputFormat.class,
                 JoinTextMapper.class);
-        //first input the dataset (check comma separated availability)
+        //first input the data set (check comma separated availability)
         MultipleInputs.addInputPath(job, new Path(commaSeparatedInputFiles), WARCInputFormat.class,
                 JoinWARCMapper.class);
 
