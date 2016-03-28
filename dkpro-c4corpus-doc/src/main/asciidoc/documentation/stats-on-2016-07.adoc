@@ -179,7 +179,32 @@ phase3-step1
 
 Next steps:
 
-de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.full.Phase3Step2DistinctDataJob s3://ukp-research-data/c4corpus/CC-MAIN-2016-07/cc-phase3step1out-2016-07/*.txt s3://ukp-research-data/c4corpus/CC-MAIN-2016-07/cc-phase3step2out-2016-07/
+de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.full.Phase3Step2DistinctDataJob -D mapreduce.map.failures.maxpercent=5 s3://ukp-research-data/c4corpus/CC-MAIN-2016-07/cc-phase3step1out-2016-07/*.txt s3://ukp-research-data/c4corpus/CC-MAIN-2016-07/cc-phase3step2out-2016-07/
+
+Strange, some mappers were failing with errors...
+
+```
+2016-03-28 19:49:10,831 FATAL [main] org.apache.hadoop.mapred.YarnChild: Error running child : java.lang.OutOfMemoryError: Java heap space
+	at java.util.Arrays.copyOf(Arrays.java:2271)
+	at org.apache.hadoop.io.Text.setCapacity(Text.java:266)
+	at org.apache.hadoop.io.Text.append(Text.java:236)
+	at org.apache.hadoop.util.LineReader.readDefaultLine(LineReader.java:243)
+	at org.apache.hadoop.util.LineReader.readLine(LineReader.java:174)
+	at org.apache.hadoop.mapreduce.lib.input.LineRecordReader.nextKeyValue(LineRecordReader.java:185)
+	at org.apache.hadoop.mapred.MapTask$NewTrackingRecordReader.nextKeyValue(MapTask.java:562)
+	at org.apache.hadoop.mapreduce.task.MapContextImpl.nextKeyValue(MapContextImpl.java:80)
+	at org.apache.hadoop.mapreduce.lib.map.WrappedMapper$Context.nextKeyValue(WrappedMapper.java:91)
+	at org.apache.hadoop.mapreduce.Mapper.run(Mapper.java:151)
+	at org.apache.hadoop.mapred.MapTask.runNewMapper(MapTask.java:793)
+	at org.apache.hadoop.mapred.MapTask.run(MapTask.java:342)
+	at org.apache.hadoop.mapred.YarnChild$2.run(YarnChild.java:171)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at javax.security.auth.Subject.doAs(Subject.java:415)
+	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1628)
+	at org.apache.hadoop.mapred.YarnChild.main(YarnChild.java:166)
+```
+-- added 5% allowed failures
+
 
 de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.full.Phase3Step3NearDupTuplesCreation -D mapreduce.task.timeout=0 s3://ukp-research-data/c4corpus/CC-MAIN-2016-07/cc-phase3step2out-2016-07/* s3://ukp-research-data/c4corpus/CC-MAIN-2016-07/cc-phase3step3out-2016-07/
 

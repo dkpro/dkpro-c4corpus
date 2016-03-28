@@ -99,8 +99,16 @@ public class Phase3Step2DistinctDataJob
         {
             FileSplit fileSplit = (FileSplit) context.getInputSplit();
             String fileName = fileSplit.getPath().getName().replaceAll("-r-.*", "");
-            String outputKey = fileName + "_" + value.toString();
-            context.write(new Text(outputKey), NullWritable.get());
+
+            Text outputKey = new Text(fileName + "_");
+            byte[] bytes = value.getBytes();
+            outputKey.append(bytes, 0, bytes.length);
+
+            // This would sometimes fail with java.lang.OutOfMemoryError: Java heap space
+            // at java.nio.HeapCharBuffer.<init>(HeapCharBuffer.java:57)
+            // String outputKey = fileName + "_" + value.toString();
+
+            context.write(outputKey, NullWritable.get());
         }
     }
 
