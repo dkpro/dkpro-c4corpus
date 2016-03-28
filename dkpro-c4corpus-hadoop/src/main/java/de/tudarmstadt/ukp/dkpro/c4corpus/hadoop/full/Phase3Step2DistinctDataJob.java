@@ -129,8 +129,14 @@ public class Phase3Step2DistinctDataJob
         public void reduce(Text key, Iterable<NullWritable> values, Context context)
                 throws IOException, InterruptedException
         {
-            String fileName = key.toString().split("_")[0];
-            String outputKey = key.toString().split("_")[1];
+            // hard-split using array copy to prevent Java Heap Space
+            int i = key.find("_", 0);
+
+            Text outputKey = new Text("");
+            byte[] bytes = key.getBytes();
+            outputKey.append(bytes, i + 1, bytes.length - i - 2);
+
+            String fileName = new String(bytes, 0, i);
 
             multipleOutputs.write(new Text(outputKey), NullWritable.get(), fileName);
         }
