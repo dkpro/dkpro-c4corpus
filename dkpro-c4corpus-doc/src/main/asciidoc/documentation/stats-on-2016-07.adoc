@@ -107,3 +107,84 @@ Job Counters
 	File Output Format Counters
 		Bytes Written=907193887387
 ```
+
+phase3-step1
+
+```
+2016-03-12 20:15:32,330 INFO org.apache.hadoop.mapreduce.Job (main): Job job_1457789369006_0003 completed successfully
+2016-03-12 20:15:32,426 INFO org.apache.hadoop.mapreduce.Job (main): Counters: 55
+	File System Counters
+		FILE: Number of bytes read=63129834330
+		FILE: Number of bytes written=129335072142
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=161820
+		HDFS: Number of bytes written=0
+		HDFS: Number of read operations=1044
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=0
+		S3: Number of bytes read=907193887387
+		S3: Number of bytes written=97373802843
+		S3: Number of read operations=0
+		S3: Number of large read operations=0
+		S3: Number of write operations=0
+	Job Counters
+		Killed map tasks=6
+		Launched map tasks=1050
+		Launched reduce tasks=31
+		Data-local map tasks=1050
+		Total time spent by all maps in occupied slots (ms)=5818885072
+		Total time spent by all reduces in occupied slots (ms)=2040777544
+		Total time spent by all map tasks (ms)=111901636
+		Total time spent by all reduce tasks (ms)=19622861
+		Total vcore-seconds taken by all map tasks=111901636
+		Total vcore-seconds taken by all reduce tasks=19622861
+		Total megabyte-seconds taken by all map tasks=186204322304
+		Total megabyte-seconds taken by all reduce tasks=65304881408
+	Map-Reduce Framework
+		Map input records=427404794
+		Map output records=1282214382
+		Map output bytes=120711157942
+		Map output materialized bytes=66083186452
+		Input split bytes=161820
+		Combine input records=0
+		Combine output records=0
+		Reduce input groups=393216
+		Reduce shuffle bytes=66083186452
+		Reduce input records=1282214382
+		Reduce output records=0
+		Spilled Records=2564428764
+		Shuffled Maps =32364
+		Failed Shuffles=0
+		Merged Map outputs=32364
+		GC time elapsed (ms)=777670
+		CPU time spent (ms)=77351910
+		Physical memory (bytes) snapshot=681701023744
+		Virtual memory (bytes) snapshot=2311533391872
+		Total committed heap usage (bytes)=929474019328
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters
+		Bytes Read=907193887387
+	File Output Format Counters
+		Bytes Written=0
+```
+
+
+Next steps:
+
+de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.full.Phase3Step2DistinctDataJob s3://ukp-research-data/c4corpus/CC-MAIN-2016-07/cc-phase3step1out-2016-07/*.txt s3://ukp-research-data/c4corpus/CC-MAIN-2016-07/cc-phase3step2out-2016-07/
+
+de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.full.Phase3Step3NearDupTuplesCreation -D mapreduce.task.timeout=0 s3://ukp-research-data/c4corpus/CC-MAIN-2016-07/cc-phase3step2out-2016-07/* s3://ukp-research-data/c4corpus/CC-MAIN-2016-07/cc-phase3step3out-2016-07/
+
+de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.full.Phase3Step4GreedyClustering -D mapreduce.task.timeout=0 s3://ukp-research-data/c4corpus/CC-MAIN-2016-07/cc-phase3step3out-2016-07/* s3://ukp-research-data/c4corpus/CC-MAIN-2016-07/cc-phase3step4out-2016-07/
+
+de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.full.Phase4RemoveDuplicatesUsingReduceSideJoins s3://ukp-research-data/c4corpus/CC-MAIN-2016-07/cc-phase3step4out-2016-07/ s3://ukp-research-data/c4corpus/CC-MAIN-2016-07/cc-phase2out-2016-07/*.warc.gz s3://ukp-research-data/c4corpus/CC-MAIN-2016-07/cc-phase4out-2016-07/
+
+de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.full.Phase5MergeByLangLicJob s3://ukp-research-data/c4corpus/CC-MAIN-2016-07/cc-phase4out-2016-07/*.warc.gz s3://ukp-research-data/c4corpus/CC-MAIN-2016-07/cc-final-2016-07/
