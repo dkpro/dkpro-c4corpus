@@ -33,7 +33,7 @@ The full LREC article is available at the [UKP website](https://www.ukp.tu-darms
     * TU Darmstadt: http://www.tu-darmstadt.de/
 
 
-Consult the official [C4CorpusTools documentation](https://zoidberg.ukp.informatik.tu-darmstadt.de/jenkins/job/DKPro%20C4Corpus/org.dkpro.c4corpus$dkpro-c4corpus-doc/ws/target/generated-docs/documentation.html)
+Consult the official [C4CorpusTools documentation](https://zoidberg.ukp.informatik.tu-darmstadt.de/jenkins/job/DKPro%20C4Corpus/org.dkpro.c4corpus$dkpro-c4corpus-doc/doclinks/1/)
 which contains
 
 * C4Corpus Users's Guide
