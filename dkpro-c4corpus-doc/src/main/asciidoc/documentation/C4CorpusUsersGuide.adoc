@@ -50,10 +50,11 @@ UKP Lab: http://www.ukp.tu-darmstadt.de/ &mdash; TU Darmstadt: http://www.tu-dar
 * Don't hesitate to send me an e-mail if you have general questions about C4Corpus and C4CorpusTools
 * For questions regarding CommonCrawl or Amazon Web Services, use the appropriate channels
     ** https://groups.google.com/forum/#!forum/common-crawl[CommonCrawl forum]
-    ** (http://docs.aws.amazon.com[AWS Documentation]
+    ** (http://docs.aws.amazon.com)[AWS Documentation]
 
 
-The rest of this README contains
+This documentation contains
+
 * C4Corpus Users's Guide
     ** How to access C4Corpus at S3
     ** Running boilerplate removal outside Hadoop
@@ -61,7 +62,7 @@ The rest of this README contains
 * Corpus statistics reported in the LREC article
 
 
-== C4Corpus User's Guide
+=== C4Corpus User's Guide
 
 Follow these instructions if you don't plan to run the whole processing by yourself but only want to access the final C4Corpus.
 Permission to access the C4Corpus is limited only to Amazon Web Services (AWS) accounts.
@@ -72,7 +73,7 @@ AWS Free Tier does not apply for AWS Elastic Map Reduce.
 We strongly recommend to first consult the [official AWS Documentation](http://docs.aws.amazon.com/) if any of the steps below are not clear.
 
 
-=== How to access C4Corpus at S3
+==== How to access C4Corpus at S3
 
 The following steps were tested on a clean AWS Free Tier account.
 
@@ -184,7 +185,7 @@ ubuntu@ip-172-31-50-XX:~$ aws s3 ls s3://ukp-research-data/c4corpus/CC-MAIN-2015
 2016-02-02 13:12:12  435304263 Lic_by-nc-nd_Lang_en_NoBoilerplate_true-r-00284.seg-00005.warc.gz
 ```
 
-==== Downloading the free part of C4Corpus
+===== Downloading the free part of C4Corpus
 
 This will print all file names with CC, public domain or cc-unspecified licenses
 
@@ -212,7 +213,7 @@ download: s3://ukp-research-data/c4corpus/cc-final-2015-11/Lic_by-nc-nd_Lang_bg_
 Be aware of transfer costs in AWS!
 
 
-=== Running boilerplate removal outside Hadoop
+==== Running boilerplate removal outside Hadoop
 
 You can remove boilerplate from HTML pages locally.
 
@@ -272,7 +273,7 @@ $ head /tmp/output-minimal.html
 <p>Image copyright AP</p>
 ```
 
-=== List of URLs from CommonCrawl
+==== List of URLs from CommonCrawl
 
 * All URLs can be extracted using ``de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.uriextractor.URIExtractor``
 
@@ -285,7 +286,7 @@ $ aws s3 ls s3://ukp-research-data/c4corpus/common-crawl-full-url-list-2016-07/ 
 awk '{ sum += $3 }; END { print sum } '
 ```
 
-=== Use-case: Search for patterns in C4Corpus
+==== Use-case: Search for patterns in C4Corpus
 
 * You need a running Hadoop cluster
 * Run ``de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.examples.SimpleTextSearch`` from ``dkpro-c4corpus-hadoop-1.0.0.jar``
