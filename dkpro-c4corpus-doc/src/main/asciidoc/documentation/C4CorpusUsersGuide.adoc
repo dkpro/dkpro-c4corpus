@@ -284,3 +284,46 @@ $ aws s3 ls s3://ukp-research-data/c4corpus/common-crawl-full-url-list-2016-07/
 $ aws s3 ls s3://ukp-research-data/c4corpus/common-crawl-full-url-list-2016-07/ | \
 awk '{ sum += $3 }; END { print sum } '
 ```
+
+=== Use-case: Search for patterns in C4Corpus
+
+* You need a running Hadoop cluster
+* Run ``de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.examples.SimpleTextSearch`` from ``dkpro-c4corpus-hadoop-1.0.0.jar``
+* Parameters:
+
+.Path to C4Corpus
+----
+s3://ukp-research-data/c4corpus/CC-MAIN-2015-48/cc-final-2015-48/*.warc.gz
+----
+
+.(or only English pages)
+----
+s3://ukp-research-data/c4corpus/CC-MAIN-2015-48/cc-final-2015-48/*Lang_en*.warc.gz
+----
+
+.Output path, e.g.
+----
+s3://your-bucket/regex-search-output1/
+----
+
+* Regex, for example ``".{10}CommonCrawl.{10}"`` which searches the word ``CommonCrawl`` with a 10-character context
+* The job prints the matched patterns with their respective counts
+* Merge the results into one file and download to your local machine
+```
+$ hadoop fs -getmerge s3://your-bucket/regex-search-output1/* regex-search.txt
+```
+
+.Print them sorted by count descending
+----
+$ sort -t$'\t' -k2 -nr regex-search.txt
+----
+
+(the word 'CommonCrawl' is not really that common in CommonCrawl :)
+----
+s the new CommonCrawl dataset, 	2
+Spider] , CommonCrawl [Bot] and	1
+k out the CommonCrawl project f	1
+----
+
+
+TIP: See ``de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.examples.SimpleTextSearchTest`` for other regex examples
