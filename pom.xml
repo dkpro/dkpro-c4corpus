@@ -54,19 +54,6 @@
 	</modules>
 
 	<dependencies>
-		<!-- commons libraries are used across project -->
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-			<version>${commons.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>commons-lang</groupId>
-			<artifactId>commons-lang</artifactId>
-			<version>${commons.version}</version>
-		</dependency>
-
 
 		<dependency>
 			<groupId>junit</groupId>
@@ -119,6 +106,19 @@
 				<groupId>com.google.guava</groupId>
 				<artifactId>guava</artifactId>
 				<version>18.0</version>
+			</dependency>
+
+			<!-- Commons -->
+			<dependency>
+				<groupId>commons-lang</groupId>
+				<artifactId>commons-lang</artifactId>
+				<version>${commons.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>commons-io</groupId>
+				<artifactId>commons-io</artifactId>
+				<version>${commons.version}</version>
 			</dependency>
 
 		</dependencies>

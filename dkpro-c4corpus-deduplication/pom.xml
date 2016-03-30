@@ -30,11 +30,4 @@
 	<artifactId>dkpro-c4corpus-deduplication</artifactId>
 	<name>DKPro C4CorpusTools - De-duplication</name>
 
-	<dependencies>
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-		</dependency>
-	</dependencies>
-
 </project>

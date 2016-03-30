@@ -30,5 +30,12 @@
 	<artifactId>dkpro-c4corpus-license</artifactId>
 	<name>DKPro C4CorpusTools - License detection</name>
 
+	<dependencies>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+		</dependency>
+	</dependencies>
+
 
 </project>
