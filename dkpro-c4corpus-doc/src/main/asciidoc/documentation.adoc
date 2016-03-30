@@ -18,7 +18,7 @@
 :Author: The DKPro C4Corpus Team
 :toc-title: Documentation
 
-image::logo_c4_100.png[]
+image::https://raw.githubusercontent.com/dkpro/dkpro-c4corpus/master/dkpro-c4corpus-doc/src/main/asciidoc/documentation/images/logo-c4-100.png[]
 
 
 This document targets users and developers of DKPro C4Corpus.

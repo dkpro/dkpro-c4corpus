@@ -119,51 +119,41 @@ Took 22 minutes with 4 + 16 c3.8xlarge instances.
 
 Phase 3: Detecting near duplicates::
 
-* Step 1: Extract near duplicates info::
-```
+Phase 3 consists of 4 steps.
+
+.Step 1: Extract near duplicates info
+----
 de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.full.Phase3Step1ExtractNearDupInfo \
 s3://your-bucket/output-path/cc-phase2out-2015-11/*.warc.gz \
 s3://your-bucket/output-path/cc-phase3step1out-2015-11/
-```
+----
 
-56 minutes, 1152 normalized instance hours
-
-
-* Step 2: Distinct data::
-
-```
+.Step 2: Distinct data
+----
 de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.full.Phase3Step2DistinctDataJob \
 s3://your-bucket/output-path/cc-phase3step1out-2015-11/*.txt \
 s3://your-bucket/output-path/cc-phase3step2out-2015-11/
-```
+----
 
-45 minutes, 384 normalized instance hours
-
-* Step 3: Tuples creation::
-
-```
+.Step 3: Tuples creation
+----
 de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.full.Phase3Step3NearDupTuplesCreation \
 -D mapreduce.task.timeout=0 \
 s3://your-bucket/output-path/cc-phase3step2out-2015-11/* \
 s3://your-bucket/output-path/cc-phase3step3out-2015-11/
-```
+----
 
 * The timeout should be disabled as while calculating the Hamming distance,
 the mapper neither reads an input, writes an output, nor updates its status string
 so it will fail after the default 3 hours.
 
-
-1 day, 12 hours, 7104 normalized instance hours
-
-* Step 4: Greedy clustering::
-
-
-```
+.Step 4: Greedy clustering
+----
 de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.full.Phase3Step4GreedyClustering \
 -D mapreduce.task.timeout=0 \
 s3://your-bucket/output-path/cc-phase3step3out-2015-11/* \
 s3://your-bucket/output-path/cc-phase3step4out-2015-11/
-```
+----
 
 Phase 4: Removing near duplicates::
 
@@ -264,7 +254,7 @@ grunt> dump top100;
 ```
 
 This will sort the words by their counts (revesed) and prints the top 100 words to the console.
-Consult [Pig documentation](http://pig.apache.org/) for further data manipulation.
+Consult http://pig.apache.org/[Pig documentation] for further data manipulation.
 
 === Corpus statistics reported in the LREC article
 

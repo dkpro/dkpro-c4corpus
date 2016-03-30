@@ -50,7 +50,7 @@ UKP Lab: http://www.ukp.tu-darmstadt.de/ &mdash; TU Darmstadt: http://www.tu-dar
 * Don't hesitate to send me an e-mail if you have general questions about C4Corpus and C4CorpusTools
 * For questions regarding CommonCrawl or Amazon Web Services, use the appropriate channels
     ** https://groups.google.com/forum/#!forum/common-crawl[CommonCrawl forum]
-    ** (http://docs.aws.amazon.com)[AWS Documentation]
+    ** http://docs.aws.amazon.com[AWS Documentation]
 
 
 This documentation contains
@@ -219,29 +219,31 @@ You can remove boilerplate from HTML pages locally.
 
 * Package the module ```dkpro-c4corpus-boilerplate```
 
-    ```
-    $ cd dkpro-c4corpus-boilerplate/
-    $ mvn package
-    ```
+----
+$ cd dkpro-c4corpus-boilerplate/
+$ mvn package
+----
+
 * Test some example page from BBC
-    ```
-    $ wget http://www.bbc.com/news/election-us-2016-35694116 -O /tmp/input.html -o /dev/null
-    $ head /tmp/input.html
-    <!DOCTYPE html>
-    <html lang="en" id="responsive-news" prefix="og: http://ogp.me/ns#">
-    <head >
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>US election 2016: Super Tuesday to test candidates - BBC News</title>
-        <meta name="description" content="Candidates bidding for their party's ticket in the November US presidential election face their biggest test yet in the so-called Super Tuesday primaries.">
-        <link rel="dns-prefetch" href="https://ssl.bbc.co.uk/">
-        <link rel="dns-prefetch" href="http://sa.bbc.co.uk/">
-    ```
+
+----
+$ wget http://www.bbc.com/news/election-us-2016-35694116 -O /tmp/input.html -o /dev/null
+$ head /tmp/input.html
+<!DOCTYPE html>
+<html lang="en" id="responsive-news" prefix="og: http://ogp.me/ns#">
+<head >
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>US election 2016: Super Tuesday to test candidates - BBC News</title>
+    <meta name="description" content="Candidates bidding for their party's ticket in the November US presidential election face their biggest test yet in the so-called Super Tuesday primaries.">
+    <link rel="dns-prefetch" href="https://ssl.bbc.co.uk/">
+    <link rel="dns-prefetch" href="http://sa.bbc.co.uk/">
+----
 
 * There are two options for boilerplate removal
-    ** Keep only plain text
 
-```
+.Keep only plain text
+----
 $ java -jar target/dkpro-c4corpus-boilerplate-1.0.0.jar /tmp/input.html /tmp/output-plain.html false
 $ head /tmp/output-plain.html
 Senator Ted Cruz cannot afford to lose to Mr Trump in Texas, Mr Cruz's home state, while a reverse for Mr Trump in Massachusetts, with its moderate voters, could break the property tycoon's nationwide momentum.
@@ -254,11 +256,10 @@ Marco Rubio, the third-placed Republican contender after Mr Trump and Mr Cruz, i
 Image copyright Reuters
 Image caption Donald Trump autographs the back of a supporter's hand in Valdosta, Georgia, on Monday
 Image copyright AP
-```
+----
 
-    ** Keep also a minimal HTML tags for paragraphs, spans, headers, etc.
-
-```
+.Keep also a minimal HTML tags for paragraphs, spans, headers, etc.
+----
 $ java -jar target/dkpro-c4corpus-boilerplate-1.0.0.jar /tmp/input.html /tmp/output-minimal.html true
 $ head /tmp/output-minimal.html
 <p>Senator Ted Cruz cannot afford to lose to Mr Trump in Texas, Mr Cruz's home state, while a reverse for Mr Trump in Massachusetts, with its moderate voters, could break the property tycoon's nationwide momentum.</p>
@@ -271,7 +272,7 @@ $ head /tmp/output-minimal.html
 <p>Image copyright Reuters</p>
 <span>Image caption Donald Trump autographs the back of a supporter's hand in Valdosta, Georgia, on Monday</span>
 <p>Image copyright AP</p>
-```
+----
 
 ==== List of URLs from CommonCrawl
 
