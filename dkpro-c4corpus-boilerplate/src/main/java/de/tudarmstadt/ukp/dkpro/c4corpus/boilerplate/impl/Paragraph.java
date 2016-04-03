@@ -35,37 +35,36 @@ import java.util.Set;
 public class Paragraph
         extends LinkedList<Node>
 {
+    private static final long serialVersionUID = 1L;
 
-    //    private ArrayList<String> textNodes;
     int charsCountInLinks = 0;
     private String classType = "";
     private String contextFreeClass = "";
     private String tagName = "";
     private String rawText = "";
+    private boolean isHeading = false;
 
-    public Paragraph(Node firstNode)
+    public Paragraph(Node firstNode, boolean heading)
     {
         add(firstNode);
-    }
+        Node node = firstNode;
+        while (NodeHelper.isInnerText(node) || node instanceof TextNode) {
+            node = node.parent();
+        }
+        if (node != null) {
+            this.tagName = node.nodeName();
+        }
+        this.isHeading = heading;
+        if (firstNode instanceof TextNode) {
+            String nodeRawText = ((TextNode) firstNode).text();
+            this.rawText = Utils.normalizeBreaks(nodeRawText).trim();
 
-    public void initRawInfo()
-    {
-        StringBuilder sb = new StringBuilder();
-        for (Node n : this) {
-            //            NodeHelper.cleanEmptyElements(n);
-            if (n instanceof TextNode) {
-                this.setTagName(getPath(n));
-                String nodeRawText = ((TextNode) n).text();
-                sb.append(Utils.normalizeBreaks(nodeRawText).trim());
-
-                if (NodeHelper.isLink(n)) {
-                    charsCountInLinks += nodeRawText.length();
-                }
+            if (NodeHelper.isLink(firstNode)) {
+                charsCountInLinks += nodeRawText.length();
             }
         }
-
-        rawText = sb.toString();
     }
+
 
     public int getLinksLength()
     {
@@ -97,29 +96,6 @@ public class Paragraph
         return this.tagName;
     }
 
-    public String getPath(Node n)
-    {
-        String nodePath = "";
-        while (n != null) {
-            if (n instanceof TextNode) {
-                n = n.parent();
-            }
-            if (NodeHelper.isInnerText(n)) {
-                n = n.parent();
-            }
-            String parentNodeName = n.nodeName();
-            nodePath = parentNodeName + "." + nodePath;
-
-            if (!parentNodeName.equalsIgnoreCase("html")) {
-                n = n.parent();
-            }
-            else {
-                break;
-            }
-        }
-
-        return nodePath;
-    }
 
     public void setTagName(String name)
     {
@@ -128,7 +104,7 @@ public class Paragraph
 
     public boolean isHeading()
     {
-        return this.getTagName().matches(".*\\.h\\d\\.");
+        return isHeading;
     }
 
     public boolean isBoilerplate()

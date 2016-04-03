@@ -458,11 +458,8 @@ public class JusTextBoilerplateRemoval
         for (Paragraph p : paragraphs) {
             if (!p.isBoilerplate()) {
                 // get the tag name
-                String tagNameOrig = p.getTagName();
+                String tag = p.getTagName();
 
-                // extract the tag name from i.e. "html.body.div.div.div.div.div.div.p."
-                String[] split = tagNameOrig.split("\\.");
-                String tag = split[split.length - 1];
                 //edited as sometimes  the tag is empty because it is div or br
                 if (tag.trim().isEmpty()) {
                     tag = "p";

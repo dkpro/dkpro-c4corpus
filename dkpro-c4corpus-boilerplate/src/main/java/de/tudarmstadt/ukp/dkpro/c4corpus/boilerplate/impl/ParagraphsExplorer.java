@@ -19,12 +19,14 @@
 package de.tudarmstadt.ukp.dkpro.c4corpus.boilerplate.impl;
 
 import org.jsoup.helper.StringUtil;
+import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
 import org.jsoup.nodes.TextNode;
 import org.jsoup.select.NodeVisitor;
 
 import java.security.InvalidParameterException;
 import java.util.LinkedList;
+import java.util.regex.Pattern;
 
 /**
  * Extract a list of paragraphs from html page. Paragraphs here means blocks of
@@ -39,8 +41,11 @@ public class ParagraphsExplorer
         implements NodeVisitor
 {
 
+    private static final Pattern HEADING_PATTERN = Pattern.compile("h[1-6]");
     private final LinkedList<Paragraph> paragraphs;
     private final LinkedList<Node> nodes;
+    private boolean inHeading = false;
+    private int headingDepth = 0;
 
     public enum AncestorState
     {
@@ -51,12 +56,18 @@ public class ParagraphsExplorer
     public ParagraphsExplorer()
     {
         this.paragraphs = new LinkedList<>();
-        nodes = new LinkedList<>();
+        this.nodes = new LinkedList<>();
     }
 
     @Override
     public void head(Node node, int depth)
     {
+        if (!inHeading && node instanceof Element) {
+            inHeading = HEADING_PATTERN.matcher(((Element) node).tagName()).matches();
+            if (inHeading) {
+                headingDepth = depth;
+            }
+        }
         if (node.childNodeSize() == 0) {
             if (node instanceof TextNode && StringUtil.isBlank(node.outerHtml())) {
                 return;
@@ -69,7 +80,10 @@ public class ParagraphsExplorer
     @Override
     public void tail(Node node, int depth)
     {
-        //do nothing
+        if (depth == headingDepth) {
+            // Headings can't be nested
+            inHeading = false;
+        }
     }
 
     /**
@@ -103,6 +117,10 @@ public class ParagraphsExplorer
             return;
         case INNERTEXT_ONLY:
             appendToLastParagraph(node);
+        case UNKNOW:
+            break;
+        default:
+            break;
         }
     }
 
@@ -143,8 +161,7 @@ public class ParagraphsExplorer
 
     private void insertAsNewParagraph(Node node)
     {
-        Paragraph p = new Paragraph(node);
-        p.initRawInfo();
+        Paragraph p = new Paragraph(node, inHeading);
         // if (!p.getRawText().isEmpty()) {
         paragraphs.add(p);
         // }
