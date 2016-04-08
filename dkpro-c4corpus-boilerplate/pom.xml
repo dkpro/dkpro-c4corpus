@@ -47,6 +47,10 @@
 			<artifactId>commons-io</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>org.dkpro.c4corpus</groupId>
+			<artifactId>dkpro-c4corpus-language</artifactId>
+		</dependency>
 	</dependencies>
 
 	<!-- for a standalone application -->
