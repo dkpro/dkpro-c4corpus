@@ -18,6 +18,8 @@
 package de.tudarmstadt.ukp.dkpro.c4corpus.boilerplate.impl;
 
 import de.tudarmstadt.ukp.dkpro.c4corpus.boilerplate.BoilerPlateRemoval;
+import de.tudarmstadt.ukp.dkpro.c4corpus.boilerplate.impl.Paragraph.PARAGRAPH_TYPE;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.jsoup.Jsoup;
@@ -137,33 +139,32 @@ public class JusTextBoilerplateRemoval
             double link_density = paragraph.calcLinksDensity();
 
             if (link_density > maxLinkDensity) {
-                paragraph.setContextFreeClass("bad");
+                paragraph.setContextFreeClass(PARAGRAPH_TYPE.BAD);
             }
-            else if (paragraph.getRawText().contains("\\xa9") || paragraph.getRawText()
-                    .contains("&copy")) {
-                paragraph.setContextFreeClass("bad");
+            else if (paragraph.getRawText().contains("\u00a9"))  { // copyright symbol
+                paragraph.setContextFreeClass(PARAGRAPH_TYPE.BAD);
             }
             else if (length < lengthLow) {
                 if (paragraph.getLinksLength() > 0 || length == 0) {
-                    paragraph.setContextFreeClass("bad");
+                    paragraph.setContextFreeClass(PARAGRAPH_TYPE.BAD);
                 }
                 else {
-                    paragraph.setContextFreeClass("short");
+                    paragraph.setContextFreeClass(PARAGRAPH_TYPE.SHORT);
                 }
             }
             else if (stopWordDensity >= stopwordsHigh) {
                 if (length > lengthHigh) {
-                    paragraph.setContextFreeClass("good");
+                    paragraph.setContextFreeClass(PARAGRAPH_TYPE.GOOD);
                 }
                 else {
-                    paragraph.setContextFreeClass("neargood");
+                    paragraph.setContextFreeClass(PARAGRAPH_TYPE.NEAR_GOOD);
                 }
             }
             else if (stopWordDensity >= stopwordsLow) {
-                paragraph.setContextFreeClass("neargood");
+                paragraph.setContextFreeClass(PARAGRAPH_TYPE.NEAR_GOOD);
             }
             else {
-                paragraph.setContextFreeClass("bad");
+                paragraph.setContextFreeClass(PARAGRAPH_TYPE.BAD);
             }
         }
     }
@@ -172,50 +173,50 @@ public class JusTextBoilerplateRemoval
      * Optimization of the original getNeighbour method to reduce the time
      * complexity. used to save the nearest previous neighbour.
      */
-    private String getPrevNeighbourOptimized(int i, List<Paragraph> paragraphs,
+    private PARAGRAPH_TYPE getPrevNeighbourOptimized(int i, List<Paragraph> paragraphs,
             boolean ignoreNearGood, int inc, int boundary)
     {
         while (i + inc != boundary) {
             i += inc;
-            String c = paragraphs.get(i).getClassType();
-            if (c.equalsIgnoreCase("good") || c.equalsIgnoreCase("bad")) {
+            PARAGRAPH_TYPE c = paragraphs.get(i).getClassType();
+            if (c == PARAGRAPH_TYPE.GOOD || c == PARAGRAPH_TYPE.BAD) {
                 prevNeighbourCache = new Pair(i, c);
                 return c;
             }
-            if (c.equalsIgnoreCase("neargood") && !ignoreNearGood) {
+            if (c == PARAGRAPH_TYPE.NEAR_GOOD && !ignoreNearGood) {
                 return c;
             }
             if (prevNeighbourCache != null
-                    && i > prevNeighbourCache.getID() && c.equalsIgnoreCase("short")) {
+                    && i > prevNeighbourCache.getID() && c == PARAGRAPH_TYPE.SHORT) {
                 //render the prev class
                 return prevNeighbourCache.getClassType();
             }
         }
-        return "bad";
+        return PARAGRAPH_TYPE.BAD;
     }
 
     /**
      * Optimization of the original getNeighbour method to reduce the time
      * complexity. used to save the nearest next neighbour.
      */
-    private String getNextNeighbourOptimized(int i, List<Paragraph> paragraphs,
+    private PARAGRAPH_TYPE getNextNeighbourOptimized(int i, List<Paragraph> paragraphs,
             boolean ignoreNeargood, int inc, int boundary)
     {
         int counter = 0; // to avoid infinite loop in case the whole document is short
         while (i + inc != boundary && counter < LOOP_THRESHOLD_OF_NEIGHBOURS) {
             i += inc;
-            String c = paragraphs.get(i).getClassType();
-            if (c.equalsIgnoreCase("good") || c.equalsIgnoreCase("bad")) {
+            PARAGRAPH_TYPE c = paragraphs.get(i).getClassType();
+            if (c == PARAGRAPH_TYPE.GOOD || c == PARAGRAPH_TYPE.BAD) {
                 //newly visited paragraph
                 nextNeighbourCache = new Pair(i, c);
                 return c;
             }
-            if (c.equalsIgnoreCase("neargood") && !ignoreNeargood) {
+            if (c == PARAGRAPH_TYPE.NEAR_GOOD && !ignoreNeargood) {
                 return c;
 
             }
             if (nextNeighbourCache != null
-                    && i < nextNeighbourCache.getID() && c.equalsIgnoreCase("short")) {
+                    && i < nextNeighbourCache.getID() && c == PARAGRAPH_TYPE.SHORT) {
                 //render the prev class if this paragraph was visited before                 
                 return nextNeighbourCache.getClassType();
             }
@@ -223,19 +224,19 @@ public class JusTextBoilerplateRemoval
             //corner case if the whole document is initially short and no bad
             //or good classes at the end of the paragraphs.
             if (nextNeighbourCache == null && i == boundary - 1) {
-                nextNeighbourCache = new Pair(i, "bad");
+                nextNeighbourCache = new Pair(i, PARAGRAPH_TYPE.BAD);
                 return nextNeighbourCache.getClassType();
             }
             counter++;
         }
-        return "bad";
+        return PARAGRAPH_TYPE.BAD;
     }
 
     /**
      * optimized version to be used only if the class is short and
      * ignoreNeargood is false.
      */
-    private String getPrevNeighbourOptimized(int i, List<Paragraph> paragraphs,
+    private PARAGRAPH_TYPE getPrevNeighbourOptimized(int i, List<Paragraph> paragraphs,
             boolean ignoreNeargood)
     {
         return getPrevNeighbourOptimized(i, paragraphs, ignoreNeargood, -1, -1);
@@ -245,7 +246,7 @@ public class JusTextBoilerplateRemoval
      * optimized version to be used only if the class is short and
      * ignoreNeargood is false.
      */
-    private String getNextNeighbourOptimized(int i, List<Paragraph> paragraphs,
+    private PARAGRAPH_TYPE getNextNeighbourOptimized(int i, List<Paragraph> paragraphs,
             boolean ignoreNeargood)
     {
         return getNextNeighbourOptimized(i, paragraphs, ignoreNeargood, 1, paragraphs.size());
@@ -268,14 +269,14 @@ public class JusTextBoilerplateRemoval
         // re-classify good headings
         for (int i = 0; i < paragraphs.size(); i++) {
             Paragraph paragraph = paragraphs.get(i);
-            if (!(paragraph.isHeading() && paragraph.getClassType().equalsIgnoreCase("short"))) {
+            if (!(paragraph.isHeading() && paragraph.getClassType() == PARAGRAPH_TYPE.SHORT)) {
                 continue;
             }
             int j = i + 1;
             int distance = 0;
             while (j < paragraphs.size() && distance <= maxHeadingDistance) {
-                if (paragraphs.get(j).getClassType().equalsIgnoreCase("good")) {
-                    paragraph.setClassType("neargood");
+                if (paragraphs.get(j).getClassType() == PARAGRAPH_TYPE.GOOD) {
+                    paragraph.setClassType(PARAGRAPH_TYPE.NEAR_GOOD);
                     break;
                 }
                 distance += paragraphs.get(j).getRawText().length();
@@ -286,36 +287,36 @@ public class JusTextBoilerplateRemoval
         //re-classify short
         //a new data structure is used for storage as we don't want to mess the
         //original classification. It will be used by other parts of the code later.       
-        Map<Integer, String> newClasses = new LinkedHashMap<>();
+        Map<Integer, PARAGRAPH_TYPE> newClasses = new LinkedHashMap<>();
 
         for (int i = 0; i < paragraphs.size(); i++) {
-            if (!paragraphs.get(i).getClassType().equalsIgnoreCase("short")) {
+            if (paragraphs.get(i).getClassType() != Paragraph.PARAGRAPH_TYPE.SHORT) {
                 continue;
             }
 
-            String prevNeighbour = getPrevNeighbourOptimized(i, paragraphs, true); //ignore_neargood
-            String nextNeighbour = getNextNeighbourOptimized(i, paragraphs, true); //ignore_neargood
+            PARAGRAPH_TYPE prevNeighbour = getPrevNeighbourOptimized(i, paragraphs, true); //ignore_neargood
+            PARAGRAPH_TYPE nextNeighbour = getNextNeighbourOptimized(i, paragraphs, true); //ignore_neargood
 
-            Set<String> neighbours = new LinkedHashSet<>();
+            Set<PARAGRAPH_TYPE> neighbours = new LinkedHashSet<>();
             neighbours.add(prevNeighbour);
             neighbours.add(nextNeighbour);
 
-            if (neighbours.size() == 1 && neighbours.contains("good")) {
-                newClasses.put(i, "good");
+            if (neighbours.size() == 1 && neighbours.contains(PARAGRAPH_TYPE.GOOD)) {
+                newClasses.put(i, PARAGRAPH_TYPE.GOOD);
             }
-            else if (neighbours.size() == 1 && neighbours.contains("bad")) {
-                newClasses.put(i, "bad");
+            else if (neighbours.size() == 1 && neighbours.contains(PARAGRAPH_TYPE.BAD)) {
+                newClasses.put(i, PARAGRAPH_TYPE.BAD);
             } // it must be set(['good', 'bad'])
-            else if ((prevNeighbour.equalsIgnoreCase("bad") && getPrevNeighbourOptimized(i,
+            else if ((prevNeighbour == PARAGRAPH_TYPE.BAD && getPrevNeighbourOptimized(i,
                     paragraphs,
-                    false).equalsIgnoreCase("neargood"))
-                    || (nextNeighbour.equalsIgnoreCase("bad") && getNextNeighbourOptimized(i,
+                    false) == PARAGRAPH_TYPE.NEAR_GOOD)
+                    || (nextNeighbour == PARAGRAPH_TYPE.BAD && getNextNeighbourOptimized(i,
                     paragraphs,
-                    false).equalsIgnoreCase("neargood"))) {
-                newClasses.put(i, "good");
+                    false) == PARAGRAPH_TYPE.NEAR_GOOD)) {
+                newClasses.put(i, PARAGRAPH_TYPE.GOOD);
             }
             else {
-                newClasses.put(i, "bad");
+                newClasses.put(i, PARAGRAPH_TYPE.BAD);
             }
         }
 
@@ -327,31 +328,31 @@ public class JusTextBoilerplateRemoval
         // revise neargood        
         for (int i = 0; i < paragraphs.size(); i++) {
             Paragraph paragraph = paragraphs.get(i);
-            if (!paragraph.getClassType().equalsIgnoreCase("neargood")) {
+            if (paragraph.getClassType() != PARAGRAPH_TYPE.NEAR_GOOD) {
                 continue;
             }
-            String prevNeighbour = getPrevNeighbourOptimized(i, paragraphs, true);
-            String nextNeighbour = getNextNeighbourOptimized(i, paragraphs, true);
-            if (prevNeighbour.equalsIgnoreCase("bad") && nextNeighbour.equalsIgnoreCase("bad")) {
-                paragraph.setClassType("bad");
+            PARAGRAPH_TYPE prevNeighbour = getPrevNeighbourOptimized(i, paragraphs, true);
+            PARAGRAPH_TYPE nextNeighbour = getNextNeighbourOptimized(i, paragraphs, true);
+            if (prevNeighbour == PARAGRAPH_TYPE.BAD && nextNeighbour == PARAGRAPH_TYPE.BAD) {
+                paragraph.setClassType(PARAGRAPH_TYPE.BAD);
             }
             else {
-                paragraph.setClassType("good");
+                paragraph.setClassType(PARAGRAPH_TYPE.GOOD);
             }
         }
 
         // re-classify more good headings
         for (int i = 0; i < paragraphs.size(); i++) {
             Paragraph paragraph = paragraphs.get(i);
-            if (!(paragraph.isHeading() && paragraph.getClassType().equalsIgnoreCase("bad")
-                    && !paragraph.getContextFreeClass().equalsIgnoreCase("bad"))) {
+            if (!(paragraph.isHeading() && paragraph.getClassType() == PARAGRAPH_TYPE.BAD)
+                    && paragraph.getContextFreeClass() != PARAGRAPH_TYPE.BAD) {
                 continue;
             }
             int j = i + 1;
             int distance = 0;
             while (j < paragraphs.size() && distance <= maxHeadingDistance) {
-                if (paragraphs.get(j).getClassType().equalsIgnoreCase("good")) {
-                    paragraph.setClassType("good");
+                if (paragraphs.get(j).getClassType() == PARAGRAPH_TYPE.GOOD) {
+                    paragraph.setClassType(PARAGRAPH_TYPE.GOOD);
                     break;
                 }
                 distance += paragraphs.get(j).getRawText().length();

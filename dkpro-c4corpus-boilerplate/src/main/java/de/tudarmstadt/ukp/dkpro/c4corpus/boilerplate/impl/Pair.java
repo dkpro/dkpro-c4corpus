@@ -18,26 +18,28 @@
 
 package de.tudarmstadt.ukp.dkpro.c4corpus.boilerplate.impl;
 
+import de.tudarmstadt.ukp.dkpro.c4corpus.boilerplate.impl.Paragraph.PARAGRAPH_TYPE;
+
 /**
- * Data structure representing a pair of integer and string
+ * Data structure representing a pair of integer and paragraph type
  *
  * @author Omnia Zayed
  */
 public class Pair {
 
     public final Integer id;
-    public final String classType;
+    public final PARAGRAPH_TYPE classType;
 
-    public Pair(Integer id, String classType) {
+    public Pair(Integer id, PARAGRAPH_TYPE c) {
         this.id = id;
-        this.classType = classType;
+        this.classType = c;
     }
 
     public Integer getID() {
         return this.id;
     }
 
-    public String getClassType() {
+    public PARAGRAPH_TYPE getClassType() {
         return this.classType;
     }
 }

@@ -37,9 +37,12 @@ public class Paragraph
 {
     private static final long serialVersionUID = 1L;
 
+
+    public enum PARAGRAPH_TYPE {UNKNOWN, SHORT, GOOD, NEAR_GOOD, BAD};
+
     int charsCountInLinks = 0;
-    private String classType = "";
-    private String contextFreeClass = "";
+    private PARAGRAPH_TYPE classType = PARAGRAPH_TYPE.UNKNOWN;
+    private PARAGRAPH_TYPE contextFreeClass = PARAGRAPH_TYPE.UNKNOWN;
     private String tagName = "";
     private String rawText = "";
     private boolean isHeading = false;
@@ -71,22 +74,22 @@ public class Paragraph
         return this.charsCountInLinks;
     }
 
-    public String getClassType()
+    public PARAGRAPH_TYPE getClassType()
     {
         return this.classType;
     }
 
-    public void setClassType(String classType)
+    public void setClassType(PARAGRAPH_TYPE classType)
     {
         this.classType = classType;
     }
 
-    public String getContextFreeClass()
+    public PARAGRAPH_TYPE getContextFreeClass()
     {
         return this.contextFreeClass;
     }
 
-    public void setContextFreeClass(String contextFreeClass)
+    public void setContextFreeClass(PARAGRAPH_TYPE contextFreeClass)
     {
         this.contextFreeClass = contextFreeClass;
     }
@@ -109,7 +112,7 @@ public class Paragraph
 
     public boolean isBoilerplate()
     {
-        return !this.getClassType().equalsIgnoreCase("good");
+        return this.getClassType() != PARAGRAPH_TYPE.GOOD;
     }
 
     public String getRawText()
