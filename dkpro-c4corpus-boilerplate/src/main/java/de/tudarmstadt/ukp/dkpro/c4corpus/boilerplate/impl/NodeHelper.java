@@ -48,6 +48,7 @@ public class NodeHelper
     {
         Node ancestor = node1;
         while (ancestor != null) {
+            // FIXME: Inefficient!
             if (isAncestor(ancestor, node2)) {
                 return ancestor;
             }
@@ -65,9 +66,6 @@ public class NodeHelper
      */
     public static boolean isAncestor(Node node1, Node node2)
     {
-        if (node1 == node2) {
-            return true;
-        }
         Node ancestor = node2;
 
         while (ancestor != null) {
@@ -88,6 +86,7 @@ public class NodeHelper
      */
     public static boolean isLink(Node node)
     {
+        // TODO: This is continually traversing the tree & recomputing stuff
         Node ancestor = node;
 
         while (ancestor != null) {
@@ -102,7 +101,6 @@ public class NodeHelper
 
     public enum TagType
     {
-
         IGNORABLE, INNER_TEXT, BLOCK_LEVEL, BLOCK_LEVEL_CONTENT, BLOCK_LEVEL_TITLE
     }
 
@@ -156,30 +154,32 @@ public class NodeHelper
         TAGS_TYPE.put("b", TagType.INNER_TEXT); //count as text inside block
         TAGS_TYPE.put("u", TagType.INNER_TEXT); //count as text inside block
         TAGS_TYPE.put("i", TagType.INNER_TEXT);//count as text inside block
+        TAGS_TYPE.put("em", TagType.INNER_TEXT);
+        TAGS_TYPE.put("strong", TagType.INNER_TEXT);
+        TAGS_TYPE.put("span", TagType.INNER_TEXT);
+        TAGS_TYPE.put("a", TagType.INNER_TEXT);
         //the <br><br> is a paragraph separator and should
         TAGS_TYPE.put("br", TagType.INNER_TEXT); //count as text inside block
     }
 
     public static boolean isInnerText(Node tag)
     {
-        return !(tag == null || !(tag instanceof Element))
-                && TAGS_TYPE.get(tag.nodeName()) == TagType.INNER_TEXT;
+        return tag instanceof Element && TAGS_TYPE.get(tag.nodeName()) == TagType.INNER_TEXT;
     }
 
     public static boolean isBlockTag(Node tag)
     {
-        return !(tag == null || !(tag instanceof Element)) && ((Element) tag).isBlock();
+        return tag instanceof Element && ((Element) tag).isBlock();
     }
 
     public static boolean isInlineTag(Node tag)
     {
-        return !(tag == null || !(tag instanceof Element)) && ((Element) tag).tag().isInline();
+        return tag instanceof Element && ((Element) tag).tag().isInline();
     }
 
     public static boolean isLinkTag(Node elem)
     {
-        return !(elem == null || !(elem instanceof Element)) && (
-                "a".equalsIgnoreCase(elem.nodeName()) || "link".equalsIgnoreCase(elem.nodeName()));
+        return elem instanceof Element && !"".equals(((Element) elem).attr("href"));
     }
 
 }
