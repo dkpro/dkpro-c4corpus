@@ -8,25 +8,25 @@
 #                                                 /____/        
 #
 # Title of your website
-title: "PROJECT_X"
+title: "DKPro C4CorpusTools"
 
 
 # The slogan describes your website and is used on homepage in <title> and other important places
-slogan: "PROJECT_X is great!"
+slogan: "Processing CommonCrawl"
 
 
 # The description is used on homepage and in the footer to quickly describe your website. Use a maximum of 150 characters for SEO-purposes.
-description: "PROJECT_X helps you wash dishes and clean the living room."
+description: "DKPro C4CorpusTools is a collection of tools for processing CommonCrawl corpus, including Creative Commons license detection, boilerplate removal, language detection, and near-duplicate removal."
 
 
 # This URL is the main adresse. Don't include a slash at the end.
 #
-url: "//dkpro.github.io/PROJECT_X"
+url: "//dkpro.github.io/dkpro-c4corpus"
 baseurl: ""
 
 # This is for the editing function in _/includes/improve_content.html
 # Leave it empty if your site is not on GitHub/GitHub Pages
-improve_content: //github.com/dkpro/PROJECT_X/edit/gh-pages
+improve_content: //github.com/dkpro/dkpro-c4corpus/edit/gh-pages
 
 # This URL points directly to the images directory making
 # things easier to link to images in posts and templates. It needs a slash.
@@ -34,7 +34,7 @@ improve_content: //github.com/dkpro/PROJECT_X/edit/gh-pages
 # Example: <img src="{{ site.urlimg }}/{{ post.image.title }}">
 # Markdown-Example for posts ![Image Text]({{ site.urlimg }}/image.jpg)
 #
-urlimg: "/PROJECT_X/images/"
+urlimg: "/dkpro-c4corpus/images/"
 
 
 # Logo size is 600x80 pixels
@@ -88,7 +88,7 @@ defaults:
       show_meta: false 	# Show metadata beneath all pages
       # sidebar:    		# Possible values › left, right › by default there will be no sidebar
       comments: false
-      author: "your_author_name"
+#      author: "your_author_name"
   -
     scope:
       path: ""        
@@ -97,7 +97,7 @@ defaults:
       show_meta: false   # Show metadata beneath all posts
       # sidebar:        # Possible values › left, right › by default there will be no sidebar
       comments: false
-      author: "your_author_name"
+#      author: "your_author_name"
 
 
 
@@ -217,4 +217,4 @@ sass:
 #
 # used in _includes/sidebar.html
 
-#openhub_id: PROJECT_X
+#openhub_id: dkpro-c4corpus
