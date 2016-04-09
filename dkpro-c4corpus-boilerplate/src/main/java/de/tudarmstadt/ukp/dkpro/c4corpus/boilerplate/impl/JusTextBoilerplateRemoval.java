@@ -22,14 +22,23 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Entities.EscapeMode;
 import org.jsoup.nodes.Node;
-import org.jsoup.select.Elements;
+import org.jsoup.safety.Cleaner;
+import org.jsoup.safety.Whitelist;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Re-implementing the jusText python boilerplate removal algorithm (Pomikalek,
@@ -70,11 +79,14 @@ public class JusTextBoilerplateRemoval
      */
     private Document convertHtmlToDoc(String html)
     {
-        //remove comments
-        html = html.replaceAll("<!--(.*?)-->", "");
         Document document;
         try {
             document = Jsoup.parse(html);
+            document = new Cleaner(
+                    Whitelist.relaxed().removeTags("img", "head", "script", ".hidden", "embedded", "#comment"))
+                            .clean(document);
+            document.outputSettings().charset("UTF-8");
+            document.outputSettings().escapeMode(EscapeMode.xhtml);
         }
         catch (Throwable ex) {
             System.err.println(
@@ -93,23 +105,6 @@ public class JusTextBoilerplateRemoval
     }
 
     /**
-     * remove unwanted parts from a jsoup doc
-     */
-    private Document cleanDom(Document jsoupDoc)
-    {
-        String[] tagsToRemove = { "head", "script", ".hidden", "embedded" };
-
-        for (String tag : tagsToRemove) {
-            Elements selectedTags = jsoupDoc.select(tag);
-            for (Element element : selectedTags) {
-                element.remove();
-            }
-        }
-
-        return jsoupDoc;
-    }
-
-    /**
      * Initialize the Paragraph explorer class in order to convert a document to
      * a list of blocks (paragraphs)
      */
@@ -121,16 +116,17 @@ public class JusTextBoilerplateRemoval
     }
 
     /**
-     * Context-free paragraph classification. assigns each block (paragraph) to
-     * one of four classes: bad – boilerplate blocks good – main content blocks
-     * short – too short to make a reliable decision about the class near-good –
-     * somewhere in-between short and good
+     * Context-free paragraph classification. Assigns each block (paragraph) to one of four classes:
+     * <li>bad – boilerplate blocks
+     * <li>good – main content blocks
+     * <li>short – too short to make a reliable decision about the class
+     * <li>near-good – somewhere in-between short and good
      */
     private void classifyContextFree(List<Paragraph> paragraphs, Set<String> stoplist,
             double lengthLow, double lengthHigh, double stopwordsLow,
             double stopwordsHigh, double maxLinkDensity)
     {
-
+        // TODO: Move stop list initialization out of band
         Set<String> stopListLower = new HashSet<>();
         for (String word : stoplist) {
             stopListLower.add(word.toLowerCase().trim());
@@ -383,8 +379,7 @@ public class JusTextBoilerplateRemoval
         }
 
         Document jSoupDoc = convertHtmlToDoc(htmlText);
-        Document cleanJSoupDoc = cleanDom(jSoupDoc);
-        LinkedList<Paragraph> paragraphs = makeParagraphs(cleanJSoupDoc);
+        LinkedList<Paragraph> paragraphs = makeParagraphs(jSoupDoc);
         //context-free classification
         classifyContextFree(paragraphs, stopwordsSet, lengthLow, lengthHigh,
                 stopwordsLow, stopwordsHigh, maxLinkDensity);
@@ -457,7 +452,6 @@ public class JusTextBoilerplateRemoval
 
         for (Paragraph p : paragraphs) {
             if (!p.isBoilerplate()) {
-                // get the tag name
                 String tag = p.getTagName();
 
                 //edited as sometimes  the tag is empty because it is div or br

@@ -172,9 +172,12 @@ public class ParagraphsExplorer
         //        if(!node.nodeName().equalsIgnoreCase("br")){
         if (node instanceof TextNode) {
             Paragraph p = paragraphs.getLast();
-            p.setRawText(p.getRawText() + " " + node);
+            //TextNode.text() can be used if we don't want to preserve whitespace
+            String text = ((TextNode) node).getWholeText();
+            // FIXME: We don't necessarily want spaces between <span>, <sup>, etc elements.
+            p.setRawText(p.getRawText() + " " + text);
             if (NodeHelper.isLink(node)) {
-                p.charsCountInLinks += ((TextNode) node).text().length();
+                p.charsCountInLinks += text.length();
             }
             paragraphs.getLast().add(node);
         }
