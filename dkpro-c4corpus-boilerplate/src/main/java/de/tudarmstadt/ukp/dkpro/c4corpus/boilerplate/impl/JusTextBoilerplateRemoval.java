@@ -43,13 +43,16 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Re-implementing the jusText python boilerplate removal algorithm (Pomikalek,
+ * Re-implementing the jusText Python boilerplate removal algorithm (Pomikalek,
  * 2011)
  * <br>
  * References:
  * <br>
  * Pomikalek, J. (2011). Removing boilerplate and duplicate content from web corpora.
  * Ph.D. thesis, Masaryk university, Faculty of informatics, Brno, Czech Republic.
+ * <br>
+ * http://corpus.tools/wiki/Justext/Algorithm
+ * https://github.com/miso-belica/jusText/blob/dev/doc/algorithm.rst
  *
  * @author Omnia Zayed
  */
@@ -58,8 +61,8 @@ public class JusTextBoilerplateRemoval
 {
 
     static final double MAX_LINK_DENSITY_DEFAULT = 0.20;
-    static final double LENGTH_LOW_DEFAULT = 70;
-    static final double LENGTH_HIGH_DEFAULT = 200;
+    static final int LENGTH_LOW_DEFAULT = 70;
+    static final int LENGTH_HIGH_DEFAULT = 200;
     static final double STOPWORDS_LOW_DEFAULT = 0.30;
     static final double STOPWORDS_HIGH_DEFAULT = 0.32;
 
@@ -85,7 +88,7 @@ public class JusTextBoilerplateRemoval
         try {
             document = Jsoup.parse(html);
             document = new Cleaner(
-                    Whitelist.relaxed().removeTags("img", "head", "script", ".hidden", "embedded", "#comment"))
+                    Whitelist.relaxed().removeTags("img", "head", "script", "style", ".hidden", "embedded", "#comment"))
                             .clean(document);
             document.outputSettings().charset("UTF-8");
             document.outputSettings().escapeMode(EscapeMode.xhtml);
@@ -125,7 +128,7 @@ public class JusTextBoilerplateRemoval
      * <li>near-good – somewhere in-between short and good
      */
     private void classifyContextFree(List<Paragraph> paragraphs, Set<String> stoplist,
-            double lengthLow, double lengthHigh, double stopwordsLow,
+            int lengthLow, int lengthHigh, double stopwordsLow,
             double stopwordsHigh, double maxLinkDensity)
     {
         // TODO: Move stop list initialization out of band
@@ -138,10 +141,13 @@ public class JusTextBoilerplateRemoval
             float stopWordDensity = paragraph.stopwords_density(stopListLower);
             double link_density = paragraph.calcLinksDensity();
 
-            if (link_density > maxLinkDensity) {
+            if ("select".equalsIgnoreCase(paragraph.getTagName())) {
                 paragraph.setContextFreeClass(PARAGRAPH_TYPE.BAD);
             }
-            else if (paragraph.getRawText().contains("\u00a9"))  { // copyright symbol
+            else if (paragraph.getRawText().contains("\u00a9")) { // copyright symbol
+                paragraph.setContextFreeClass(PARAGRAPH_TYPE.BAD);
+            }
+            else if (link_density > maxLinkDensity) {
                 paragraph.setContextFreeClass(PARAGRAPH_TYPE.BAD);
             }
             else if (length < lengthLow) {
@@ -252,35 +258,57 @@ public class JusTextBoilerplateRemoval
         return getNextNeighbourOptimized(i, paragraphs, ignoreNeargood, 1, paragraphs.size());
     }
 
-    /**
-     * Context-sensitive paragraph classification. Assumes that context free
-     * classification of paragraphs has already been called. The purpose is to
-     * re classify neargood and short paragraphs according to the classes of the
-     * surrounding blocks.
+    /*
+     * Context-sensitive paragraph classification. Assumes that context free classification of
+     * paragraphs has already been called. The purpose is to re classify neargood and short
+     * paragraphs according to the classes of the surrounding blocks.
+     * <p>
+     * The algorithm adds two stages of processing for the header blocks. The first stage
+     * (preprocessing) is executed after context-free classification and before context-sensitive
+     * classification. The second stage (postprocessing) is performed after the context-sensitive
+     * classification:
+     * <ol>
+     * <li>context-free classification [done before this method is called]
+     * <li>preprocessing of header blocks
+     * <li>context-sensitive classification
+     * <li>postprocessing of header blocks
+     * </ol>
+     * 
+     * FIXME: This can behave pathologically in the presence of large lists of "paragraphs"
+     * with no textual content. In this case the maxHeadingDistance parameter isn't adequate
+     * to short circuit large amounts of processing. We may need to max number of elements
+     * to search (10? 20?).
      */
     private void reclassifyContextSensitive(List<Paragraph> paragraphs, int maxHeadingDistance)
     {
-
-        // copy classes 
+        // Default classification is the same as the context-free classification
         for (Paragraph p : paragraphs) {
             p.setClassType(p.getContextFreeClass());
         }
 
-        // re-classify good headings
+        /* 
+         * re-classify good headings - from the description of the original Python implementation:
+         * <p>
+         * "2. The preprocessing looks
+         * for short header blocks which precede good blocks and at the same time there is no more
+         * than MAX_HEADING_DISTANCE characters between the header block and the good block. The
+         * context-free class of such header blocks is changed from short to near-good. The purpose
+         * of this is to preserve short blocks between the heading and the good text which might
+         * otherwise be removed (classified as bad) by the context-sensitive classification."
+         */
         for (int i = 0; i < paragraphs.size(); i++) {
             Paragraph paragraph = paragraphs.get(i);
-            if (!(paragraph.isHeading() && paragraph.getClassType() == PARAGRAPH_TYPE.SHORT)) {
-                continue;
-            }
-            int j = i + 1;
-            int distance = 0;
-            while (j < paragraphs.size() && distance <= maxHeadingDistance) {
-                if (paragraphs.get(j).getClassType() == PARAGRAPH_TYPE.GOOD) {
-                    paragraph.setClassType(PARAGRAPH_TYPE.NEAR_GOOD);
-                    break;
+            if (paragraph.isHeading() && paragraph.getClassType() == PARAGRAPH_TYPE.SHORT) {
+                int j = i + 1;
+                int distance = 0;
+                while (j < paragraphs.size() && distance <= maxHeadingDistance) {
+                    if (paragraphs.get(j).getClassType() == PARAGRAPH_TYPE.GOOD) {
+                        paragraph.setClassType(PARAGRAPH_TYPE.NEAR_GOOD);
+                        break;
+                    }
+                    distance += paragraphs.get(j).getRawText().length();
+                    j += 1;
                 }
-                distance += paragraphs.get(j).getRawText().length();
-                j += 1;
             }
         }
 
@@ -290,33 +318,27 @@ public class JusTextBoilerplateRemoval
         Map<Integer, PARAGRAPH_TYPE> newClasses = new LinkedHashMap<>();
 
         for (int i = 0; i < paragraphs.size(); i++) {
-            if (paragraphs.get(i).getClassType() != Paragraph.PARAGRAPH_TYPE.SHORT) {
-                continue;
-            }
+            if (paragraphs.get(i).getClassType() == Paragraph.PARAGRAPH_TYPE.SHORT) {
+                PARAGRAPH_TYPE prevNeighbour = getPrevNeighbourOptimized(i, paragraphs, true); // ignore_neargood
+                PARAGRAPH_TYPE nextNeighbour = getNextNeighbourOptimized(i, paragraphs, true); // ignore_neargood
 
-            PARAGRAPH_TYPE prevNeighbour = getPrevNeighbourOptimized(i, paragraphs, true); //ignore_neargood
-            PARAGRAPH_TYPE nextNeighbour = getNextNeighbourOptimized(i, paragraphs, true); //ignore_neargood
+                Set<PARAGRAPH_TYPE> neighbours = new LinkedHashSet<>();
+                neighbours.add(prevNeighbour);
+                neighbours.add(nextNeighbour);
 
-            Set<PARAGRAPH_TYPE> neighbours = new LinkedHashSet<>();
-            neighbours.add(prevNeighbour);
-            neighbours.add(nextNeighbour);
-
-            if (neighbours.size() == 1 && neighbours.contains(PARAGRAPH_TYPE.GOOD)) {
-                newClasses.put(i, PARAGRAPH_TYPE.GOOD);
-            }
-            else if (neighbours.size() == 1 && neighbours.contains(PARAGRAPH_TYPE.BAD)) {
-                newClasses.put(i, PARAGRAPH_TYPE.BAD);
-            } // it must be set(['good', 'bad'])
-            else if ((prevNeighbour == PARAGRAPH_TYPE.BAD && getPrevNeighbourOptimized(i,
-                    paragraphs,
-                    false) == PARAGRAPH_TYPE.NEAR_GOOD)
-                    || (nextNeighbour == PARAGRAPH_TYPE.BAD && getNextNeighbourOptimized(i,
-                    paragraphs,
-                    false) == PARAGRAPH_TYPE.NEAR_GOOD)) {
-                newClasses.put(i, PARAGRAPH_TYPE.GOOD);
-            }
-            else {
-                newClasses.put(i, PARAGRAPH_TYPE.BAD);
+                if (neighbours.size() == 1 && neighbours.contains(PARAGRAPH_TYPE.GOOD)) {
+                    newClasses.put(i, PARAGRAPH_TYPE.GOOD);
+                } else if (neighbours.size() == 1 && neighbours.contains(PARAGRAPH_TYPE.BAD)) {
+                    newClasses.put(i, PARAGRAPH_TYPE.BAD);
+                } // it must be set(['good', 'bad'])
+                else if ((prevNeighbour == PARAGRAPH_TYPE.BAD
+                        && getPrevNeighbourOptimized(i, paragraphs, false) == PARAGRAPH_TYPE.NEAR_GOOD)
+                        || (nextNeighbour == PARAGRAPH_TYPE.BAD
+                                && getNextNeighbourOptimized(i, paragraphs, false) == PARAGRAPH_TYPE.NEAR_GOOD)) {
+                    newClasses.put(i, PARAGRAPH_TYPE.GOOD);
+                } else {
+                    newClasses.put(i, PARAGRAPH_TYPE.BAD);
+                }
             }
         }
 
@@ -325,40 +347,47 @@ public class JusTextBoilerplateRemoval
             paragraphs.get(i).setClassType(newClasses.get(i));
         }
 
-        // revise neargood        
+        // revise neargood
         for (int i = 0; i < paragraphs.size(); i++) {
             Paragraph paragraph = paragraphs.get(i);
-            if (paragraph.getClassType() != PARAGRAPH_TYPE.NEAR_GOOD) {
-                continue;
-            }
-            PARAGRAPH_TYPE prevNeighbour = getPrevNeighbourOptimized(i, paragraphs, true);
-            PARAGRAPH_TYPE nextNeighbour = getNextNeighbourOptimized(i, paragraphs, true);
-            if (prevNeighbour == PARAGRAPH_TYPE.BAD && nextNeighbour == PARAGRAPH_TYPE.BAD) {
-                paragraph.setClassType(PARAGRAPH_TYPE.BAD);
-            }
-            else {
-                paragraph.setClassType(PARAGRAPH_TYPE.GOOD);
+            if (paragraph.getClassType() == PARAGRAPH_TYPE.NEAR_GOOD) {
+                PARAGRAPH_TYPE prevNeighbour = getPrevNeighbourOptimized(i, paragraphs, true);
+                PARAGRAPH_TYPE nextNeighbour = getNextNeighbourOptimized(i, paragraphs, true);
+                if (prevNeighbour == PARAGRAPH_TYPE.BAD && nextNeighbour == PARAGRAPH_TYPE.BAD) {
+                    paragraph.setClassType(PARAGRAPH_TYPE.BAD);
+                } else {
+                    paragraph.setClassType(PARAGRAPH_TYPE.GOOD);
+                }
             }
         }
 
-        // re-classify more good headings
+        /*
+         * re-classify more good headings - post-processing
+         * <p> 
+         * "4. The postprocessing again looks for header blocks
+         * which precede good blocks and are no further than MAX_HEADING_DISTANCE away. This time,
+         * the matched headers are classified as good if their context-free class was other than
+         * bad. In other words, the bad headings remain bad, but some short and near-good headings
+         * can be classified as good if they precede good blocks, even though they would normally be
+         * classified as bad by the context-sensitive classification (e.g. they are surrounded by
+         * bad blocks). This stage preserves the 'non-bad' headings of good blocks."
+         * 
+         */
         for (int i = 0; i < paragraphs.size(); i++) {
             Paragraph paragraph = paragraphs.get(i);
-            if (!(paragraph.isHeading() && paragraph.getClassType() == PARAGRAPH_TYPE.BAD)
+            if (paragraph.isHeading() && paragraph.getClassType() == PARAGRAPH_TYPE.BAD
                     && paragraph.getContextFreeClass() != PARAGRAPH_TYPE.BAD) {
-                continue;
-            }
-            int j = i + 1;
-            int distance = 0;
-            while (j < paragraphs.size() && distance <= maxHeadingDistance) {
-                if (paragraphs.get(j).getClassType() == PARAGRAPH_TYPE.GOOD) {
-                    paragraph.setClassType(PARAGRAPH_TYPE.GOOD);
-                    break;
+                int j = i + 1;
+                int distance = 0;
+                while (j < paragraphs.size() && distance <= maxHeadingDistance) {
+                    if (paragraphs.get(j).getClassType() == PARAGRAPH_TYPE.GOOD) {
+                        paragraph.setClassType(PARAGRAPH_TYPE.GOOD);
+                        break;
+                    }
+                    distance += paragraphs.get(j).getRawText().length();
+                    j += 1;
                 }
-                distance += paragraphs.get(j).getRawText().length();
-                j += 1;
             }
-
         }
     }
 
@@ -366,9 +395,8 @@ public class JusTextBoilerplateRemoval
      * Converts an HTML page into a list of classified paragraphs. Each
      * paragraph is represented as instance of class "Paragraph"
      */
-    private List<Paragraph> classify(String htmlText, Set<String> stopwordsSet, double lengthLow,
-            double lengthHigh, double stopwordsLow,
-            double stopwordsHigh, double maxLinkDensity,
+    private List<Paragraph> classify(String htmlText, Set<String> stopwordsSet, int lengthLow,
+            int lengthHigh, double stopwordsLow, double stopwordsHigh, double maxLinkDensity,
             int maxHeadingDistance)
     {
 
