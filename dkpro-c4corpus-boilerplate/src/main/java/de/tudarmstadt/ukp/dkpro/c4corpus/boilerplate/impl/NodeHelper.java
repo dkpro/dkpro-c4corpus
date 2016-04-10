@@ -99,7 +99,7 @@ public class NodeHelper
         return false;
     }
 
-    public enum TagType
+    private enum TagType
     {
         IGNORABLE, INNER_TEXT, BLOCK_LEVEL, BLOCK_LEVEL_CONTENT, BLOCK_LEVEL_TITLE
     }
@@ -115,11 +115,11 @@ public class NodeHelper
         TAGS_TYPE.put("applet", TagType.IGNORABLE);
         TAGS_TYPE.put("link", TagType.IGNORABLE);
         TAGS_TYPE.put("button", TagType.IGNORABLE);
-        TAGS_TYPE.put("select", TagType.IGNORABLE);
         TAGS_TYPE.put("inTAGS_TYPE.put", TagType.IGNORABLE);
         TAGS_TYPE.put("textarea", TagType.IGNORABLE);
         TAGS_TYPE.put("keygen", TagType.IGNORABLE);
 
+        TAGS_TYPE.put("select", TagType.BLOCK_LEVEL);
         TAGS_TYPE.put("blockquote", TagType.BLOCK_LEVEL);
         TAGS_TYPE.put("caption", TagType.BLOCK_LEVEL);
         TAGS_TYPE.put("center", TagType.BLOCK_LEVEL);
@@ -169,6 +169,7 @@ public class NodeHelper
 
     public static boolean isBlockTag(Node tag)
     {
+        // FIXME: This doesn't use the tag list above
         return tag instanceof Element && ((Element) tag).isBlock();
     }
 
