@@ -23,8 +23,8 @@
 
 	<parent>
 		<artifactId>dkpro-parent-pom</artifactId>
-		<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
-		<version>10</version>
+		<groupId>org.dkpro</groupId>
+		<version>13</version>
 	</parent>
 
 	<groupId>org.dkpro.c4corpus</groupId>
@@ -36,7 +36,8 @@
 	<url>http://github.com/dkpro/dkpro-c4corpus</url>
 
 	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.target>1.7</maven.compiler.target>
+        <maven.compiler.source>1.7</maven.compiler.source>
 		<!-- AWS EMR is 2.6, so is our cluster -->
 		<hadoop.version>2.6.0</hadoop.version>
 		<!-- Apache Commons version should be consistent with the one used in hadoop -->
