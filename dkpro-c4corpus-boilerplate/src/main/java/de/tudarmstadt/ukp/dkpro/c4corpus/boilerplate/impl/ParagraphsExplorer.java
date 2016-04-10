@@ -43,20 +43,18 @@ public class ParagraphsExplorer
 
     private static final Pattern HEADING_PATTERN = Pattern.compile("h[1-6]");
     private final LinkedList<Paragraph> paragraphs;
-    private final LinkedList<Node> nodes;
+    private Node lastAddedNode = null;
     private boolean inHeading = false;
     private int headingDepth = 0;
 
     public enum AncestorState
     {
-
         INNERTEXT_ONLY, BLOCKLEVEL, UNKNOW
     }
 
     public ParagraphsExplorer()
     {
         this.paragraphs = new LinkedList<>();
-        this.nodes = new LinkedList<>();
     }
 
     @Override
@@ -73,7 +71,7 @@ public class ParagraphsExplorer
                 return;
             }
             mergeToResult(node);
-            nodes.add(node);
+            lastAddedNode = node;
         }
     }
 
@@ -98,7 +96,6 @@ public class ParagraphsExplorer
 
     private void mergeToResult(Node node)
     {
-        Node lastAddedNode = getLastAddedNode();
         //the <br><br> is a paragraph separator 
         if (lastAddedNode != null && node.nodeName().equalsIgnoreCase("br") && lastAddedNode
                 .nodeName().equalsIgnoreCase("br")) {
@@ -183,17 +180,6 @@ public class ParagraphsExplorer
         }
     }
 
-    private Node getLastAddedNode()
-    {
-        //        if (paragraphs.isEmpty()) {
-        //            return null;
-        //        }
-        //        return paragraphs.getLast().getLast();
-        if (nodes.isEmpty()) {
-            return null;
-        }
-        return nodes.getLast();
-    }
 
     /**
      * Visit from node to the ancestor - if all the visited ancestors are
