@@ -63,6 +63,8 @@ public class HTMLBoilerplateRemoval
         Charset charset = CHARSET_DETECTOR.detectCharset(bytes);
         String html = new String(bytes, charset);
 
+        long startTime = System.currentTimeMillis();
+
         // boilerplate removal
         String cleanText;
         if (keepMinimalHtml) {
@@ -72,6 +74,8 @@ public class HTMLBoilerplateRemoval
             cleanText = boilerPlateRemoval.getPlainText(html, null);
         }
 
+        System.out.printf("Processed %d bytes in %02f seconds%n", bytes.length,
+                (System.currentTimeMillis() - startTime) / 1000.0);
         // write to the output file
         PrintWriter writer = new PrintWriter(outFile, "utf-8");
         writer.write(cleanText);
