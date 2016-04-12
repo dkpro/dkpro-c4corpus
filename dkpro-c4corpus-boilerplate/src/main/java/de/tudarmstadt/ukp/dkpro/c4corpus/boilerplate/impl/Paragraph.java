@@ -60,7 +60,7 @@ public class Paragraph
         this.isHeading = heading;
         if (firstNode instanceof TextNode) {
             String nodeRawText = ((TextNode) firstNode).text();
-            this.rawText = Utils.normalizeBreaks(nodeRawText).trim();
+            this.rawText = nodeRawText.trim();
 
             if (NodeHelper.isLink(firstNode)) {
                 charsCountInLinks += nodeRawText.length();
@@ -117,14 +117,12 @@ public class Paragraph
 
     public String getRawText()
     {
-
-        return Utils.normalizeBreaks(rawText.trim());
+        return rawText;
     }
 
     public void setRawText(String rawText)
     {
-        this.rawText = Utils.normalizeBreaks(rawText.trim());
-
+        this.rawText = rawText;
     }
 
     public int getWordsCount()
