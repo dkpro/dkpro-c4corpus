@@ -36,12 +36,10 @@
 	<url>http://github.com/dkpro/dkpro-c4corpus</url>
 
 	<properties>
-        <maven.compiler.target>1.7</maven.compiler.target>
-        <maven.compiler.source>1.7</maven.compiler.source>
+		<maven.compiler.target>1.7</maven.compiler.target>
+		<maven.compiler.source>1.7</maven.compiler.source>
 		<!-- AWS EMR is 2.6, so is our cluster -->
 		<hadoop.version>2.6.0</hadoop.version>
-		<!-- Apache Commons version should be consistent with the one used in hadoop -->
-		<commons.version>2.4</commons.version>
 	</properties>
 
 	<modules>
@@ -113,13 +111,15 @@
 			<dependency>
 				<groupId>commons-lang</groupId>
 				<artifactId>commons-lang</artifactId>
-				<version>${commons.version}</version>
+				<!-- Apache Commons version should be consistent with the one used in hadoop -->
+				<version>2.4</version>
 			</dependency>
 
 			<dependency>
 				<groupId>commons-io</groupId>
 				<artifactId>commons-io</artifactId>
-				<version>${commons.version}</version>
+				<!-- Apache Commons version should be consistent with the one used in hadoop -->
+				<version>2.4</version>
 			</dependency>
 
 		</dependencies>
