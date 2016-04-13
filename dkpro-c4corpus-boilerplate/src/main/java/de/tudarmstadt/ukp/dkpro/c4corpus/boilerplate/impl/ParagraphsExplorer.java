@@ -23,10 +23,10 @@ import org.jsoup.nodes.Node;
 import org.jsoup.nodes.TextNode;
 import org.jsoup.select.NodeVisitor;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -48,7 +48,7 @@ public class ParagraphsExplorer
             new HashSet<String>(Arrays.asList(new String[] { "blockquote", "caption", "center", "col", "colgroup", "dd",
                     "div", "dl", "dt", "fieldset", "form", "legend", "optgroup", "option", "p", "pre", "table", "td",
                     "textarea", "tfoot", "th", "thead", "tr", "ul", "li", "h1", "h2", "h3", "h4", "h5", "h6" })));
-    private final LinkedList<Paragraph> paragraphs;
+    private final ArrayList<Paragraph> paragraphs;
     private Paragraph currentParagraph = null;
     private boolean lastBR = false;
     private boolean inHeading = false;
@@ -62,7 +62,7 @@ public class ParagraphsExplorer
 
     public ParagraphsExplorer()
     {
-        this.paragraphs = new LinkedList<>();
+        this.paragraphs = new ArrayList<>();
     }
 
     @Override
@@ -106,7 +106,7 @@ public class ParagraphsExplorer
      *
      * @return paragraphs
      */
-    public LinkedList<Paragraph> getParagraphs()
+    public ArrayList<Paragraph> getParagraphs()
     {
         return paragraphs;
     }

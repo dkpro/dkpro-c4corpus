@@ -32,11 +32,11 @@ import org.jsoup.safety.Whitelist;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -113,7 +113,7 @@ public class JusTextBoilerplateRemoval
      * Initialize the Paragraph explorer class in order to convert a document to
      * a list of blocks (paragraphs)
      */
-    private LinkedList<Paragraph> makeParagraphs(Node node)
+    private ArrayList<Paragraph> makeParagraphs(Node node)
     {
         ParagraphsExplorer pe = new ParagraphsExplorer();
         node.traverse(pe); //begin the traversal of the doc
@@ -274,12 +274,11 @@ public class JusTextBoilerplateRemoval
      * <li>postprocessing of header blocks
      * </ol>
      * 
-     * FIXME: This can behave pathologically in the presence of large lists of "paragraphs"
-     * with no textual content. In this case the maxHeadingDistance parameter isn't adequate
-     * to short circuit large amounts of processing. We may need to max number of elements
-     * to search (10? 20?).
+     * NOTE: Normally we'd use List<Paragraph> in the definition, but this method makes extensive
+     * use of List.get() which is very inefficient with other list implementations such as LinkedList.
+     * This could be rewritten to use ListIterators to generalize it, but I don't see the point.
      */
-    private void reclassifyContextSensitive(List<Paragraph> paragraphs, int maxHeadingDistance)
+    private void reclassifyContextSensitive(ArrayList<Paragraph> paragraphs, int maxHeadingDistance)
     {
         // Default classification is the same as the context-free classification
         for (Paragraph p : paragraphs) {
@@ -408,7 +407,7 @@ public class JusTextBoilerplateRemoval
         }
 
         Document jSoupDoc = convertHtmlToDoc(htmlText);
-        LinkedList<Paragraph> paragraphs = makeParagraphs(jSoupDoc);
+        ArrayList<Paragraph> paragraphs = makeParagraphs(jSoupDoc);
         //context-free classification
         classifyContextFree(paragraphs, stopwordsSet, lengthLow, lengthHigh,
                 stopwordsLow, stopwordsHigh, maxLinkDensity);
