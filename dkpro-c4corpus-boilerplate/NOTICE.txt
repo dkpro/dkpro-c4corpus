@@ -1,5 +1,11 @@
-Several classes in this module are based on code from
+Several classes in this module, namely
 
- https://github.com/duongphuhiep/justext/
+    de.tudarmstadt.ukp.dkpro.c4corpus.boilerplate.impl.NodeHelper
+    de.tudarmstadt.ukp.dkpro.c4corpus.boilerplate.impl.Paragraph
+    de.tudarmstadt.ukp.dkpro.c4corpus.boilerplate.impl.ParagraphsExplorer
+
+are based on code from
+
+    https://github.com/duongphuhiep/justext/
 
 by Duong Phu-Hiep, licensed under ASL 2.0.
