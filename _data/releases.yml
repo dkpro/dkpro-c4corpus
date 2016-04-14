@@ -7,3 +7,18 @@
 #   status: stable
 #
 # Possible status: "stable", "unstable"
+
+- version: 1.0.0
+  date: 2016-04-14
+  status: stable
+  groupId: org.dkpro.c4corpus
+  artifactId: dkpro-c4corpus
+
+- version: 1.0.1-SNAPSHOT
+  status: unstable
+  groupId: org.dkpro.c4corpus
+  artifactId: dkpro-c4corpus
+
+  doclinks:
+  - title: "C4CorpusTools documentation"
+    url: "https://zoidberg.ukp.informatik.tu-darmstadt.de/jenkins/job/DKPro%20C4Corpus/org.dkpro.c4corpus$dkpro-c4corpus-doc/doclinks/1/"
