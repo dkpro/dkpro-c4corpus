@@ -29,9 +29,11 @@ import java.util.LinkedList;
 /**
  * Extract a list of paragraphs from html page. Paragraphs here means blocks of
  * the document that might be a boilerplate or not.
+ * <br>
+ * Based on https://github.com/duongphuhiep/justext/ by Duong Phu-Hiep
  *
- * @author Omnia Zayed original code author is Phu-Hiep DUONG (found on-line but
- *         edited some parts)
+ * @author Duong Phu-Hiep
+ * @author Omnia Zayed
  */
 public class ParagraphsExplorer
         implements NodeVisitor

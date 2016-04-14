@@ -1,0 +1,5 @@
+Several classes in this module are based on code from
+
+ https://github.com/duongphuhiep/justext/
+
+by Duong Phu-Hiep, licensed under ASL 2.0.

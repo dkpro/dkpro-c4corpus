@@ -25,8 +25,10 @@ import java.util.Map;
 
 /**
  * Helper methods for JSoup node handling
+ * <br>
+ * Based on https://github.com/duongphuhiep/justext/ by Duong Phu-Hiep
  *
- * @author Phu-Hiep DUONG
+ * @author Duong Phu-Hiep
  * @author Omnia Zayed
  * @author Ivan Habernal
  */

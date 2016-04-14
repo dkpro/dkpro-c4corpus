@@ -27,6 +27,9 @@ import java.util.Set;
 /**
  * Data structure representing one block of text in HTML
  *
+ * Based on https://github.com/duongphuhiep/justext/ by Duong Phu-Hiep
+ *
+ * @author Duong Phu-Hiep
  * @author Omnia Zayed
  */
 public class Paragraph
