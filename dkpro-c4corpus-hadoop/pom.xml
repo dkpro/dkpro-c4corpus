@@ -118,9 +118,11 @@
 							<goal>shade</goal>
 						</goals>
 						<configuration>
-							<outputFile>
-								${project.build.directory}/${project.artifactId}-${project.version}.jar
-							</outputFile>
+                            <!-- 
+                                Avoid deploying the shaded file as this project's artifact by
+                                giving it a non-default name.
+                             -->
+							<outputFile>${project.build.directory}/${project.artifactId}-${project.version}-standalone.jar</outputFile>
 						</configuration>
 					</execution>
 				</executions>
