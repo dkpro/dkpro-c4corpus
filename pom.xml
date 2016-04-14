@@ -52,6 +52,12 @@
 		<module>dkpro-c4corpus-doc</module>
 	</modules>
 
+	<scm>
+		<connection>scm:git:git://github.com/dkpro/dkpro-c4corpus</connection>
+		<developerConnection>scm:git:git@github.com:dkpro/dkpro-c4corpus.git</developerConnection>
+		<url>https://github.com/dkpro/dkpro-c4corpus</url>
+	</scm>
+
 	<dependencies>
 
 		<dependency>
