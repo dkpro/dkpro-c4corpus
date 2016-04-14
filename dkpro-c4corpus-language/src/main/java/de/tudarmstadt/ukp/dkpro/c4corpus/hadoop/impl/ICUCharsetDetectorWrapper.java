@@ -23,13 +23,22 @@ import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.CharsetDetector;
 
 import java.nio.charset.Charset;
 import java.nio.charset.UnsupportedCharsetException;
+import java.util.Arrays;
 
 /**
+ * Charset detector wrapper for {@link com.ibm.icu.text.CharsetDetector}.
+ *
  * @author Ivan Habernal
  */
 public class ICUCharsetDetectorWrapper
         implements CharsetDetector
 {
+    /**
+     * 8k bytes is sufficient for determining the charset, as it's also used in the wrapped
+     * charset detector.
+     */
+    private static final int SUFFICIENT_BYTE_ARRAY_SIZE = 8000;
+
     private static final Charset FALLBACK_CHARSET = Charset.forName("utf-8");
 
     private final com.ibm.icu.text.CharsetDetector charsetDetector = new com.ibm.icu.text.CharsetDetector();
@@ -46,7 +55,10 @@ public class ICUCharsetDetectorWrapper
         // prepare fallback first
         Charset result = FALLBACK_CHARSET;
 
-        charsetDetector.setText(bytes);
+        // truncate to 8k bytes max
+        byte[] truncatedBytes = Arrays.copyOf(bytes, SUFFICIENT_BYTE_ARRAY_SIZE);
+
+        charsetDetector.setText(truncatedBytes);
 
         if (declaredCharset != null) {
             charsetDetector.setDeclaredEncoding(declaredCharset);
