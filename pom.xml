@@ -27,7 +27,7 @@
 
 	<groupId>org.dkpro.c4corpus</groupId>
 	<artifactId>dkpro-c4corpus</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>DKPro C4CorpusTools</name>
@@ -54,7 +54,7 @@
 		<connection>scm:git:git://github.com/dkpro/dkpro-c4corpus</connection>
 		<developerConnection>scm:git:git@github.com:dkpro/dkpro-c4corpus.git</developerConnection>
 		<url>https://github.com/dkpro/dkpro-c4corpus</url>
-		<tag>dkpro-c4corpus-1.0.0</tag>
+		<tag>HEAD</tag>
 	</scm>
 
 	<dependencies>
