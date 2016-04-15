@@ -56,9 +56,12 @@ public class ICUCharsetDetectorWrapper
         Charset result = FALLBACK_CHARSET;
 
         // truncate to 8k bytes max
-        byte[] truncatedBytes = Arrays.copyOf(bytes, SUFFICIENT_BYTE_ARRAY_SIZE);
-
-        charsetDetector.setText(truncatedBytes);
+        if (bytes.length <= SUFFICIENT_BYTE_ARRAY_SIZE) {
+            charsetDetector.setText(bytes);
+        }
+        else {
+            charsetDetector.setText(Arrays.copyOf(bytes, SUFFICIENT_BYTE_ARRAY_SIZE));
+        }
 
         if (declaredCharset != null) {
             charsetDetector.setDeclaredEncoding(declaredCharset);
