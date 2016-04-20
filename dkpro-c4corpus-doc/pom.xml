@@ -28,6 +28,10 @@
 	<artifactId>dkpro-c4corpus-doc</artifactId>
 
 	<name>DKPro C4CorpusTools - Documentation</name>
+	
+	<properties>
+		<maven.deploy.skip>true</maven.deploy.skip>
+	</properties>  
 
 	<build>
 		<plugins>
