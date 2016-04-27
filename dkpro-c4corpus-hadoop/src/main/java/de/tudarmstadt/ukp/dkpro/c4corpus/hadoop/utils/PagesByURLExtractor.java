@@ -131,7 +131,7 @@ public class PagesByURLExtractor
         String line;
         while ((line = br.readLine()) != null) {
             // split line
-            sb.append(line.split(" ")[1]);
+            sb.append(line.split("\t")[1]);
             sb.append("\n");
         }
 
