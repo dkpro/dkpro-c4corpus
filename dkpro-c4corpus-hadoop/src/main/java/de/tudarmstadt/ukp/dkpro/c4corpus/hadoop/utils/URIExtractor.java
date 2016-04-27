@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.uriextractor;
+package de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.utils;
 
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.Path;

@@ -1,7 +1,8 @@
-package de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.uriextractor;
+package de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.utils;
 
 import java.io.IOException;
 
+import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.utils.URIExtractorReducer;
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
 import org.easymock.EasyMock;

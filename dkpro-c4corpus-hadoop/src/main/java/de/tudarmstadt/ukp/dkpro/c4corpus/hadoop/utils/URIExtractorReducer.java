@@ -15,36 +15,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.uriextractor;
+package de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.utils;
 
 import java.io.IOException;
 
-import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
-import org.apache.hadoop.mapreduce.Mapper;
-
-import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io.WARCWritable;
-import de.tudarmstadt.ukp.dkpro.c4corpus.warc.io.WARCRecord;
-import de.tudarmstadt.ukp.dkpro.c4corpus.warc.io.WARCRecord.Header;
+import org.apache.hadoop.mapreduce.Reducer;
 
 /**
- * Extracts the target-URIs from a warc file.
- * 
+ * Removes all the duplicates from the URIs and stores them as key.
+ *
  * @author Chris Stahlhut
  */
-class URIExtractorMapper extends Mapper<LongWritable, WARCWritable, Text, NullWritable> {
+class URIExtractorReducer extends Reducer<Text, NullWritable, Text, NullWritable> {
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected void map(LongWritable key, WARCWritable value, Context context) throws IOException, InterruptedException {
-		WARCRecord record = value.getRecord();
-		Header header = record.getHeader();
-		String targetURI = header.getTargetURI();
-		if (null != targetURI) {
-			context.write(new Text(targetURI), NullWritable.get());
-		}
+	protected void reduce(Text key, Iterable<NullWritable> value, Context context)
+			throws IOException, InterruptedException {
+		context.write(key, NullWritable.get());
 	}
 }
