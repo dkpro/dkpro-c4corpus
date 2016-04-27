@@ -42,6 +42,24 @@ import java.util.Set;
 
 /**
  * Given a list of URLs, this MR job extracts only these pages. I/O = warc.gz
+ * <br>
+ * In order to create only a single warc.gz file, run with
+ * {@code -Dmapreduce.job.reduces=1} parameter
+ * <br>
+ * Usage
+ * <pre>
+ * $ hadoop jar dkpro-c4corpus-hadoop-1.0.0.jar \
+ * de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.utils.PagesByURLExtractor \
+ * s3://ukp-research-data/c4corpus/CC-MAIN-2015-48/cc-final-2015-48/*.warc.gz \
+ * s3://your-bucket/output/ \
+ * local-file-with-URLs.txt
+ * </pre>
+ * where the {@code local-file-with-URLs.txt} contains one URL per line, e.g.
+ * <pre>
+ * arbitrary-info-token url1
+ * another-arbitrary-info-token url2
+ * ...
+ * </pre>
  *
  * @author Ivan Habernal
  */
