@@ -22,6 +22,8 @@ import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io.WARCInputFormat;
 import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io.WARCOutputFormat;
 import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io.WARCWritable;
 import org.apache.hadoop.conf.Configured;
+import org.apache.hadoop.fs.FSDataInputStream;
+import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.NullWritable;
@@ -33,8 +35,8 @@ import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
@@ -56,8 +58,8 @@ import java.util.Set;
  * </pre>
  * where the {@code local-file-with-URLs.txt} contains one URL per line, e.g.
  * <pre>
- * arbitrary-info-token url1
- * another-arbitrary-info-token url2
+ * arbitrary-info-token \t url1
+ * another-arbitrary-info-token \t url2
  * ...
  * </pre>
  *
@@ -122,18 +124,26 @@ public class PagesByURLExtractor
      * @return a new-line delimited URLs
      * @throws IOException
      */
-    static String loadURLs(String urlFile)
+    String loadURLs(String urlFile)
             throws IOException
     {
-        StringBuilder sb = new StringBuilder();
+        // the path needs to be handled by Hadoop FS
+        Path path = new Path(urlFile);
+        FileSystem fileSystem = path.getFileSystem(getConf());
 
-        BufferedReader br = new BufferedReader(new FileReader(urlFile));
+        FSDataInputStream fsDataInputStream = fileSystem.open(path);
+        BufferedReader br = new BufferedReader(new InputStreamReader(fsDataInputStream));
+
+        StringBuilder sb = new StringBuilder();
         String line;
         while ((line = br.readLine()) != null) {
             // split line
             sb.append(line.split("\t")[1]);
             sb.append("\n");
         }
+
+        // close
+        fsDataInputStream.close();
 
         return sb.toString();
     }
