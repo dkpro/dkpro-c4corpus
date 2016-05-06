@@ -18,6 +18,7 @@
 
 package de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.utils;
 
+import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.full.Phase1FullJob;
 import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io.WARCInputFormat;
 import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io.WARCOutputFormat;
 import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.io.WARCWritable;
@@ -176,10 +177,13 @@ public class PagesByURLExtractor
         protected void map(LongWritable key, WARCWritable value, Context context)
                 throws IOException, InterruptedException
         {
-            String url = value.getRecord().getHeader().getTargetURI();
+            // only html
+            if (!Phase1FullJob.MapperClass.ignoreWARCRecord(value)) {
+                String url = value.getRecord().getHeader().getTargetURI();
 
-            if (urls.contains(url)) {
-                context.write(NullWritable.get(), value);
+                if (urls.contains(url)) {
+                    context.write(NullWritable.get(), value);
+                }
             }
         }
     }

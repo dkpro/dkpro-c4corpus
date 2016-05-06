@@ -161,7 +161,7 @@ public class Phase1FullJob
          * @return true if ignored, false otherwise
          * @throws IOException I/O exception
          */
-        protected static boolean ignoreWARCRecord(WARCWritable value)
+        public static boolean ignoreWARCRecord(WARCWritable value)
                 throws IOException
         {
             // avoid documents bigger than 10 MB as in ClueWeb12
