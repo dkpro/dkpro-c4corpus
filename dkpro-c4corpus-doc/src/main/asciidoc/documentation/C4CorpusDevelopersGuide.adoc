@@ -336,9 +336,9 @@ cat $file | hadoop fs -put - "/user/your-folder/enwiki/$prefix_$filename.txt" ; 
 
 
 ==== Resources
-* The Dataset is obtained from http://cleaneval.sigwac.org.uk/ [the CleanEval official website]:
-    ** http://cleaneval.sigwac.org.uk/finalrun-input.tar.gz [The HTML  input data]
-    ** http://cleaneval.sigwac.org.uk/GoldStandard.tar.gz [The gold standard data]
+* The Dataset is obtained from http://cleaneval.sigwac.org.uk/[the CleanEval official website]:
+    ** http://cleaneval.sigwac.org.uk/finalrun-input.tar.gz[The HTML  input data]
+    ** http://cleaneval.sigwac.org.uk/GoldStandard.tar.gz[The gold standard data]
 
 * The Python original implementation of JusText, that we evaluate our jave re-implementation against, could be found on https://github.com/miso-belica/jusText[github] or https://code.google.com/archive/p/justext/[google-code] page. Moreover, JusText has an https://nlp.fi.muni.cz/projects/justext/[online demo].
 
