@@ -331,3 +331,31 @@ filename=$(basename "$file") ; echo $filename; head -1 $file; \
 cat $file | hadoop fs -put - "/user/your-folder/enwiki/$prefix_$filename.txt" ; done; done
 ```
 * We ran this step on a local Hadoop cluster; you have to adjust it to work on AWS EMR
+
+=== Boilerplate Removal Results
+
+
+==== Resources
+* The Dataset is obtained from http://cleaneval.sigwac.org.uk/ [the CleanEval official website]:
+    ** http://cleaneval.sigwac.org.uk/finalrun-input.tar.gz [The HTML  input data]
+    ** http://cleaneval.sigwac.org.uk/GoldStandard.tar.gz [The gold standard data]
+
+* The Python original implementation of JusText, that we evaluate our jave re-implementation against, could be found on https://github.com/miso-belica/jusText[github] or https://code.google.com/archive/p/justext/[google-code] page. Moreover, JusText has an https://nlp.fi.muni.cz/projects/justext/[online demo].
+
+* http://webascorpus.sourceforge.net/PHITE.php%3Fsitesig%3DFILES%26page%3DFILES_10_Software[CleanEval Evaluation Python script] is used to evaluate the tool and is written by Stefan Evert.
+
+==== CleanEval Results Reproducibility
+Notes::
+* We evaluated our system on (only) 681 files from the original html input. The reason behind that is, only 681 files have gold standard clean text.
+* ``JusText_Python_Defaults_CleanEvalHTMLTestSubset`` contains the pages obtained by running the python script of JusText on the 681 files of the cleaneval dataset
+* ``JusText_Java_Defaults_CleanEvalHTMLTestSubset`` contains the pages obtained obtained by running our java implementation on the *same* 681 file of the cleaneval dataset
+* To obtain the same results which are reported in the paper:
+    ** To get the results of JusText (Pomikálek 2011)
+```
+python cleaneval.py -s -a -u  JusText_Python_Defaults_CleanEvalHTMLTestSubset CleanEvalGoldStandard
+```
+
+    ** To get the results of our java reimplementation of JusText
+```
+python cleaneval.py -s -a -u  JusText_Java_Defaults_CleanEvalHTMLTestSubset CleanEvalGoldStandard
+```
