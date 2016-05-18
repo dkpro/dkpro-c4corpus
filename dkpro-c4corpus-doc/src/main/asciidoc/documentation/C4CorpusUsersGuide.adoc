@@ -14,15 +14,19 @@ Please use the following citation if you use C4Corpus or C4CorpusTools
 ```
 @InProceedings{Habernal.et.al.2016.LREC,
   author    = {Habernal, Ivan and Zayed, Omnia, and Gurevych, Iryna},
-  title     = {{C4Corpus: Multilingual Web-size corpus with free license}},
-  booktitle = {Proceedings of the 10th International Conference on Language Resources
+  title     = {{C4Corpus: Multilingual Web-size Corpus with Free License}},
+  booktitle = {Proceedings of the Tenth International Conference on Language Resources
                and Evaluation (LREC 2016)},
+  pages     = {914--922},
   month     = {May},
   year      = {2016},
   address   = {Portoro\v{z}, Slovenia},
   publisher = {European Language Resources Association (ELRA)},
-  pages     = {(to appear)},
-  url       = {TBA}
+  editor    = {Nicoletta Calzolari and Khalid Choukri and Thierry Declerck and Marko Grobelnik
+               and Bente Maegaard and Joseph Mariani and Asuncion Moreno and Jan Odijk
+               and Stelios Piperidis},
+  isbn      = {978-2-9517408-9-1},
+  url       = {http://www.lrec-conf.org/proceedings/lrec2016/pdf/388_Paper.pdf}
 }
 ```
 
