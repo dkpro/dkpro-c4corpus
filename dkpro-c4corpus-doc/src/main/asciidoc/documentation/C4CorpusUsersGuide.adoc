@@ -1,7 +1,5 @@
 == DKPro C4CorpusTools
 
-**NOTE: work in progress until 1.0.0 release**
-
 DKPro C4CorpusTools is a collection of tools for processing CommonCrawl corpus, including Creative
 Commons license detection, boilerplate removal, language detection, and near-duplicate removal.
 
