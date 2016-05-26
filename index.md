@@ -19,7 +19,7 @@ DKPro C4CorpusTools is a collection of tools for processing CommonCrawl corpus, 
 * **DKPro C4CorpusTools** (or C4CorpusTools) refers to the project source codes
 * **C4Corpus** refers the preprocessed CommonCrawl data set (**C4** = **C**reative **C**ommons from **C**ommon **C**rawl)
 
-Consult the official C4CorpusTools documentation which contains
+Consult the official [C4CorpusTools documentation][C4Corpus_doc_link] which contains
 
 * C4Corpus Users's Guide
   * How to access C4Corpus at S3
@@ -34,7 +34,7 @@ How to cite
 
 Please cite DKPro C4CorpusTools itself as:
 
-> Habernal, I., Zayed, O. and Gurevych, I. (2016). **C4Corpus: Multilingual Web-size corpus with free license**. In Proceedings of the 10th International Conference on Language Resources and Evaluation (LREC 2016), to be published, Portoroz, Slovenia.
+> Habernal, I., Zayed, O., & Gurevych, I. (2016). C4Corpus: Multilingual Web-size corpus with free license. In N. Calzolari et al. (Eds.), Proceedings of the 10th International Conference on Language Resources and Evaluation (LREC 2016) (pp. 914–922). Portorož, Slovenia: European Language Resources Association (ELRA).
 [(pdf)][LREC_2016_pdf] [(bib)][LREC_2016_bib]
 
 License
@@ -49,6 +49,7 @@ About DKPro C4CorpusTools
 * UKP Lab: http://www.ukp.tu-darmstadt.de/
 * TU Darmstadt: http://www.tu-darmstadt.de/
 
-[LREC_2016_pdf]: https://www.ukp.tu-darmstadt.de/fileadmin/user_upload/Group_UKP/publikationen/2016/lrec2016-c4corpus-camera-ready.pdf
+[LREC_2016_pdf]: http://www.lrec-conf.org/proceedings/lrec2016/pdf/388_Paper.pdf
 [LREC_2016_bib]: https://www.ukp.tu-darmstadt.de/publications/details/?no_cache=1&tx_bibtex_pi1%5Bpub_id%5D=TUD-CS-2016-0023&type=99&tx_bibtex_pi1%5Bbibtex%5D=yes
 [ASL]: http://www.apache.org/licenses/LICENSE-2.0
+[C4Corpus_doc_link]: https://zoidberg.ukp.informatik.tu-darmstadt.de/jenkins/job/DKPro%20C4Corpus/org.dkpro.c4corpus$dkpro-c4corpus-doc/doclinks/1/
