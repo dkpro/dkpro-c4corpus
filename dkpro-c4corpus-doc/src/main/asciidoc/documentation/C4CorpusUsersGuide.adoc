@@ -109,7 +109,7 @@ Default output format [None]:
 
 Test accessing the CommonCrawl::
 ```
-ubuntu@ip-172-31-50-XX:~$ aws s3 ls s3://aws-publicdatasets/common-crawl/crawl-data/CC-MAIN-2015-48/
+ubuntu@ip-172-31-50-XX:~$ aws s3 ls s3://commoncrawl/crawl-data/CC-MAIN-2015-48/
                            PRE segments/
 2015-12-18 16:32:16        654 segment.paths.gz
 2015-12-18 16:32:16     109521 warc.paths.gz
