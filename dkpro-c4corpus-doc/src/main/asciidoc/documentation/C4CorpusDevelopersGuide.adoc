@@ -53,7 +53,7 @@ aws emr create-cluster \
         "-D", "mapreduce.map.failures.maxpercent=5", \
         "-D", "mapreduce.map.maxattempts=2", \
         "-D", "c4corpus.keepminimalhtml=true", \                      <---- change this (optionally)
-        "s3://aws-publicdatasets/common-crawl/crawl-data/CC-MAIN-2015-27/segments/*/warc/*.warc.gz",\
+        "s3://commoncrawl/crawl-data/CC-MAIN-2015-27/segments/*/warc/*.warc.gz",\
         "s3://ukp-research-data/c4corpus/cc-phase1out-2015-11"], \                 <---- change this
         "Type":"CUSTOM_JAR", \
         "ActionOnFailure":"CANCEL_AND_WAIT", \
@@ -97,7 +97,7 @@ job parameters, namely path to your  ``dkpro-c4corpus-hadoop-1.0.0.jar`` with th
 de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.full.Phase1FullJob \
 -D mapreduce.task.timeout=36000000 -D mapreduce.map.failures.maxpercent=5 \
 -D mapreduce.map.maxattempts=2 \
-s3://aws-publicdatasets/common-crawl/crawl-data/CC-MAIN-2015-27/segments/*/warc/*.warc.gz \
+s3://commoncrawl/crawl-data/CC-MAIN-2015-27/segments/*/warc/*.warc.gz \
 s3://your-bucket/output-path/cc-phase1out-2015-11
 ```
 
