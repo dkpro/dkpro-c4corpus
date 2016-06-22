@@ -123,7 +123,7 @@ Part of the final C4Corpus (performed on CC-MAIN-2015-48 crawl)
 
 
 ```
-ubuntu@ip-172-XXX:~$ aws s3 ls ukp-research-data/c4corpus/CC-MAIN-2015-48/cc-final-2015-48/ | head
+ubuntu@ip-172-XXX:~$ aws s3 ls s3://ukp-research-data/c4corpus/CC-MAIN-2015-48/cc-final-2015-48/ | head
 2016-03-22 10:43:15          0
 2016-03-22 10:48:13      40465 Lic_by-nc-nd_Lang_af_NoBoilerplate_true-r-00023.seg-00000.warc.gz
 2016-03-22 10:48:15    5296281 Lic_by-nc-nd_Lang_ar_NoBoilerplate_true-r-00035.seg-00000.warc.gz
