@@ -212,7 +212,7 @@ download: s3://ukp-research-data/c4corpus/cc-final-2015-11/Lic_by-nc-nd_Lang_bg_
 [...]
 ```
 
-Be aware of transfer costs in AWS!
+WARNING: Be aware of transfer costs outside of the AWS infrastructure! https://aws.amazon.com/ec2/pricing/
 
 
 ==== Running boilerplate removal outside Hadoop
