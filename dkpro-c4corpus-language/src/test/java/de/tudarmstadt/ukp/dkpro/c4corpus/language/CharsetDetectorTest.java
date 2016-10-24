@@ -66,7 +66,7 @@ public class CharsetDetectorTest
             String distract = "utf-16LE";
             Charset detectedCharset = detector.detectCharset(bytes, distract);
 
-            System.out.println(detectedCharset);
+            // System.out.println(detectedCharset);
 
             assertEquals(goldCharset, detectedCharset);
         }
