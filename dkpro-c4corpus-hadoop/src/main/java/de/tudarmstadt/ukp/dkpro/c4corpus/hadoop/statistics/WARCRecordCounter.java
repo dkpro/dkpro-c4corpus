@@ -57,7 +57,7 @@ public class WARCRecordCounter
 
         System.out.println("Other args: " + Arrays.toString(otherArgs));
 
-        Job job = Job.getInstance();
+        Job job = Job.getInstance(conf);
         job.setJarByClass(WARCRecordCounter.class);
 
         job.setJobName(WARCRecordCounter.class.getName());
