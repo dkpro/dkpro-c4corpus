@@ -210,8 +210,8 @@ You should run it on the processed C4Corpus; here we want to count words in all 
 ```
 hadoop jar s3://your-bucket/dkpro-c4corpus-hadoop-1.0.0.jar \
 de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.examples.WordCounterExample \
-s3://ukp-research-data/c4corpus/cc-final-2015-11/*Lang_de*.warc.gz \
-s3://ukp-research-data/c4corpus/statistics/examples-word-count-de-2015-11/
+s3://commoncrawl/contrib/c4corpus/CC-MAIN-2016-07/*Lang_de*.warc.gz \
+s3://bucket/statistics/examples-word-count-de-2015-11/
 ```
 
 This will produce several plain text files with words and its counts. The output is pretty big (320 MB)
@@ -269,7 +269,7 @@ de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.statistics.LangLicenseStatistics
 Run it with the following parameters on EMR cluster:
 
 ```
-s3://ukp-research-data/c4corpus/cc-final-2015-11/*.warc.gz s3://your-bucket/statistics
+s3://commoncrawl/contrib/c4corpus/CC-MAIN-2016-07/*.warc.gz s3://your-bucket/statistics
 ```
 
 Then download the results into a local file system and convert it to a CSV table:

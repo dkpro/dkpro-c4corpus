@@ -45,3 +45,5 @@ which contains
 * C4Corpus Developers's Guide
     * How to run the full processing pipeline on CommonCrawl
 * Corpus statistics reported in the LREC article
+
+As of May 2017, thanks to CommonCrawl the C4Corpus is hosted at their S3 bucket. This makes it much easier to access the data using HTTP (see the documentation). 

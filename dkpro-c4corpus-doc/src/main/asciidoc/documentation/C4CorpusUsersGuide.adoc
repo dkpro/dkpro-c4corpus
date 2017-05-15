@@ -74,8 +74,35 @@ This should be sufficient for accessing the C4Corpus as well as for simple proce
 AWS Free Tier does not apply for AWS Elastic Map Reduce.
 We strongly recommend to first consult the [official AWS Documentation](http://docs.aws.amazon.com/) if any of the steps below are not clear.
 
+==== How to access C4Corpus using HTTP
+
+As of May 2017, C4Corpus is hosted by CommonCrawl which also allows users to access it publicly using HTTP.
+
+A list of all `warc.gz` files can be downloaded here:
+
+```https://commoncrawl.s3.amazonaws.com/contrib/c4corpus/CC-MAIN-2016-07/warc.paths.gz```
+
+which contains
+
+```
+contrib/c4corpus/CC-MAIN-2016-07/Lic_by-nc-nd_Lang_af_NoBoilerplate_true_MinHtml_true-r-00009.seg-00000.warc.gz
+contrib/c4corpus/CC-MAIN-2016-07/Lic_by-nc-nd_Lang_ar_NoBoilerplate_true_MinHtml_true-r-00021.seg-00000.warc.gz
+contrib/c4corpus/CC-MAIN-2016-07/Lic_by-nc-nd_Lang_bg_NoBoilerplate_true_MinHtml_true-r-00010.seg-00000.warc.gz
+[...]
+```
+
+These `warc.gz` files can be again simply downloaded using HTTP, for example
+
+```
+$ wget https://commoncrawl.s3.amazonaws.com/contrib/c4corpus/CC-MAIN-2016-07/Lic_by-nc-nd_Lang_af_NoBoilerplate_true_MinHtml_true-r-00009.seg-00000.warc.gz
+```
+
 
 ==== How to access C4Corpus at S3
+
+As of May 2017, C4Corpus is hosted by CommonCrawl at this S3 bucket: `s3://commoncrawl/contrib/c4corpus/CC-MAIN-2016-07/`
+
+Using S3 access over AWS infrastructure is preferred if you are planning further heavy-weight processing using the AWS platform.
 
 The following steps were tested on a clean AWS Free Tier account.
 
@@ -123,7 +150,7 @@ Part of the final C4Corpus (performed on CC-MAIN-2015-48 crawl)
 
 
 ```
-ubuntu@ip-172-XXX:~$ aws s3 ls s3://ukp-research-data/c4corpus/CC-MAIN-2015-48/cc-final-2015-48/ | head
+ubuntu@ip-172-XXX:~$ aws s3 ls s3://commoncrawl/contrib/c4corpus/CC-MAIN-2016-07/ | head
 2016-03-22 10:43:15          0
 2016-03-22 10:48:13      40465 Lic_by-nc-nd_Lang_af_NoBoilerplate_true-r-00023.seg-00000.warc.gz
 2016-03-22 10:48:15    5296281 Lic_by-nc-nd_Lang_ar_NoBoilerplate_true-r-00035.seg-00000.warc.gz
@@ -141,12 +168,12 @@ Download sample data::
 
 ```
 ubuntu@ip-172-31-50-XX:~$ aws s3 cp \
-s3://ukp-research-data/c4corpus/CC-MAIN-2015-48/cc-final-2015-48/Lic_by-nc-nd_Lang_cs_NoBoilerplate_true-r-00130.seg-00000.warc.gz .
+s3://commoncrawl/contrib/c4corpus/CC-MAIN-2016-07/Lic_by-nc-nd_Lang_cs_NoBoilerplate_true-r-00130.seg-00000.warc.gz .
 ```
 
 ```
 (outputs)
-download: s3://ukp-research-data/c4corpus/CC-MAIN-2015-48/cc-final-2015-48/Lic_by-nc-nd_Lang_cs_NoBoilerplate_true-r-00130.seg-00000.warc.gz to ./Lic_by-nc-nd_Lang_cs_NoBoilerplate_true-r-00130.seg-00000.warc.gz
+download: s3://commoncrawl/contrib/c4corpus/CC-MAIN-2016-07/Lic_by-nc-nd_Lang_cs_NoBoilerplate_true-r-00130.seg-00000.warc.gz to ./Lic_by-nc-nd_Lang_cs_NoBoilerplate_true-r-00130.seg-00000.warc.gz
 ubuntu@ip-172-31-50-XX:~$ ls -htr | tail -1
 Lic_by-nc-nd_Lang_cs_NoBoilerplate_true-r-00130.seg-00000.warc.gz
 ```
@@ -155,7 +182,7 @@ Lic_by-nc-nd_Lang_cs_NoBoilerplate_true-r-00130.seg-00000.warc.gz
 
 Accessing the final output of the C4Corpus Tools preprocessing::
 
-The final C4Corpus is located at ```s3://ukp-research-data/c4corpus/CC-MAIN-2015-48/cc-final-2015-48/``` with the following file naming
+The final C4Corpus is located at ```s3://commoncrawl/contrib/c4corpus/CC-MAIN-2016-07/``` with the following file naming
 
 ```
 Lic_LICENSE_Lang_LANGUAGE_NoBoilerplate_BOOLEAN-r-00284.seg-00000.warc.gz
@@ -170,14 +197,14 @@ Lic_by-nc-nd_Lang_en_NoBoilerplate_true-r-00284.seg-00000.warc.gz
 * ```aws s3``` command doesn't support wild characters, so the following command returns an empty output
 
 ```
-ubuntu@ip-172-31-50-XX:~$ aws s3 ls s3://ukp-research-data/c4corpus/CC-MAIN-2015-48/cc-final-2015-48/Lic_by-nc_*.warc.gz
+ubuntu@ip-172-31-50-XX:~$ aws s3 ls s3://commoncrawl/contrib/c4corpus/CC-MAIN-2016-07/Lic_by-nc_*.warc.gz
 ubuntu@ip-172-31-50-XX:~$
 ```
 
 * You have to grep the output from ``aws s3 ls`` to get a list of files with a certain language or license, for example
 
 ```
-ubuntu@ip-172-31-50-XX:~$ aws s3 ls s3://ukp-research-data/c4corpus/CC-MAIN-2015-48/cc-final-2015-48/ \
+ubuntu@ip-172-31-50-XX:~$ aws s3 ls s3://commoncrawl/contrib/c4corpus/CC-MAIN-2016-07/ \
 | grep "Lic_by-nc-nd_Lang_en"
 2016-02-02 13:10:41 1000039131 Lic_by-nc-nd_Lang_en_NoBoilerplate_true-r-00284.seg-00000.warc.gz
 2016-02-02 13:10:52 1000026370 Lic_by-nc-nd_Lang_en_NoBoilerplate_true-r-00284.seg-00001.warc.gz
@@ -192,23 +219,23 @@ ubuntu@ip-172-31-50-XX:~$ aws s3 ls s3://ukp-research-data/c4corpus/CC-MAIN-2015
 This will print all file names with CC, public domain or cc-unspecified licenses
 
 ```
-ubuntu@ip-172-31-50-XX:~$ for i in `aws s3 ls s3://ukp-research-data/c4corpus/CC-MAIN-2015-48/cc-final-2015-48/ | \
+ubuntu@ip-172-31-50-XX:~$ for i in `aws s3 ls s3://commoncrawl/contrib/c4corpus/CC-MAIN-2016-07/ | \
  awk '{print $4}' | grep -E 'Lic_by*|Lic_public*|Lic_cc*' ` ; do echo $i; done
 ```
 
 Now copy all these files to the local dir
 
 ```
-ubuntu@ip-172-X:~$ for i in `aws s3 ls s3://ukp-research-data/c4corpus/CC-MAIN-2015-48/cc-final-2015-48/ | \
+ubuntu@ip-172-X:~$ for i in `aws s3 ls s3://commoncrawl/contrib/c4corpus/CC-MAIN-2016-07/ | \
 awk '{print $4}' | grep -E 'Lic_by*|Lic_public*|Lic_cc*' ` ; do \
-aws s3 cp s3://ukp-research-data/c4corpus/CC-MAIN-2015-48/cc-final-2015-48/${i} c4corpus-2015-11/ ; done
+aws s3 cp s3://commoncrawl/contrib/c4corpus/CC-MAIN-2016-07/${i} c4corpus-2015-11/ ; done
 ```
 
 ```
 [...]
-download: s3://ukp-research-data/c4corpus/cc-final-2015-11/Lic_by-nc-nd_Lang_af_NoBoilerplate_true-r-00023.seg-00000.warc.gz to c4corpus-2015-11/Lic_by-nc-nd_Lang_af_NoBoilerplate_true-r-00023.seg-00000.warc.gz
-download: s3://ukp-research-data/c4corpus/cc-final-2015-11/Lic_by-nc-nd_Lang_ar_NoBoilerplate_true-r-00035.seg-00000.warc.gz to c4corpus-2015-11/Lic_by-nc-nd_Lang_ar_NoBoilerplate_true-r-00035.seg-00000.warc.gz
-download: s3://ukp-research-data/c4corpus/cc-final-2015-11/Lic_by-nc-nd_Lang_bg_NoBoilerplate_true-r-00055.seg-00000.warc.gz to c4corpus-2015-11/Lic_by-nc-nd_Lang_bg_NoBoilerplate_true-r-00055.seg-00000.warc.gz
+download: s3://commoncrawl/contrib/c4corpus/CC-MAIN-2016-07/Lic_by-nc-nd_Lang_af_NoBoilerplate_true-r-00023.seg-00000.warc.gz to c4corpus-2015-11/Lic_by-nc-nd_Lang_af_NoBoilerplate_true-r-00023.seg-00000.warc.gz
+download: s3://commoncrawl/contrib/c4corpus/CC-MAIN-2016-07/Lic_by-nc-nd_Lang_ar_NoBoilerplate_true-r-00035.seg-00000.warc.gz to c4corpus-2015-11/Lic_by-nc-nd_Lang_ar_NoBoilerplate_true-r-00035.seg-00000.warc.gz
+download: s3://commoncrawl/contrib/c4corpus/CC-MAIN-2016-07/Lic_by-nc-nd_Lang_bg_NoBoilerplate_true-r-00055.seg-00000.warc.gz to c4corpus-2015-11/Lic_by-nc-nd_Lang_bg_NoBoilerplate_true-r-00055.seg-00000.warc.gz
 [...]
 ```
 
@@ -280,15 +307,6 @@ $ head /tmp/output-minimal.html
 
 * All URLs can be extracted using ``de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.uriextractor.URIExtractor``
 
-* Extracted URLs from 2016-07 crawl are available at our public S3 bucket, size 25.55 GB:
-
-```
-$ aws s3 ls s3://ukp-research-data/c4corpus/common-crawl-full-url-list-2016-07/
-[...]
-$ aws s3 ls s3://ukp-research-data/c4corpus/common-crawl-full-url-list-2016-07/ | \
-awk '{ sum += $3 }; END { print sum } '
-```
-
 ==== Use-case: Search for patterns in C4Corpus
 
 * You need a running Hadoop cluster
@@ -297,12 +315,12 @@ awk '{ sum += $3 }; END { print sum } '
 
 .Path to C4Corpus
 ----
-s3://ukp-research-data/c4corpus/CC-MAIN-2015-48/cc-final-2015-48/*.warc.gz
+s3://commoncrawl/contrib/c4corpus/CC-MAIN-2016-07/*.warc.gz
 ----
 
 .(or only English pages)
 ----
-s3://ukp-research-data/c4corpus/CC-MAIN-2015-48/cc-final-2015-48/*Lang_en*.warc.gz
+s3://commoncrawl/contrib/c4corpus/CC-MAIN-2016-07/*Lang_en*.warc.gz
 ----
 
 .Output path, e.g.
