@@ -40,16 +40,7 @@ import java.util.Locale;
  */
 public class WarcBoilerplateRemoval
 {
-    public static void main(String[] args)
-            throws IOException
-    {
-        File input = new File(args[0]);
-        File output = new File(args[1]);
-
-        processWarcGzFile(input, output);
-    }
-
-    public static void processWarcGzFile(File input, File outFile)
+    public static void processWarcGzFile(File input, File outFile, boolean keepMinimalHtml)
             throws IOException
     {
         System.out.printf("Reading from %s, writing to %s%n", input, outFile);
@@ -91,7 +82,13 @@ public class WarcBoilerplateRemoval
                 // strip HTTP header
                 html = html.substring(html.indexOf("\r\n\r\n") + 4);
 
-                String plainText = boilerPlateRemoval.getPlainText(html, null);
+                String plainText;
+                if (keepMinimalHtml) {
+                    plainText = boilerPlateRemoval.getMinimalHtml(html, null);
+                }
+                else {
+                    plainText = boilerPlateRemoval.getPlainText(html, null);
+                }
 
                 counter++;
                 if (counter % 100 == 0) {
@@ -135,5 +132,17 @@ public class WarcBoilerplateRemoval
         System.out.printf(Locale.ENGLISH, "%d records written to %s, total time %f%n", recordsRead,
                 outFile.getName(),
                 counter * 1000f / (double) (System.currentTimeMillis() - startTime));
+    }
+
+    public static void main(String[] args)
+            throws IOException
+    {
+        File input = new File(args[0]);
+        File output = new File(args[1]);
+
+        // keep minimal html?
+        boolean keepMinimalHtml = args.length > 2 && "html".equals(args[2]);
+
+        processWarcGzFile(input, output, keepMinimalHtml);
     }
 }
