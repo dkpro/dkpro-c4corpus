@@ -80,7 +80,8 @@ As of May 2017, C4Corpus is hosted by CommonCrawl which also allows users to acc
 
 A list of all `warc.gz` files can be downloaded here:
 
-```https://commoncrawl.s3.amazonaws.com/contrib/c4corpus/CC-MAIN-2016-07/warc.paths.gz```
+`https://commoncrawl.s3.amazonaws.com/contrib/c4corpus/CC-MAIN-2016-07/warc.paths.gz`
+
 
 which contains
 
@@ -88,8 +89,9 @@ which contains
 contrib/c4corpus/CC-MAIN-2016-07/Lic_by-nc-nd_Lang_af_NoBoilerplate_true_MinHtml_true-r-00009.seg-00000.warc.gz
 contrib/c4corpus/CC-MAIN-2016-07/Lic_by-nc-nd_Lang_ar_NoBoilerplate_true_MinHtml_true-r-00021.seg-00000.warc.gz
 contrib/c4corpus/CC-MAIN-2016-07/Lic_by-nc-nd_Lang_bg_NoBoilerplate_true_MinHtml_true-r-00010.seg-00000.warc.gz
-[...]
+...
 ```
+
 
 These `warc.gz` files can be again simply downloaded using HTTP, for example
 
@@ -232,11 +234,11 @@ aws s3 cp s3://commoncrawl/contrib/c4corpus/CC-MAIN-2016-07/${i} c4corpus-2015-1
 ```
 
 ```
-[...]
+...
 download: s3://commoncrawl/contrib/c4corpus/CC-MAIN-2016-07/Lic_by-nc-nd_Lang_af_NoBoilerplate_true-r-00023.seg-00000.warc.gz to c4corpus-2015-11/Lic_by-nc-nd_Lang_af_NoBoilerplate_true-r-00023.seg-00000.warc.gz
 download: s3://commoncrawl/contrib/c4corpus/CC-MAIN-2016-07/Lic_by-nc-nd_Lang_ar_NoBoilerplate_true-r-00035.seg-00000.warc.gz to c4corpus-2015-11/Lic_by-nc-nd_Lang_ar_NoBoilerplate_true-r-00035.seg-00000.warc.gz
 download: s3://commoncrawl/contrib/c4corpus/CC-MAIN-2016-07/Lic_by-nc-nd_Lang_bg_NoBoilerplate_true-r-00055.seg-00000.warc.gz to c4corpus-2015-11/Lic_by-nc-nd_Lang_bg_NoBoilerplate_true-r-00055.seg-00000.warc.gz
-[...]
+...
 ```
 
 WARNING: Be aware of transfer costs outside of the AWS infrastructure! https://aws.amazon.com/ec2/pricing/
