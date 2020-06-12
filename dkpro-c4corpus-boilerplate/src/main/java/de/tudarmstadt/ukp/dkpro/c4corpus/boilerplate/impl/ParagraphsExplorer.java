@@ -18,13 +18,17 @@
 
 package de.tudarmstadt.ukp.dkpro.c4corpus.boilerplate.impl;
 
-import org.jsoup.helper.StringUtil;
+import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
 import org.jsoup.nodes.TextNode;
 import org.jsoup.select.NodeVisitor;
 
-import java.security.InvalidParameterException;
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.regex.Pattern;
 
 /**
  * Extract a list of paragraphs from html page. Paragraphs here means blocks of
@@ -39,37 +43,62 @@ public class ParagraphsExplorer
         implements NodeVisitor
 {
 
-    private final LinkedList<Paragraph> paragraphs;
-    private final LinkedList<Node> nodes;
+    private static final Pattern HEADING_PATTERN = Pattern.compile("h[1-6]");
+    private static final Set<String> PARAGRAPH_TAGS = Collections.unmodifiableSet(
+            new HashSet<String>(Arrays.asList(new String[] { "blockquote", "caption", "center", "col", "colgroup", "dd",
+                    "div", "dl", "dt", "fieldset", "form", "legend", "optgroup", "option", "p", "pre", "table", "td",
+                    "textarea", "tfoot", "th", "thead", "tr", "ul", "li", "h1", "h2", "h3", "h4", "h5", "h6" })));
+    private final ArrayList<Paragraph> paragraphs;
+    private Paragraph currentParagraph = null;
+    private boolean lastBR = false;
+    private boolean inHeading = false;
+    private boolean isLink = false;
+    private int headingDepth = 0;
 
     public enum AncestorState
     {
-
         INNERTEXT_ONLY, BLOCKLEVEL, UNKNOW
     }
 
     public ParagraphsExplorer()
     {
-        this.paragraphs = new LinkedList<>();
-        nodes = new LinkedList<>();
+        this.paragraphs = new ArrayList<>();
     }
 
     @Override
     public void head(Node node, int depth)
     {
-        if (node.childNodeSize() == 0) {
-            if (node instanceof TextNode && StringUtil.isBlank(node.outerHtml())) {
-                return;
+        if (!inHeading && node instanceof Element) {
+            inHeading = HEADING_PATTERN.matcher(((Element) node).tagName()).matches();
+            if (inHeading) {
+                headingDepth = depth;
             }
-            mergeToResult(node);
-            nodes.add(node);
+        }
+        String name = node.nodeName().toLowerCase();
+        if (PARAGRAPH_TAGS.contains(name) || (lastBR && "br".equals(name))) {
+            startNewParagraph(node);
+        } else {
+            lastBR = "br".equals(name);
+            isLink = "a".equals(name);
+            if (currentParagraph != null) {
+                appendToLastParagraph(node);
+            }
         }
     }
 
     @Override
     public void tail(Node node, int depth)
     {
-        //do nothing
+        if (depth == headingDepth) {
+            // Headings can't be nested
+            inHeading = false;
+        }
+        if (PARAGRAPH_TAGS.contains(node.nodeName())) {
+            startNewParagraph(node);
+        }
+        if ("a".equals(node.nodeName())) {
+            isLink = false;
+        }
     }
 
     /**
@@ -77,138 +106,31 @@ public class ParagraphsExplorer
      *
      * @return paragraphs
      */
-    public LinkedList<Paragraph> getParagraphs()
+    public ArrayList<Paragraph> getParagraphs()
     {
         return paragraphs;
     }
 
-    private void mergeToResult(Node node)
+
+    private void startNewParagraph(Node node)
     {
-        Node lastAddedNode = getLastAddedNode();
-        //the <br><br> is a paragraph separator 
-        if (lastAddedNode != null && node.nodeName().equalsIgnoreCase("br") && lastAddedNode
-                .nodeName().equalsIgnoreCase("br")) {
-            insertAsNewParagraph(node);
-            return;
+        if (currentParagraph != null && currentParagraph.getRawText().length() > 0) {
+            paragraphs.add(currentParagraph);
         }
-        if (lastAddedNode == null) {
-            insertAsNewParagraph(node);
-            return;
-        }
-
-        AncestorState ancestorState = getAncestorState(lastAddedNode, node);
-        switch (ancestorState) {
-        case BLOCKLEVEL:
-            insertAsNewParagraph(node);
-            return;
-        case INNERTEXT_ONLY:
-            appendToLastParagraph(node);
-        }
-    }
-
-    /**
-     * Visit from lastNode and currentNode to the first common ancestor of these
-     * 2 nodes, - if all the visited ancestors are
-     * INNERTEXT returns
-     * {@link ParagraphsExplorer.AncestorState#INNERTEXT_ONLY} - if one of the
-     * visited ancestors is
-     * isBlockTag(Node) returns
-     * {@link ParagraphsExplorer.AncestorState#BLOCKLEVEL} - otherwise returns
-     * {@link ParagraphsExplorer.AncestorState#UNKNOW}
-     *
-     * @param lastNode    last node
-     * @param currentNode current node
-     * @return state
-     */
-    public static AncestorState getAncestorState(Node lastNode, Node currentNode)
-    {
-        if (lastNode == null || currentNode == null) {
-            throw new InvalidParameterException();
-        }
-
-        Node ancestor = NodeHelper.nearestCommonAncestor(lastNode, currentNode);
-        AncestorState as1 = getAncestorStateOfBranch(ancestor, lastNode);
-        if (as1 == AncestorState.BLOCKLEVEL) {
-            return AncestorState.BLOCKLEVEL;
-        }
-        AncestorState as2 = getAncestorStateOfBranch(ancestor, currentNode);
-        if (as2 == AncestorState.BLOCKLEVEL) {
-            return AncestorState.BLOCKLEVEL;
-        }
-        if (as1 == AncestorState.INNERTEXT_ONLY && as2 == AncestorState.INNERTEXT_ONLY) {
-            return AncestorState.INNERTEXT_ONLY;
-        }
-        return AncestorState.UNKNOW;
-    }
-
-    private void insertAsNewParagraph(Node node)
-    {
-        Paragraph p = new Paragraph(node);
-        p.initRawInfo();
-        // if (!p.getRawText().isEmpty()) {
-        paragraphs.add(p);
-        // }
+        currentParagraph = new Paragraph(node, inHeading);
     }
 
     private void appendToLastParagraph(Node node)
     {
-        //        if(!node.nodeName().equalsIgnoreCase("br")){
         if (node instanceof TextNode) {
-            Paragraph p = paragraphs.getLast();
-            p.setRawText(p.getRawText() + " " + node);
-            if (NodeHelper.isLink(node)) {
-                p.charsCountInLinks += ((TextNode) node).text().length();
+            //TextNode.text() can be used if we don't want to preserve whitespace
+            String text = ((TextNode) node).getWholeText();
+            // TODO: Do we want spaces between <span>, <sup>, <sub>, etc elements?
+            currentParagraph.setRawText(currentParagraph.getRawText() + " " + text);
+            if (isLink) {
+                currentParagraph.charsCountInLinks += text.length();
             }
-            paragraphs.getLast().add(node);
         }
-    }
-
-    private Node getLastAddedNode()
-    {
-        //        if (paragraphs.isEmpty()) {
-        //            return null;
-        //        }
-        //        return paragraphs.getLast().getLast();
-        if (nodes.isEmpty()) {
-            return null;
-        }
-        return nodes.getLast();
-    }
-
-    /**
-     * Visit from node to the ancestor - if all the visited ancestors are
-     * {@link NodeHelper.TagType#INNER_TEXT} returns
-     * {@link ParagraphsExplorer.AncestorState#INNERTEXT_ONLY} - if one of the
-     * visited ancestors is {@link NodeHelper#isBlockTag(Node)}
-     * returns {@link ParagraphsExplorer.AncestorState#BLOCKLEVEL} - otherwise
-     * returns {@link ParagraphsExplorer.AncestorState#UNKNOW}
-     */
-    private static AncestorState getAncestorStateOfBranch(Node ancestor, Node node)
-    {
-        if (!NodeHelper.isAncestor(ancestor, node)) {
-            throw new InvalidParameterException("ancestor pre-condition violation");
-        }
-        if (node == ancestor) {
-            if (NodeHelper.isBlockTag(node)) {
-                return AncestorState.BLOCKLEVEL;
-            }
-            if (NodeHelper.isInlineTag(node)) {
-                return AncestorState.INNERTEXT_ONLY;
-            }
-            return AncestorState.UNKNOW;
-        }
-        Node n = node.parent();
-        boolean innerTextOnly = true;
-        while (n != ancestor && n != null) {
-            if (NodeHelper.isBlockTag(n)) {
-                return AncestorState.BLOCKLEVEL;
-            }
-            if (!NodeHelper.isInlineTag(n)) {
-                innerTextOnly = false;
-            }
-            n = n.parent();
-        }
-        return innerTextOnly ? AncestorState.INNERTEXT_ONLY : AncestorState.UNKNOW;
     }
 
 }

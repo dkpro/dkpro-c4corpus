@@ -19,11 +19,15 @@ package de.tudarmstadt.ukp.dkpro.c4corpus.boilerplate.standalone;
 
 import de.tudarmstadt.ukp.dkpro.c4corpus.boilerplate.BoilerPlateRemoval;
 import de.tudarmstadt.ukp.dkpro.c4corpus.boilerplate.impl.JusTextBoilerplateRemoval;
+import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.CharsetDetector;
+import de.tudarmstadt.ukp.dkpro.c4corpus.hadoop.impl.ICUCharsetDetectorWrapper;
+
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.charset.Charset;
 
 /**
  * This class takes one HTML file as input, removes boilerplate for each entry,
@@ -36,10 +40,14 @@ import java.io.PrintWriter;
 public class HTMLBoilerplateRemoval
 {
     private static final BoilerPlateRemoval boilerPlateRemoval = new JusTextBoilerplateRemoval();
+    private final static CharsetDetector CHARSET_DETECTOR = new ICUCharsetDetectorWrapper();
 
     public static void main(String[] args)
             throws IOException
     {
+        if (args.length < 3) {
+            System.out.println("Not enough arguments - Usage: infile outfile true/false (output HTML tags)");
+        }
         File input = new File(args[0]);
         File output = new File(args[1]);
         boolean keepMinimalHtml = Boolean.valueOf(args[2]);
@@ -51,7 +59,11 @@ public class HTMLBoilerplateRemoval
             throws IOException
     {
         // read the html file
-        String html = FileUtils.readFileToString(input, "utf-8");
+        byte[] bytes = FileUtils.readFileToByteArray(input);
+        Charset charset = CHARSET_DETECTOR.detectCharset(bytes);
+        String html = new String(bytes, charset);
+
+        long startTime = System.currentTimeMillis();
 
         // boilerplate removal
         String cleanText;
@@ -62,6 +74,8 @@ public class HTMLBoilerplateRemoval
             cleanText = boilerPlateRemoval.getPlainText(html, null);
         }
 
+        System.out.printf("Processed %d bytes in %02f seconds%n", bytes.length,
+                (System.currentTimeMillis() - startTime) / 1000.0);
         // write to the output file
         PrintWriter writer = new PrintWriter(outFile, "utf-8");
         writer.write(cleanText);
